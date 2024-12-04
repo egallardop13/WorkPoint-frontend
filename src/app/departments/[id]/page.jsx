@@ -92,8 +92,8 @@ export default async function Department({ params, searchParams }) {
   const activeUsersRate = calculateRate(totalUsers, totalActiveUsers)
   const inactiveUsersRate = calculateRate(totalUsers, totalInactiveUsers)
 
-  console.log('totalActiveSalary', totalActiveSalary)
-  console.log('totalInactiveSalary', totalInactiveSalary)
+  // console.log('totalActiveSalary', totalActiveSalary)
+  // console.log('totalInactiveSalary', totalInactiveSalary)
 
   // let orders = await getEventOrders(params.id)
 

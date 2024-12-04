@@ -2,11 +2,11 @@ import { getUsersInDepartment } from '@/lib/mockApi.js/mockApi'
 import { NextResponse } from 'next/server'
 
 export async function GET(req, { params }) {
-  console.log('PARAMS:', params)
+  // console.log('PARAMS:', params)
 
   const department = decodeURIComponent(params.department) // Retrieve the department name from the URL
 
-  console.log('departmentssss:', department)
+  // console.log('departmentssss:', department)
   const { searchParams } = new URL(req.url)
   const page = parseInt(searchParams.get('page') || '1', 10)
   const limit = parseInt(searchParams.get('limit') || '10', 10)

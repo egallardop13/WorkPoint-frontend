@@ -35,9 +35,9 @@ const SalaryShareChart = ({ userSalary, departmentTotalSalary, userFirstName }) 
 
   const userSharePercentage = ((userSalary / departmentTotalSalary) * 100).toFixed(1)
   const visualProgress = userSharePercentage < 10 ? 10 : userSharePercentage
-  console.log('userSalary:', userSalary)
-  console.log('departmentTotalSalary:', departmentTotalSalary)
-  console.log('userSharePercentage:', userSharePercentage)
+  // console.log('userSalary:', userSalary)
+  // console.log('departmentTotalSalary:', departmentTotalSalary)
+  // console.log('userSharePercentage:', userSharePercentage)
 
   //   const testLimit = 66
 
@@ -50,7 +50,7 @@ const SalaryShareChart = ({ userSalary, departmentTotalSalary, userFirstName }) 
     return () => {
       clearInterval(timer)
     }
-  }, [])
+  }, [userSharePercentage])
 
   return (
     <div className="mx-auto h-44 w-full max-w-80 p-4">

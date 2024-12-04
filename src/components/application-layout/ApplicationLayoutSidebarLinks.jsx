@@ -1,5 +1,11 @@
 'use client'
-import { BuildingOffice2Icon, Cog6ToothIcon, HomeIcon, PresentationChartLineIcon } from '@heroicons/react/16/solid'
+import {
+  BuildingOffice2Icon,
+  ClipboardDocumentListIcon,
+  Cog6ToothIcon,
+  HomeIcon,
+  PresentationChartLineIcon,
+} from '@heroicons/react/16/solid'
 import { usePathname } from 'next/navigation'
 import { SidebarItem, SidebarLabel, SidebarSection } from '../ui/sidebar'
 
@@ -19,6 +25,10 @@ const ApplicationLayoutSidebarLinks = () => {
       <SidebarItem href="/metrics" current={pathname.startsWith('/metrics')}>
         <PresentationChartLineIcon />
         <SidebarLabel>Metrics</SidebarLabel>
+      </SidebarItem>
+      <SidebarItem href="/tasks" current={pathname.startsWith('/tasks')}>
+        <ClipboardDocumentListIcon />
+        <SidebarLabel>Tasks</SidebarLabel>
       </SidebarItem>
       <SidebarItem href="/settings" current={pathname.startsWith('/settings')}>
         <Cog6ToothIcon />
