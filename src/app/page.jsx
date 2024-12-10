@@ -8,6 +8,7 @@ import { Select } from '@/components/ui/select'
 import UsersTable from '@/components/UsersTable'
 import { getTotalActiveUsers, getTotalBudget, getTotalInactiveUsers, getTotalUsers } from '@/lib/mockApi.js/mockApi'
 import { calculateRate, formatCurrency } from '@/lib/utils'
+import { Suspense } from 'react'
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000' // Use env
 // async function fetchUsers(page = 1, limit = 10) {
@@ -24,7 +25,7 @@ async function fetchUsers(page = 1, limit = 10, query = '') {
     cache: 'no-store', // Ensures fresh data every time
   })
   const data = await res.json()
-  // console.log('data:', data)
+  console.log('datafetch:', data)
   return data
 }
 
@@ -60,8 +61,10 @@ export default async function Home({ searchParams }) {
   const query = searchParams.query || ''
 
   const usersInfo = await fetchUsers(page, 10, query)
-  console.log('userInfo: ', usersInfo)
-  const users = usersInfo.data
+  // console.log('usersInfo: ', usersInfo)
+  // const users = usersInfo.data
+  const users = usersInfo
+  // console.log('users: ', users)
 
   // Fetch Stats Data
   const [totalBudget, totalUsers, totalActiveUsers, totalInactiveUsers] = await Promise.all([
@@ -118,8 +121,11 @@ export default async function Home({ searchParams }) {
         </div>
         <Button>Create user</Button>
       </div>
-      <UsersTable users={users} />
-      <Pagination totalPages={usersInfo.totalPages} />
+      <Suspense key={query + page} fallback={<div>Loading...</div>}>
+        {/* <UsersTable page={page} query={query} /> */}
+        <UsersTable users={users} />
+      </Suspense>
+      <Pagination totalPages={100} />
     </>
   )
 }
