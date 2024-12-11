@@ -1,4 +1,4 @@
-import Board from '../../components/tasks/Board.jsx'
+import Board from '../../../components/tasks/Board.jsx'
 
 export const page = () => {
   return (
