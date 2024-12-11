@@ -39,7 +39,7 @@ export default async function EmployeeAndBudgetMetrics() {
   const totalInactiveBudgets2024 = await getExitedEmployeeBudgetByMonth(2024)
   const test = await getDepartmentInfo()
   const testDepartment = await formatDepartmentsTableData(test)
-  // console.log('test:', testDepartment)
+  console.log('test:', testDepartment)
 
   return (
     <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-12">
