@@ -23,7 +23,7 @@ export default function Pagination({ totalPages }) {
   }
 
   const renderPaginationButtons = () => {
-    console.log('inside renderPaginatioButtons')
+    // console.log('inside renderPaginatioButtons')
     if (totalPages > 7) {
       return (
         <>
@@ -111,7 +111,7 @@ export default function Pagination({ totalPages }) {
           Previous
         </Link>
       </div>
-      {console.log('entering pagination')}
+      {/* {console.log('entering pagination')} */}
       <div className="hidden md:-mt-px md:flex">
         {/* Render pagination buttons */}
         {renderPaginationButtons()}

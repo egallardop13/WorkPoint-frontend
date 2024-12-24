@@ -1,3 +1,4 @@
+import { getUsersByMonth } from '@/app/api/metrics/actions'
 import BudgetLineChart from '@/components/metrics/BudgetLineChart'
 import BudgetRateOfChangeChart from '@/components/metrics/BudgetRateOfChange'
 import StatCard from '@/components/metrics/StatCard'
@@ -8,27 +9,26 @@ import {
   getDepartmentInfo,
   getExitedEmployeeBudgetByMonth,
   getTotalBudgetByMonth,
-  getUsersJoinedByMonth,
-  getUsersLeftByMonth,
 } from '@/lib/mockApi.js/mockApi'
 import { formatDepartmentsTableData } from '@/lib/utils'
 
 export default async function EmployeeAndBudgetMetrics() {
-  const usersJoined2024 = await getUsersJoinedByMonth(2024)
-  const usersLeft2024 = await getUsersLeftByMonth(2024)
+  // console.log('EmployeeAndBudgetMetrics')
+  const usersJoined2024 = await getUsersByMonth(2024, true)
+  const usersLeft2024 = await getUsersByMonth(2024, false)
 
-  const totalJoined2024 = usersJoined2024.totalEmployeesJoined
-  const totalLeft2024 = usersLeft2024.totalEmployeesLeft
+  const totalJoined2024 = usersJoined2024.joinedOrLeftYearly
+  const totalLeft2024 = usersLeft2024.joinedOrLeftYearly
   const totalEmployees2024 = usersJoined2024.totalEmployees
 
   const joinedPercentage2024 = ((totalJoined2024 / totalEmployees2024) * 100).toFixed(2)
   const exitedPercentage2024 = ((totalLeft2024 / totalEmployees2024) * 100).toFixed(2)
 
-  const usersJoined2023 = await getUsersJoinedByMonth(2023)
-  const usersLeft2023 = await getUsersLeftByMonth(2023)
+  const usersJoined2023 = await getUsersByMonth(2023, true)
+  const usersLeft2023 = await getUsersByMonth(2023, false)
 
-  const totalJoined2023 = usersJoined2023.totalEmployeesJoined
-  const totalLeft2023 = usersLeft2023.totalEmployeesLeft
+  const totalJoined2023 = usersJoined2023.joinedOrLeftYearly
+  const totalLeft2023 = usersLeft2023.joinedOrLeftYearly
   const totalEmployees2023 = usersJoined2023.totalEmployees
 
   const joinedPercentage2023 = ((totalJoined2023 / totalEmployees2023) * 100).toFixed(2)
@@ -39,7 +39,7 @@ export default async function EmployeeAndBudgetMetrics() {
   const totalInactiveBudgets2024 = await getExitedEmployeeBudgetByMonth(2024)
   const test = await getDepartmentInfo()
   const testDepartment = await formatDepartmentsTableData(test)
-  console.log('test:', testDepartment)
+  // console.log('test:', testDepartment)
 
   return (
     <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-12">
@@ -54,7 +54,7 @@ export default async function EmployeeAndBudgetMetrics() {
             value={totalJoined2024}
             interval="2024"
             trend="up"
-            data={usersJoined2024.monthlyData}
+            data={usersJoined2024.monthlyBreakdown}
             rate={joinedPercentage2024}
           />
         </div>
@@ -66,7 +66,7 @@ export default async function EmployeeAndBudgetMetrics() {
             value={totalLeft2024}
             interval="2024"
             trend="down"
-            data={usersLeft2024.monthlyData}
+            data={usersLeft2024.monthlyBreakdown}
             rate={exitedPercentage2024}
           />
         </div>
@@ -78,7 +78,7 @@ export default async function EmployeeAndBudgetMetrics() {
             value={totalJoined2023}
             interval="2023"
             trend="up"
-            data={usersJoined2023.monthlyData}
+            data={usersJoined2023.monthlyBreakdown}
             rate={joinedPercentage2023}
           />
         </div>
@@ -90,7 +90,7 @@ export default async function EmployeeAndBudgetMetrics() {
             value={totalLeft2023}
             interval="2023"
             trend="down"
-            data={usersLeft2023.monthlyData}
+            data={usersLeft2023.monthlyBreakdown}
             rate={exitedPercentage2023}
           />
         </div>

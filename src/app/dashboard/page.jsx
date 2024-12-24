@@ -8,10 +8,10 @@ import { Select } from '@/components/ui/select'
 import UsersTable from '@/components/UsersTable'
 import { getTotalActiveUsers, getTotalBudget, getTotalInactiveUsers, getTotalUsers } from '@/lib/mockApi.js/mockApi'
 import { calculateRate, formatCurrency } from '@/lib/utils'
-import { cookies } from 'next/headers'
 import { Suspense } from 'react'
+import { fetchUsers } from '../api/users/actions'
 
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000' // Use env
+// const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000' // Use env
 // async function fetchUsers(page = 1, limit = 10) {
 //   const res = await fetch(`${baseUrl}/api/users?page=${page}&limit=${limit}`, {
 //     cache: 'no-store', // Ensures fresh data every time
@@ -21,20 +21,20 @@ const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000' // U
 //   return data
 // }
 
-async function fetchUsers(page = 1, limit = 10, query = '') {
-  const authToken = cookies().get('authToken')?.value
-  const res = await fetch(`${baseUrl}/api/users?page=${page}&limit=${limit}&query=${query}`, {
-    cache: 'no-store', // Ensures fresh data every time
-    credentials: 'include',
-    headers: {
-      Authorization: `Bearer ${authToken}`,
-    },
-  })
-  const data = await res.json()
+// async function fetchUsers(page = 1, limit = 10, query = '') {
+//   const authToken = cookies().get('authToken')?.value
+//   const res = await fetch(`${baseUrl}/api/users?page=${page}&limit=${limit}&query=${query}`, {
+//     cache: 'no-store', // Ensures fresh data every time
+//     credentials: 'include',
+//     headers: {
+//       Authorization: `Bearer ${authToken}`,
+//     },
+//   })
+//   const data = await res.json()
 
-  console.log('data:', data)
-  return data
-}
+//   console.log('data:', data)
+//   return data
+// }
 
 export function Stat({ title, value, badgeType, formattedRate, subText }) {
   return (
@@ -71,7 +71,7 @@ export default async function Home({ searchParams }) {
   // console.log('userInfo: ', usersInfo)
   // const users = usersInfo.data
   const users = await fetchUsers(page, 10, query)
-  console.log('users: ', users)
+  const data = JSON.parse(users.arrayUserComplete)
 
   // Fetch Stats Data
   const [totalBudget, totalUsers, totalActiveUsers, totalInactiveUsers] = await Promise.all([
@@ -129,10 +129,10 @@ export default async function Home({ searchParams }) {
         <Button href="/users/create">Create user</Button>
       </div>
       <Suspense fallback={<div>Loading...</div>}>
-        <UsersTable users={users} />
+        <UsersTable users={data} />
       </Suspense>
       {/* <Pagination totalPages={usersInfo.totalPages} /> */}
-      <Pagination totalPages={100} />
+      <Pagination totalPages={users.totalPages} />
     </>
   )
 }

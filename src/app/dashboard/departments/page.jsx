@@ -1,3 +1,4 @@
+import { getDepartmentsInfo } from '@/app/api/departments/actions'
 import { Badge } from '@/components/ui/badge'
 import { Divider } from '@/components/ui/divider'
 import { Dropdown, DropdownButton, DropdownItem, DropdownMenu } from '@/components/ui/dropdown'
@@ -5,7 +6,6 @@ import { Heading } from '@/components/ui/heading'
 import { Input, InputGroup } from '@/components/ui/input'
 import { Link } from '@/components/ui/link'
 import { Select } from '@/components/ui/select'
-import { getDepartmentInfo } from '@/lib/mockApi.js/mockApi'
 import { departmentIcons, formatCurrency } from '@/lib/utils'
 import { EllipsisVerticalIcon, MagnifyingGlassIcon } from '@heroicons/react/16/solid'
 
@@ -15,7 +15,8 @@ export const metadata = {
 
 export default async function Departments() {
   // let events = await getEvents()
-  let departments = await getDepartmentInfo()
+  let departments = await getDepartmentsInfo()
+  // console.log('departments inside page: ', departments)
   // console.log('data: ', departments)
 
   // dark:text-zinc-500???
@@ -79,34 +80,34 @@ export default async function Departments() {
       </div>
       <ul className="mt-10">
         {departments.map((department, index) => {
-          const departmentHref = encodeURIComponent(department.Department)
+          const departmentHref = encodeURIComponent(department.department)
           return (
             <>
-              <li key={department.Department + index}>
+              <li key={department.department + index}>
                 <Divider soft={index > 0} />
                 <div className="flex items-center justify-between">
-                  <div key={department.Department + index} className="flex gap-6 py-6">
+                  <div key={department.department + index} className="flex gap-6 py-6">
                     <div className="w-32 shrink-0">
                       {/* <ActiveUsersPieChart /> */}
                       <div className="w-32 shrink-0 rounded-lg border border-zinc-950/5 bg-zinc-100 dark:border-white/10 dark:bg-zinc-950">
-                        {departmentIcons[department.Department]}
+                        {departmentIcons[department.department]}
                       </div>
                     </div>
                     <div className="space-y-1.5">
                       <div className="text-base/6 font-semibold">
-                        <Link href={`/dashboard/departments/${departmentHref}`}>{department.Department}</Link>
+                        <Link href={`/dashboard/departments/${departmentHref}`}>{department.department}</Link>
                       </div>
                       <div className="text-xs/6 text-zinc-500">
-                        Total Allocated Budget: {formatCurrency(department.TotalSalaryPaidToDepartment)}
+                        Total Allocated Budget: {formatCurrency(department.totalSalary)}
                       </div>
                       <div className="text-xs/6 text-zinc-600">
                         {/* Total Allocated Budget: $1,980,000 */}
-                        {department.ActiveCount}/{department.Count} active users
+                        {department.activeEmployeeCount}/{department.employeeCount} active users
                       </div>
                     </div>
                   </div>
                   <div className="flex items-center gap-4">
-                    {department.ActiveCount > department.Count - department.ActiveCount ? (
+                    {department.activeEmployeeCount > department.employeeCount - department.activeEmployeeCount ? (
                       <Badge className="max-sm:hidden" color="lime">
                         Healthy Budget Allocation
                       </Badge>
