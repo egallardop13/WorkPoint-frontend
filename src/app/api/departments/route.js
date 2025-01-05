@@ -9,7 +9,6 @@ export async function GET(req) {
   try {
     const { searchParams } = new URL(req.url)
     const department = searchParams.get('department') || ''
-    console.log('departmentinside:', department)
     // Pass the query to `getUsersFullDetails` for filtering
     // const paginatedData = await getUsersFullDetails(page, limit, query)
     const response = await fetch(`${backEndUrl}UserSalary/GetDepartmentsInfo/${department}`, {
@@ -26,7 +25,6 @@ export async function GET(req) {
 
     // Parse the JSON response
     const data = await response.json()
-    console.log('Printing out data inside department: ', data)
 
     return NextResponse.json(data)
   } catch (error) {

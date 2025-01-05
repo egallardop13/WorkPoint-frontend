@@ -3,7 +3,6 @@ import { cookies } from 'next/headers'
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000' // Use env
 
 export async function getUsersByMonth(year, status) {
-  console.log('year and status inside action:', year, status)
   const authToken = cookies().get('authToken')?.value
   const res = await fetch(`${baseUrl}/api/metrics/?year=${year}&status=${status}`, {
     cache: 'no-store', // Ensures fresh data every time
@@ -13,7 +12,6 @@ export async function getUsersByMonth(year, status) {
     },
   })
   const data = await res.json()
-  console.log('data inside action metrics:', data)
 
   return data
   // const joinedByMonth = Array(12).fill(0)
@@ -50,7 +48,6 @@ export async function getDepartmentInfo(department) {
   })
   const data = await res.json()
 
-  console.log('data inside action getDeparmentInfo:', data)
   return data
 }
 
@@ -64,6 +61,5 @@ export async function fetchUsersinDepartment(department, page = 1, limit = 10, q
     },
   })
   const data = await res.json()
-  console.log('users in deparment inside action:', data)
   return data
 }

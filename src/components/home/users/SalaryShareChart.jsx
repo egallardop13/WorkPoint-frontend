@@ -35,9 +35,6 @@ const SalaryShareChart = ({ userSalary, departmentTotalSalary, userFirstName }) 
 
   const userSharePercentage = ((userSalary / departmentTotalSalary) * 100).toFixed(1)
   const visualProgress = userSharePercentage < 10 ? 10 : userSharePercentage
-  console.log('userSalary:', userSalary)
-  console.log('departmentTotalSalary:', departmentTotalSalary)
-  console.log('userSharePercentage:', userSharePercentage)
 
   //   const testLimit = 66
 

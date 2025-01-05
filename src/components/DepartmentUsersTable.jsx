@@ -2,7 +2,6 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { formatCurrency } from '@/lib/utils'
 import { Badge } from './ui/badge'
 const DepartmentUsersTable = ({ users }) => {
-  console.log('users in departmentstable:', users)
   return (
     <div className="">
       <Table className="mt-4 [--gutter:theme(spacing.6)] lg:[--gutter:theme(spacing.10)]">

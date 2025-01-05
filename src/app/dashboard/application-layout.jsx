@@ -19,24 +19,26 @@ import { getTopSalaryAllocatingDepartments } from '@/lib/mockApi.js/mockApi'
 
 import { ArrowRightStartOnRectangleIcon, ChevronUpIcon } from '@heroicons/react/16/solid'
 import { QuestionMarkCircleIcon, SparklesIcon } from '@heroicons/react/20/solid'
+import { checkUser } from '../api/auth/actions'
+import { fetchUser } from '../api/users/actions'
 
-function AccountDropdownMenu({ anchor }) {
+async function AccountDropdownMenu({ anchor }) {
   return (
     <DropdownMenu className="min-w-64" anchor={anchor}>
       {/* <DropdownItem href="#">
         <UserCircleIcon />
         <DropdownLabel>My account</DropdownLabel>
-      </DropdownItem>
-      <DropdownDivider />
-      <DropdownItem href="#">
+        </DropdownItem>
+        <DropdownDivider />
+        <DropdownItem href="#">
         <ShieldCheckIcon />
         <DropdownLabel>Privacy policy</DropdownLabel>
-      </DropdownItem>
-      <DropdownItem href="#">
+        </DropdownItem>
+        <DropdownItem href="#">
         <LightBulbIcon />
         <DropdownLabel>Share feedback</DropdownLabel>
-      </DropdownItem>
-      <DropdownDivider /> */}
+        </DropdownItem>
+        <DropdownDivider /> */}
       <DropdownItem href="#">
         <ArrowRightStartOnRectangleIcon />
         <DropdownLabel>Sign out</DropdownLabel>
@@ -46,6 +48,9 @@ function AccountDropdownMenu({ anchor }) {
 }
 
 export async function ApplicationLayout({ events, children }) {
+  const loggedInUserId = await checkUser()
+  const user = await fetchUser(loggedInUserId)
+  const loggedInUser = user[0]
   const topDepartments = await getTopSalaryAllocatingDepartments()
   return (
     <SidebarLayout
@@ -55,7 +60,10 @@ export async function ApplicationLayout({ events, children }) {
           <NavbarSection>
             <Dropdown>
               <DropdownButton as={NavbarItem}>
-                <Avatar src="/users/erica.jpg" square />
+                <Avatar
+                  src="https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                  square
+                />
               </DropdownButton>
               <AccountDropdownMenu anchor="bottom end" />
             </Dropdown>
@@ -97,11 +105,18 @@ export async function ApplicationLayout({ events, children }) {
             <Dropdown>
               <DropdownButton as={SidebarItem}>
                 <span className="flex min-w-0 items-center gap-3">
-                  <Avatar src="/users/erica.jpg" className="size-10" square alt="" />
+                  <Avatar
+                    src="https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                    className="size-10"
+                    square
+                    alt=""
+                  />
                   <span className="min-w-0">
-                    <span className="block truncate text-sm/5 font-medium text-zinc-950 dark:text-white">Erica</span>
+                    <span className="block truncate text-sm/5 font-medium text-zinc-950 dark:text-white">
+                      {loggedInUser.firstName}
+                    </span>
                     <span className="block truncate text-xs/5 font-normal text-zinc-500 dark:text-zinc-400">
-                      erica@example.com
+                      {loggedInUser.email}
                     </span>
                   </span>
                 </span>

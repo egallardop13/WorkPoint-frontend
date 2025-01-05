@@ -48,5 +48,3 @@ const updatedDataString = `export const updatedUsers = ${JSON.stringify(updatedU
 
 // Write the updated mock data to a new file
 fs.writeFileSync(newMockDataPath, updatedDataString, 'utf-8')
-
-console.log('New mock data with added fields has been saved to updatedMockData.js')

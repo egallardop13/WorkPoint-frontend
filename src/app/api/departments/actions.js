@@ -13,7 +13,6 @@ export async function getDepartmentsInfo() {
   })
   const data = await res.json()
 
-  console.log('data:', data)
   return data
 }
 
@@ -28,7 +27,6 @@ export async function getDepartmentInfo(department) {
   })
   const data = await res.json()
 
-  console.log('data inside action getDeparmentInfo:', data)
   return data
 }
 
@@ -42,6 +40,5 @@ export async function fetchUsersinDepartment(department, page = 1, limit = 10, q
     },
   })
   const data = await res.json()
-  console.log('users in deparment inside action:', data)
   return data
 }

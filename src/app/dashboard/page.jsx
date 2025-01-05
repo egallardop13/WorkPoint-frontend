@@ -10,7 +10,7 @@ import { calculateRate, formatCurrency } from '@/lib/utils'
 import { Suspense } from 'react'
 import { checkUser } from '../api/auth/actions'
 import { fetchCompanyInfo } from '../api/company/actions'
-import { fetchUsers } from '../api/users/actions'
+import { fetchUser, fetchUsers } from '../api/users/actions'
 
 // const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000' // Use env
 // async function fetchUsers(page = 1, limit = 10) {
@@ -63,6 +63,8 @@ export function Stat({ title, value, badgeType, formattedRate, subText }) {
 
 export default async function Home({ searchParams }) {
   const loggedInUserId = await checkUser()
+  const user = await fetchUser(loggedInUserId)
+  const loggedInUser = user[0]
   // let orders = await getRecentOrders()
   // let users = await getUsersFullDetails()
   // let firstUsers = users.slice(0, 10)
@@ -70,8 +72,6 @@ export default async function Home({ searchParams }) {
   const page = searchParams.page ? parseInt(searchParams.page, 10) : 1
   const query = searchParams.query || ''
   const sort = searchParams.sort || ''
-
-  console.log('query inside dashboard home: ', query)
 
   // const usersInfo = await fetchUsers(page, 10, query)
   // console.log('userInfo: ', usersInfo)
@@ -94,7 +94,7 @@ export default async function Home({ searchParams }) {
 
   return (
     <>
-      <Heading>Good afternoon, John</Heading>
+      <Heading>Good afternoon, {loggedInUser.firstName}</Heading>
       <div className="mt-8 flex items-end justify-between">
         <Subheading>Overview</Subheading>
       </div>
@@ -122,7 +122,7 @@ export default async function Home({ searchParams }) {
             <Sorting values={sortValues} variant="home" />
           </div>
         </div>
-        <Button href="/users/create">Create user</Button>
+        <Button href="/dashboard/users/create">Create user</Button>
       </div>
       <Suspense fallback={<div>Loading...</div>}>
         <UsersTable users={data} />

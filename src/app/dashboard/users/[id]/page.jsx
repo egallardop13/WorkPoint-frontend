@@ -1,3 +1,4 @@
+import { fetchUser } from '@/app/api/users/actions'
 import BentoGrid2 from '@/components/home/users/BentoGrid2'
 import { DeleteUser } from '@/components/home/users/DeleteUser'
 import { Badge } from '@/components/ui/badge'
@@ -34,6 +35,9 @@ export default async function User({ params }) {
   let departmentInfo = departmentData[0]
 
   const companyInfo = await getDepartmentInfo()
+  let userApi = await fetchUser(params.id)
+  console.log('This is some bulllllsshiitiittttt')
+  console.log('userApi:', userApi)
 
   // Calculate company-wide average salary
   let totalSalary = 0

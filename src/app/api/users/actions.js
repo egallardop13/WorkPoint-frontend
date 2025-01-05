@@ -13,6 +13,19 @@ export async function fetchUsers(page = 1, limit = 10, query = '', sort = '') {
   })
   const data = await res.json()
 
-  console.log('data:', data)
+  return data
+}
+
+export async function fetchUser(userId = '') {
+  const authToken = cookies().get('authToken')?.value
+  const res = await fetch(`${baseUrl}/api/users/${userId}`, {
+    cache: 'no-store', // Ensures fresh data every time
+    credentials: 'include',
+    headers: {
+      Authorization: `Bearer ${authToken}`,
+    },
+  })
+  const data = await res.json()
+
   return data
 }

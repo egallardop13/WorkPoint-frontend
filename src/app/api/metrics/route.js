@@ -11,7 +11,6 @@ export async function GET(req) {
     const year = searchParams.get('year') || ''
     const status = searchParams.get('status') || ''
 
-    console.log('year and status in route:', year, status)
     // Pass the query to `getUsersFullDetails` for filtering
     // const paginatedData = await getUsersFullDetails(page, limit, query)
     const response = await fetch(`${backEndUrl}Company/GetMetrics/${year}/${status}`, {
@@ -28,7 +27,6 @@ export async function GET(req) {
 
     // Parse the JSON response
     const data = await response.json()
-    console.log('Printing out data inside metrics: ', data)
 
     return NextResponse.json(data)
   } catch (error) {
