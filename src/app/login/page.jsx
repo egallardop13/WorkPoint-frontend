@@ -17,6 +17,7 @@ export default function Login() {
     handleSubmit,
     formState: { errors, isSubmitting },
     setError,
+    reset,
   } = useForm()
   const router = useRouter()
 
@@ -59,7 +60,7 @@ export default function Login() {
                         required
                         autoComplete="email"
                         className=""
-                        {...register('email', { required: 'Email is required' })}
+                        {...register('email', { required: 'Email is required', onChange: () => clearErrors('form') })}
                       />
                     </div>
                     {errors.email && <p className="mt-1 text-sm text-red-500">{errors.email.message}</p>}
@@ -77,7 +78,10 @@ export default function Login() {
                         required
                         autoComplete="current-password"
                         className=""
-                        {...register('password', { required: 'Password is required' })}
+                        {...register('password', {
+                          required: 'Password is required',
+                          onChange: () => clearErrors('form'),
+                        })}
                       />
                       {errors.password && <p className="mt-1 text-sm text-red-500">{errors.password.message}</p>}
                     </div>

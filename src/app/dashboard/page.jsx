@@ -1,14 +1,15 @@
 import Pagination from '@/components/pagination/Pagination'
 import Search from '@/components/Search'
+import Sorting from '@/components/Sorting'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Divider } from '@/components/ui/divider'
 import { Heading, Subheading } from '@/components/ui/heading'
-import { Select } from '@/components/ui/select'
 import UsersTable from '@/components/UsersTable'
-import { getTotalActiveUsers, getTotalBudget, getTotalInactiveUsers, getTotalUsers } from '@/lib/mockApi.js/mockApi'
 import { calculateRate, formatCurrency } from '@/lib/utils'
 import { Suspense } from 'react'
+import { checkUser } from '../api/auth/actions'
+import { fetchCompanyInfo } from '../api/company/actions'
 import { fetchUsers } from '../api/users/actions'
 
 // const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000' // Use env
@@ -35,6 +36,7 @@ import { fetchUsers } from '../api/users/actions'
 //   console.log('data:', data)
 //   return data
 // }
+const sortValues = ['name', 'department', 'active']
 
 export function Stat({ title, value, badgeType, formattedRate, subText }) {
   return (
@@ -60,26 +62,32 @@ export function Stat({ title, value, badgeType, formattedRate, subText }) {
 }
 
 export default async function Home({ searchParams }) {
+  const loggedInUserId = await checkUser()
   // let orders = await getRecentOrders()
   // let users = await getUsersFullDetails()
   // let firstUsers = users.slice(0, 10)
 
   const page = searchParams.page ? parseInt(searchParams.page, 10) : 1
   const query = searchParams.query || ''
+  const sort = searchParams.sort || ''
+
+  console.log('query inside dashboard home: ', query)
 
   // const usersInfo = await fetchUsers(page, 10, query)
   // console.log('userInfo: ', usersInfo)
   // const users = usersInfo.data
-  const users = await fetchUsers(page, 10, query)
+  const users = await fetchUsers(page, 10, query, sort)
+
   const data = JSON.parse(users.arrayUserComplete)
 
   // Fetch Stats Data
-  const [totalBudget, totalUsers, totalActiveUsers, totalInactiveUsers] = await Promise.all([
-    getTotalBudget(),
-    getTotalUsers(),
-    getTotalActiveUsers(),
-    getTotalInactiveUsers(),
-  ])
+  // const [totalBudget, totalUsers, totalActiveUsers, totalInactiveUsers] = await Promise.all([
+  //   getTotalBudget(),
+  //   getTotalUsers(),
+  //   getTotalActiveUsers(),
+  //   getTotalInactiveUsers(),
+  // ])
+  const { totalBudget, totalUsers, totalActiveUsers, totalInactiveUsers } = await fetchCompanyInfo()
 
   const activeUsersRate = calculateRate(totalUsers, totalActiveUsers)
   const inactiveUsersRate = calculateRate(totalUsers, totalInactiveUsers)
@@ -111,19 +119,7 @@ export default async function Home({ searchParams }) {
         <div className="max-sm:w-full sm:flex-1">
           <div className="mt-4 flex max-w-xl gap-4">
             <Search placeholder="Search users&hellip;" />
-            <div>
-              <Select name="sort_by">
-                <option value="name" className="">
-                  Sort by name
-                </option>
-                <option value="date" className="">
-                  Sort by department
-                </option>
-                <option value="status" className="">
-                  Sort by active
-                </option>
-              </Select>
-            </div>
+            <Sorting values={sortValues} variant="home" />
           </div>
         </div>
         <Button href="/users/create">Create user</Button>

@@ -17,7 +17,7 @@ const UsersTable = ({ users }) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {users.length > 1 &&
+          {users?.length > 0 &&
             users.map((user, index) => (
               <TableRow
                 key={user.UserId + user.FirstName + index}

@@ -7,12 +7,7 @@ export async function GET(req) {
     return NextResponse.json({ message: 'Unauthorized: No token provided' }, { status: 401 })
   }
   try {
-    const { searchParams } = new URL(req.url)
-    const department = searchParams.get('department') || ''
-    console.log('departmentinside:', department)
-    // Pass the query to `getUsersFullDetails` for filtering
-    // const paginatedData = await getUsersFullDetails(page, limit, query)
-    const response = await fetch(`${backEndUrl}UserSalary/GetDepartmentsInfo/${department}`, {
+    const response = await fetch(`${backEndUrl}company/getcompanyinfo/`, {
       headers: {
         'Content-Type': 'application/json',
         Authorization: authToken,
@@ -25,13 +20,12 @@ export async function GET(req) {
     }
 
     // Parse the JSON response
-    const data = await response.json()
-    console.log('Printing out data inside department: ', data)
+    const companyInfo = await response.json()
 
-    return NextResponse.json(data)
+    return NextResponse.json(companyInfo)
   } catch (error) {
     console.error('Error in GET function:', error.message)
-    return NextResponse.json({ error: 'Failed to fetch deparments' }, { status: 500 })
+    return NextResponse.json({ error: 'Failed to fetch Company Info' }, { status: 500 })
   }
 }
 

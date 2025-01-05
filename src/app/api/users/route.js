@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+const backEndUrl = process.env.NEXT_BACKEND_URL
 export async function GET(req) {
   // Bearer ${token}
   const authToken = req.headers.get('Authorization')
@@ -10,11 +11,12 @@ export async function GET(req) {
     const page = parseInt(searchParams.get('page') || '1', 10)
     const limit = parseInt(searchParams.get('limit') || '10', 10)
     const query = searchParams.get('query') || ''
+    const sort = searchParams.get('sort') || '' // Get the query from search params
 
     // Pass the query to `getUsersFullDetails` for filtering
     // const paginatedData = await getUsersFullDetails(page, limit, query)
     const response = await fetch(
-      `https://workpointbackend.azurewebsites.net/UserComplete/GetUsersWithPagination/0/false/${page}/${limit}`,
+      `${backEndUrl}UserComplete/GetUsersWithPagination/${page}/${limit}?query=${query}&sort=${sort}`,
       {
         headers: {
           'Content-Type': 'application/json',

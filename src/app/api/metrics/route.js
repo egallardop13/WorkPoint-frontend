@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+const backEndUrl = process.env.NEXT_BACKEND_URL
 export async function GET(req) {
   // Bearer ${token}
   const authToken = req.headers.get('Authorization')
@@ -13,7 +14,7 @@ export async function GET(req) {
     console.log('year and status in route:', year, status)
     // Pass the query to `getUsersFullDetails` for filtering
     // const paginatedData = await getUsersFullDetails(page, limit, query)
-    const response = await fetch(`https://workpointbackend.azurewebsites.net/Company/GetMetrics/${year}/${status}`, {
+    const response = await fetch(`${backEndUrl}Company/GetMetrics/${year}/${status}`, {
       headers: {
         'Content-Type': 'application/json',
         Authorization: authToken,

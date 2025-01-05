@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server'
 
+const backEndUrl = process.env.NEXT_BACKEND_URL
+
 export async function GET(req, { params }) {
   // Bearer ${token}
   const authToken = req.headers.get('Authorization')
@@ -15,15 +17,12 @@ export async function GET(req, { params }) {
 
     // Pass the query to `getUsersFullDetails` for filtering
     // const paginatedData = await getUsersFullDetails(page, limit, query)
-    const response = await fetch(
-      `https://workpointbackend.azurewebsites.net//UserJobInfo/GetUsersInDepartments/${department}/${page}/${limit}`,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: authToken,
-        },
-      }
-    )
+    const response = await fetch(`${backEndUrl}/UserJobInfo/GetUsersInDepartments/${department}/${page}/${limit}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: authToken,
+      },
+    })
 
     if (!response.ok) {
       console.error('Error fetching data:', response.status, response.statusText)
