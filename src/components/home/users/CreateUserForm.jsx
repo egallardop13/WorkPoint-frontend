@@ -1,4 +1,5 @@
 'use client'
+import { UpsertUser } from '@/app/api/users/create/actions'
 import { DepartmentListBox } from '@/app/dashboard/settings/departmentListBox'
 import { Button } from '@/components/ui/button'
 import { Divider } from '@/components/ui/divider'
@@ -7,7 +8,9 @@ import { Heading, Subheading } from '@/components/ui/heading'
 import { Input, InputGroup } from '@/components/ui/input'
 import { Text } from '@/components/ui/text'
 import { CurrencyDollarIcon } from '@heroicons/react/16/solid'
+import { useRouter } from 'next/navigation'
 import { Controller, useForm } from 'react-hook-form'
+import toast from 'react-hot-toast'
 
 function CreateUserForm(departments) {
   const {
@@ -19,11 +22,39 @@ function CreateUserForm(departments) {
     control,
     clearErrors,
   } = useForm()
+  const router = useRouter()
 
-  function onSubmit(data) {
-    console.log(data)
+  async function onSubmit(data) {
+    const upsert = {
+      userId: 0,
+      firstName: data.firstName,
+      lastName: data.lastName,
+      email: data.email,
+      jobTitle: data.jobTitle,
+      gender: data.gender,
+      department: data.department,
+      salary: data.salary,
+      avgSalary: 0,
+      active: true,
+      dateHired: new Date().toISOString(),
+      dateExited: '1900-01-01T22:56:38.542Z',
+    }
+    try {
+      const result = await UpsertUser(upsert)
+      reset()
+      // console.log('result in create:', result)
+
+      if (result.status === 200) {
+        toast.success('Employee created successfully')
+        router.push(`/dashboard`)
+      }
+    } catch (error) {
+      console.error('Error creating user in:', error)
+      setError('form', { type: 'server', message: error.message })
+      toast.error(error.message)
+    }
   }
-  console.log('departmentds in create user:', departments)
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="mx-auto mt-4 max-w-4xl lg:mt-8">
       <Heading>New Employee</Heading>

@@ -21,6 +21,7 @@ export function properCase(str) {
 }
 
 export const formatCurrency = (amount) => {
+  // console.log('amount in format:', amount)
   return amount.toLocaleString('en-US', {
     style: 'currency',
     currency: 'USD',
@@ -30,7 +31,7 @@ export const formatCurrency = (amount) => {
 }
 
 export function isActive(userActive) {
-  if (userActive === 'TRUE') {
+  if (userActive === 'true') {
     return 'Active'
   } else {
     return 'Inactive'
