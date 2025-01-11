@@ -33,3 +33,26 @@ export async function UpsertUser(upsert) {
 
   return data
 }
+
+export async function deleteUser(userId) {
+  const authToken = cookies().get('authToken')?.value
+  if (!authToken) {
+    return { status: 401, message: 'Unauthorized: No token provided' }
+  }
+
+  const res = await fetch(`${baseUrl}/api/users/${userId}`, {
+    cache: 'no-store', // Ensures fresh data every time
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${authToken}`,
+    },
+    method: 'DELETE',
+  })
+
+  const message = res.json()
+  const status = res.status
+  const result = { status, message }
+
+  return result
+}

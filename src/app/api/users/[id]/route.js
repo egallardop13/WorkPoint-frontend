@@ -33,6 +33,37 @@ export async function GET(req, { params }) {
   }
 }
 
+export async function DELETE(req, { params }) {
+  const authToken = req.headers.get('Authorization')
+  if (!authToken) {
+    return NextResponse.json({ message: 'Unauthorized: No token provided' }, { status: 401 })
+  }
+
+  const userId = params.id
+
+  try {
+    const response = await fetch(`${backEndUrl}/UserComplete/DeleteUser/${userId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: authToken,
+      },
+    })
+
+    if (!response.ok) {
+      console.error('Error deleting user:', response.status, response.statusText)
+      throw new Error(`HTTP error! Status: ${response.status}`)
+    }
+
+    const data = await response.json()
+
+    return NextResponse.json(data)
+  } catch (error) {
+    console.log('Error in DELETE function:', error.message)
+    return NextResponse.json({ error: 'Failed to delete user' }, { status: 500 })
+  }
+}
+
 // ***********MOCK API***********
 
 // app/api/users/route.js

@@ -13,6 +13,7 @@ import { Controller, useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 
 function CreateUserForm(departments) {
+  console.log('departments in create user form:', departments)
   const {
     register,
     handleSubmit,
@@ -155,7 +156,7 @@ function CreateUserForm(departments) {
 
         <Controller
           control={control}
-          name="departments"
+          name="department"
           defaultValue={departments.departments[0].Department}
           render={({ field }) => (
             <DepartmentListBox onChange={field.onChange} value={field.value} departments={departments.departments} />

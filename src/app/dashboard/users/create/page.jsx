@@ -1,10 +1,11 @@
+import { getDepartmentsInfo } from '@/app/api/departments/actions'
 import CreateUserForm from '@/components/home/users/CreateUserForm'
 import { Link } from '@/components/ui/link'
-import { getDepartmentInfo } from '@/lib/mockApi.js/mockApi'
+
 import { ChevronLeftIcon } from '@heroicons/react/16/solid'
 
 export default async function CreateUser() {
-  const departments = await getDepartmentInfo()
+  const departments = await getDepartmentsInfo()
 
   return (
     <>

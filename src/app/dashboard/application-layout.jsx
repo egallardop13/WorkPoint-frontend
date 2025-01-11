@@ -10,7 +10,6 @@ import {
   SidebarFooter,
   SidebarHeading,
   SidebarItem,
-  SidebarLabel,
   SidebarSection,
   SidebarSpacer,
 } from '@/components/ui/sidebar'
@@ -18,7 +17,6 @@ import { SidebarLayout } from '@/components/ui/sidebar-layout'
 import { getTopSalaryAllocatingDepartments } from '@/lib/mockApi.js/mockApi'
 
 import { ArrowRightStartOnRectangleIcon, ChevronUpIcon } from '@heroicons/react/16/solid'
-import { QuestionMarkCircleIcon, SparklesIcon } from '@heroicons/react/20/solid'
 import { checkUser } from '../api/auth/actions'
 import { fetchUser } from '../api/users/actions'
 
@@ -86,19 +84,19 @@ export async function ApplicationLayout({ events, children }) {
 
             <SidebarSpacer />
 
-            <SidebarSection>
+            {/* <SidebarSection>
               <SidebarItem href="#">
                 <QuestionMarkCircleIcon />
                 <SidebarLabel>Support</SidebarLabel>
               </SidebarItem>
               {/* <SidebarItem> */}
-              <ThemeToggle />
-              {/* </SidebarItem> */}
-              <SidebarItem href="#">
+            <ThemeToggle />
+            {/* </SidebarItem> */}
+            {/* <SidebarItem href="#">
                 <SparklesIcon />
                 <SidebarLabel>Changelog</SidebarLabel>
-              </SidebarItem>
-            </SidebarSection>
+              </SidebarItem> 
+            </SidebarSection> */}
           </SidebarBody>
 
           <SidebarFooter className="max-lg:hidden">

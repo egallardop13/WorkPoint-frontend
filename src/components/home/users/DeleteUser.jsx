@@ -1,11 +1,26 @@
 'use client'
 
+import { deleteUser } from '@/app/api/users/create/actions'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogActions, DialogDescription, DialogTitle } from '@/components/ui/dialog'
+import { useParams } from 'next/navigation'
 import { useState } from 'react'
 
 export function DeleteUser({ amount, ...props }) {
   let [isOpen, setIsOpen] = useState(false)
+  const params = useParams()
+  const userId = params.id
+
+  async function HandleSubmit() {
+    console.log('Delete User')
+    try {
+      const res = await deleteUser(userId)
+      console.log('res:', res)
+    } catch (error) {
+      console.log('Error deleting user:', error)
+      console.error('Error deleting user:', error)
+    }
+  }
 
   return (
     <>
@@ -44,7 +59,9 @@ export function DeleteUser({ amount, ...props }) {
           <Button plain onClick={() => setIsOpen(false)}>
             Cancel
           </Button>
-          <Button onClick={() => setIsOpen(false)}>Delete</Button>
+          <Button href={`/dashboard`} onClick={() => (HandleSubmit(), setIsOpen(false))}>
+            Delete
+          </Button>
         </DialogActions>
       </Dialog>
     </>
