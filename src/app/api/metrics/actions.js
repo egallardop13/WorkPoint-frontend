@@ -63,3 +63,16 @@ export async function fetchUsersinDepartment(department, page = 1, limit = 10, q
   const data = await res.json()
   return data
 }
+
+export async function getCompanyBudget(year) {
+  const authToken = cookies().get('authToken')?.value
+  const res = await fetch(`${baseUrl}/api/metrics/company?year=${year}`, {
+    cache: 'no-store', // Ensures fresh data every time
+    credentials: 'include',
+    headers: {
+      Authorization: `Bearer ${authToken}`,
+    },
+  })
+  const data = await res.json()
+  return data
+}

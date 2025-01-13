@@ -1,19 +1,11 @@
-import { getUsersByMonth } from '@/app/api/metrics/actions'
+import { getCompanyBudget, getUsersByMonth } from '@/app/api/metrics/actions'
 import BudgetLineChart from '@/components/metrics/BudgetLineChart'
 import BudgetRateOfChangeChart from '@/components/metrics/BudgetRateOfChange'
 import StatCard from '@/components/metrics/StatCard'
 import { Divider } from '@/components/ui/divider'
 import { Subheading } from '@/components/ui/heading'
-import {
-  getActiveEmployeeBudgetByMonth,
-  getDepartmentInfo,
-  getExitedEmployeeBudgetByMonth,
-  getTotalBudgetByMonth,
-} from '@/lib/mockApi.js/mockApi'
-import { formatDepartmentsTableData } from '@/lib/utils'
 
 export default async function EmployeeAndBudgetMetrics() {
-  // console.log('EmployeeAndBudgetMetrics')
   const usersJoined2024 = await getUsersByMonth(2024, true)
   const usersLeft2024 = await getUsersByMonth(2024, false)
 
@@ -34,12 +26,11 @@ export default async function EmployeeAndBudgetMetrics() {
   const joinedPercentage2023 = ((totalJoined2023 / totalEmployees2023) * 100).toFixed(2)
   const exitedPercentage2023 = ((totalLeft2023 / totalEmployees2023) * 100).toFixed(2)
 
-  const totalBudgets2024 = await getTotalBudgetByMonth(2024)
-  const totalActiveBudgets2024 = await getActiveEmployeeBudgetByMonth(2024)
-  const totalInactiveBudgets2024 = await getExitedEmployeeBudgetByMonth(2024)
-  const test = await getDepartmentInfo()
-  const testDepartment = await formatDepartmentsTableData(test)
-  // console.log('test:', testDepartment)
+  const budgetsData2024 = await getCompanyBudget(2024)
+  console.log('budgetsData2024', budgetsData2024)
+  const totalBudget2024Backend = budgetsData2024.map((budget) => budget.totalBudget)
+  const activeBudget2024Backend = budgetsData2024.map((budget) => budget.activeBudget)
+  const inactiveBudget2024Backend = budgetsData2024.map((budget) => budget.inactiveBudget)
 
   return (
     <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-12">
@@ -99,9 +90,9 @@ export default async function EmployeeAndBudgetMetrics() {
         <div className="relative flex h-full flex-col overflow-hidden">
           <BudgetLineChart
             budgets={{
-              totalActiveBudget: totalActiveBudgets2024,
-              totalInactiveBudget: totalInactiveBudgets2024,
-              totalBudget: totalBudgets2024,
+              totalActiveBudget: activeBudget2024Backend,
+              totalInactiveBudget: inactiveBudget2024Backend,
+              totalBudget: totalBudget2024Backend,
             }}
             heading="Monthly Active vs Inactive Salary Utilization"
             description="Allocated to total Salary Budget in 2024"
@@ -114,8 +105,8 @@ export default async function EmployeeAndBudgetMetrics() {
         <div className="relative flex h-full flex-col overflow-hidden">
           <BudgetLineChart
             budgets={{
-              totalBudget: totalBudgets2024,
-              totalActiveBudget: totalActiveBudgets2024,
+              totalBudget: totalBudget2024Backend,
+              totalActiveBudget: activeBudget2024Backend,
             }}
             heading="Monthly Active vs Total Salary Utilization"
             description="Allocated to active employees Salary Budget in 2024"
@@ -128,8 +119,8 @@ export default async function EmployeeAndBudgetMetrics() {
         <div className="relative flex h-full flex-col overflow-hidden">
           <BudgetLineChart
             budgets={{
-              totalBudget: totalBudgets2024,
-              totalInactiveBudget: totalInactiveBudgets2024,
+              totalBudget: totalBudget2024Backend,
+              totalInactiveBudget: inactiveBudget2024Backend,
             }}
             heading="Monthly Inactive vs Total Salary Utilization"
             description="Allocated to inactive employees Salary Budget in 2024"
@@ -142,7 +133,7 @@ export default async function EmployeeAndBudgetMetrics() {
         <div className="relative flex h-full flex-col overflow-hidden">
           <BudgetRateOfChangeChart
             budgets={{
-              totalBudget: totalBudgets2024,
+              totalBudget: totalBudget2024Backend,
             }}
             heading="Monthly Total Budget Change"
             description="Total net change in employee budget allocation across all months in 2024"
@@ -155,7 +146,7 @@ export default async function EmployeeAndBudgetMetrics() {
         <div className="relative flex h-full flex-col overflow-hidden">
           <BudgetRateOfChangeChart
             budgets={{
-              totalActiveBudget: totalActiveBudgets2024,
+              totalActiveBudget: activeBudget2024Backend,
             }}
             heading="Monthly Active Employee Budget Change"
             description="Total net change in active employee budget allocation across all months in 2024"
@@ -168,7 +159,7 @@ export default async function EmployeeAndBudgetMetrics() {
         <div className="relative flex h-full flex-col overflow-hidden">
           <BudgetRateOfChangeChart
             budgets={{
-              totalInactiveBudget: totalInactiveBudgets2024,
+              totalInactiveBudget: inactiveBudget2024Backend,
             }}
             heading="Monthly Inactive Employee Budget Change"
             description="Total net change in inactive employee budget allocation across all months in 2024"

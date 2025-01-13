@@ -2,7 +2,7 @@ import ApplicationLayoutHeader from '@/components/application-layout/Application
 import ApplicationLayoutSidebarLinks from '@/components/application-layout/ApplicationLayoutSidebarLinks'
 import ThemeToggle from '@/components/ThemeToggle'
 import { Avatar } from '@/components/ui/avatar'
-import { Dropdown, DropdownButton, DropdownItem, DropdownLabel, DropdownMenu } from '@/components/ui/dropdown'
+import { Dropdown, DropdownButton } from '@/components/ui/dropdown'
 import { Navbar, NavbarItem, NavbarSection, NavbarSpacer } from '@/components/ui/navbar'
 import {
   Sidebar,
@@ -16,34 +16,10 @@ import {
 import { SidebarLayout } from '@/components/ui/sidebar-layout'
 import { getTopSalaryAllocatingDepartments } from '@/lib/mockApi.js/mockApi'
 
-import { ArrowRightStartOnRectangleIcon, ChevronUpIcon } from '@heroicons/react/16/solid'
+import AccountDropdownMenu from '@/components/application-layout/AccountDropdownMenu'
+import { ChevronUpIcon } from '@heroicons/react/16/solid'
 import { checkUser } from '../api/auth/actions'
 import { fetchUser } from '../api/users/actions'
-
-async function AccountDropdownMenu({ anchor }) {
-  return (
-    <DropdownMenu className="min-w-64" anchor={anchor}>
-      {/* <DropdownItem href="#">
-        <UserCircleIcon />
-        <DropdownLabel>My account</DropdownLabel>
-        </DropdownItem>
-        <DropdownDivider />
-        <DropdownItem href="#">
-        <ShieldCheckIcon />
-        <DropdownLabel>Privacy policy</DropdownLabel>
-        </DropdownItem>
-        <DropdownItem href="#">
-        <LightBulbIcon />
-        <DropdownLabel>Share feedback</DropdownLabel>
-        </DropdownItem>
-        <DropdownDivider /> */}
-      <DropdownItem href="#">
-        <ArrowRightStartOnRectangleIcon />
-        <DropdownLabel>Sign out</DropdownLabel>
-      </DropdownItem>
-    </DropdownMenu>
-  )
-}
 
 export async function ApplicationLayout({ events, children }) {
   const loggedInUserId = await checkUser()

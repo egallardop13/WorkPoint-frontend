@@ -11,14 +11,14 @@ import { useTheme } from 'next-themes'
 
 const colorMap = {
   light: {
-    'total-budget': 'hsl(215, 15%, 75%)', // Neutral grey for total budget
-    'total-active-budget': 'hsl(144, 72%, 41%)', // Green for active budget
-    'total-inactive-budget': 'hsl(355, 98%, 66%)', // Red for inactive budget
+    'total-budget': 'hsl(215, 15%, 75%)',
+    'total-active-budget': 'hsl(144, 72%, 41%)',
+    'total-inactive-budget': 'hsl(355, 98%, 66%)',
   },
   dark: {
-    'total-budget': 'hsl(215, 15%, 40%)', // Darker neutral grey for total budget
-    'total-active-budget': 'hsl(144, 72%, 37%)', // Darker green for active budget
-    'total-inactive-budget': 'hsl(355, 98%, 39%)', // Darker red for inactive budget
+    'total-budget': 'hsl(215, 15%, 40%)',
+    'total-active-budget': 'hsl(144, 72%, 37%)',
+    'total-inactive-budget': 'hsl(355, 98%, 39%)',
   },
 }
 
@@ -76,7 +76,6 @@ function formatData(data, variant, isDarkMode) {
   return result
 }
 
-// Returns growth rate of specified budget and trend type
 function calculateGrowthRate(budget) {
   const currentBudget = budget[budget.length - 1] // Current month
   const previousBudget = budget[0] // Starting month
@@ -101,7 +100,6 @@ function calculateGrowthRate(budget) {
 
   const result = { trend, growthRate }
 
-  // console.log('Result:', result)
   return result
 }
 
@@ -110,6 +108,24 @@ function calculateBudgetSum(budget) {
   const budgetSum = budget[budget.length - 1]
 
   const result = formatCurrency(budgetSum)
+
+  return result
+}
+
+const getMinYValue = (budgetData, variant) => {
+  let result = 0
+
+  switch (variant) {
+    case 'activeVsInactive':
+      result = Math.floor(Math.min(...budgetData['totalActiveBudget'], ...budgetData['totalInactiveBudget']))
+      break
+    case 'totalVsActive':
+      result = Math.floor(Math.min(...budgetData['totalBudget'], ...budgetData['totalActiveBudget']))
+      break
+    case 'totalVsInactive':
+      result = Math.floor(Math.min(...budgetData['totalBudget'], ...budgetData['totalInactiveBudget']))
+      break
+  }
 
   return result
 }
@@ -125,8 +141,11 @@ Budgets is expecting to recieve 3 properties:
 export default function BudgetLineChart({ budgets, heading, description, variant, metricType }) {
   const { theme } = useTheme()
   const isDarkMode = theme === 'dark'
-
+  console.log('budgets inside budget LIne char:', budgets)
   const budgetData = formatData(budgets, variant, isDarkMode)
+
+  const minYValue = getMinYValue(budgets)
+
   const { trend, growthRate } =
     variant === 'activeVsInactive'
       ? calculateGrowthRate(budgets['totalBudget'])
@@ -319,11 +338,6 @@ export default function BudgetLineChart({ budgets, heading, description, variant
                 hidden: true,
               },
             }}
-            yAxis={[
-              {
-                min: 50000000,
-              },
-            ]}
           ></LineChart>
         </CardContent>
       </Card>
