@@ -9,7 +9,7 @@ import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { loginUser } from '../api/login/actions'
-import workPointLogo from '/public/teams/catalyst.svg'
+import workPointLogo from '/public/teams/rocketLaunch.svg'
 
 export default function Login() {
   const {

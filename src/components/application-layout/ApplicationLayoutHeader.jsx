@@ -34,7 +34,7 @@ const ApplicationLayoutHeader = () => {
             <DropdownHeading>Admins</DropdownHeading>
             {/* <DropdownDivider /> */}
             <DropdownItem href="#">
-              <Avatar slot="icon" src="/teams/catalyst.svg" />
+              <Avatar slot="icon" src="/teams/rocketLaunch.svg" />
               <DropdownLabel>WorkPoint</DropdownLabel>
             </DropdownItem>
             <DropdownItem href="#">
