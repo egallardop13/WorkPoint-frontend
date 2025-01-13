@@ -47,6 +47,7 @@ export default function Landing() {
                     </Button>
                     <a
                       href="https://www.ernestogallardoportfolio.com/work/WorkPoint"
+                      target="_blank"
                       className="text-sm/6 font-semibold text-white"
                     >
                       Learn more <span aria-hidden="true">→</span>
