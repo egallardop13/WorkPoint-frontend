@@ -38,8 +38,8 @@ export default function Landing() {
                     Your Organization: Simplified
                   </h1>
                   <p className="mt-8 text-pretty text-lg font-medium text-stone-500 sm:text-xl/8">
-                    WorkPoint is a platform that helps you manage your daily tasks and projects in a simple and
-                    efficient way. It is designed to help you organize your work and keep track of your progress
+                    WorkPoint is a platform that helps you manage company in a simple and efficient way. It is designed
+                    to help you organize your work and keep track of your progress
                   </p>
                   <div className="mt-10 flex items-center justify-center gap-x-6">
                     <Button href="/login" color="dark">

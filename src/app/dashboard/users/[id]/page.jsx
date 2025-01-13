@@ -24,7 +24,7 @@ export async function generateMetadata({ params }) {
   }
 
   return {
-    title: user ? `Profile Overview: ${titleName} - WorkPoint` : 'User Profile - WorkPoint',
+    title: user ? `Overview: ${titleName} - WorkPoint` : 'WorkPoint',
   }
 }
 

@@ -1,5 +1,7 @@
 'use client'
 import { PlusIcon } from '@heroicons/react/16/solid'
+
+import { RocketLaunchIcon } from '@heroicons/react/20/solid'
 import { Avatar } from '../ui/avatar'
 import {
   Dropdown,
@@ -18,7 +20,8 @@ const ApplicationLayoutHeader = () => {
     <SidebarHeader>
       <Dropdown>
         <DropdownButton as={SidebarItem} disabled>
-          <Avatar src="/teams/catalyst.svg" />
+          {/* <Avatar src="" /> */}
+          <RocketLaunchIcon />
           <SidebarLabel>WorkPoint</SidebarLabel>
           {/* <ChevronDownIcon /> */}
         </DropdownButton>
