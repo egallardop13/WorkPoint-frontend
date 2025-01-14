@@ -25,6 +25,7 @@ export async function ApplicationLayout({ events, children }) {
   const loggedInUserId = await checkUser()
   const user = await fetchUser(loggedInUserId)
   const loggedInUser = user[0]
+  console.log('loggedin user:', loggedInUser)
   const topDepartments = await getTopSalaryAllocatingDepartments()
   return (
     <SidebarLayout
@@ -51,6 +52,7 @@ export async function ApplicationLayout({ events, children }) {
             <ApplicationLayoutSidebarLinks />
             <SidebarSection className="max-lg:hidden">
               <SidebarHeading>Departments with Largest Budgets</SidebarHeading>
+
               {topDepartments.map((department, index) => (
                 <SidebarItem key={department.Department + index} href={`/departments/${department.Department}`}>
                   {department.Department}
@@ -87,10 +89,10 @@ export async function ApplicationLayout({ events, children }) {
                   />
                   <span className="min-w-0">
                     <span className="block truncate text-sm/5 font-medium text-zinc-950 dark:text-white">
-                      {loggedInUser.firstName}
+                      {loggedInUser?.firstName}
                     </span>
                     <span className="block truncate text-xs/5 font-normal text-zinc-500 dark:text-zinc-400">
-                      {loggedInUser.email}
+                      {loggedInUser?.email}
                     </span>
                   </span>
                 </span>

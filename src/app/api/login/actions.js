@@ -3,14 +3,14 @@
 import { cookies } from 'next/headers'
 
 export async function loginUser(credentials) {
-  const response = await fetch(`${process.env.NEXT_BACKEND_URL}/Auth/Login`, {
+  const response = await fetch(`${process.env.NEXT_BACKEND_URL}Auth/Login`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(credentials),
   })
-
+  console.log('response:', response)
   if (!response.ok) {
     throw new Error('Invalid credentials')
   }

@@ -1,3 +1,4 @@
+import { fetchCompanyInfo } from '@/app/api/company/actions'
 import { getDepartmentInfo } from '@/app/api/departments/actions'
 import { fetchUser } from '@/app/api/users/actions'
 import BentoGrid2 from '@/components/home/users/BentoGrid2'
@@ -42,15 +43,16 @@ export default async function User({ params }) {
   // console.log('userApi:', userApi)
 
   // Calculate company-wide average salary
-  let totalSalary = 0
-  let totalEmployeeCount = 0
+  let company = await fetchCompanyInfo()
+  let totalSalary = company.totalBudget
+  let totalEmployeeCount = company.totalUsers
 
   companyInfo.forEach((dept) => {
     totalSalary += dept.TotalSalaryPaidToDepartment || 0
     totalEmployeeCount += dept.Count || 0
   })
 
-  const companyAverageSalary = totalEmployeeCount > 0 ? totalSalary / totalEmployeeCount : 0
+  const companyAverageSalary = totalSalary / totalEmployeeCount
 
   if (!user) {
     notFound()

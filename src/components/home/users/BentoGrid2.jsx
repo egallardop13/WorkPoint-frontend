@@ -32,7 +32,7 @@ export default function BentoGrid2({
             minSalary={minSalary}
             maxSalary={maxSalary}
             avgSalary={avgSalary}
-            userSalary={user.Salary}
+            userSalary={user.salary}
             department={user.department}
           />
         </div>
@@ -52,7 +52,7 @@ export default function BentoGrid2({
                   : 'On par with company average'}
             </Badge>
           </div>
-          <SalaryComparisonGauge companyAverageSalary={companyAverageSalary} userSalary={user.Salary} />
+          <SalaryComparisonGauge companyAverageSalary={companyAverageSalary} userSalary={user.salary} />
         </div>
       </div>
       <div className="flex p-px lg:col-span-3 xl:col-span-2">
