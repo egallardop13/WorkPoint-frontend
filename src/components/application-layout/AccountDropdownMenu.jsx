@@ -1,19 +1,17 @@
 'use client'
 
+import { logoutUser } from '@/app/api/auth/actions'
+import { DropdownItem, DropdownLabel, DropdownMenu } from '@/components/ui/dropdown'
+import { ArrowRightStartOnRectangleIcon } from '@heroicons/react/16/solid'
 import { useRouter } from 'next/navigation'
 
-const { logoutUser } = require('@/app/api/auth/actions')
-const { DropdownMenu, DropdownItem, DropdownLabel } = require('../ui/dropdown')
-const { ArrowRightStartOnRectangleIcon } = require('@heroicons/react/16/solid')
-
-async function AccountDropdownMenu({ anchor }) {
+function AccountDropdownMenu({ anchor }) {
   const router = useRouter()
 
   const handleSignOut = async () => {
     try {
       results = await logoutUser()
     } catch (error) {
-      console.log('Error signing out:', error)
       console.error('Error signing out:', error)
     }
   }
@@ -33,12 +31,16 @@ async function AccountDropdownMenu({ anchor }) {
           <DropdownLabel>Share feedback</DropdownLabel>
           </DropdownItem>
           <DropdownDivider /> */}
-      <DropdownItem>
+      <DropdownItem
+        onClick={() => {
+          handleSignOut(), router.push('/login')
+        }}
+      >
         <ArrowRightStartOnRectangleIcon />
         <DropdownLabel
-          onClick={() => {
-            handleSignOut(), router.push('/login')
-          }}
+        // onClick={() => {
+        //   handleSignOut(), router.push('/login')
+        // }}
         >
           Sign out
         </DropdownLabel>

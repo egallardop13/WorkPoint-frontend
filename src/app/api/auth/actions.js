@@ -25,9 +25,7 @@ export async function loginUser(credentials) {
     path: '/',
   })
 
-  // Redirect to dashboard
-  const redirectTo = '/dashboard'
-  return { success: true, message: 'Login successful', redirectTo } // Return success stateo
+  return { success: true, message: 'Login successful', redirectTo: '/dashboard' } // Return success stateo
 }
 
 export async function logoutUser() {
