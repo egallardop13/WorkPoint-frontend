@@ -3,6 +3,55 @@
 **Your Organization, Simplified**  
 WorkPoint is a high-performance, enterprise-level management dashboard designed to optimize and streamline company operations. It is designed to help you organize your work and keep track of your progress
 
+## Features
+
+- **Comprehensive Dashboards**  
+  Visualize key metrics with interactive charts, graphs, and tables using Material UI.
+
+- **Budget Tracking**  
+  Monitor and manage budgets with ease, ensuring financial clarity at all levels.
+
+- **Employee Monitoring**  
+  Gain insights into employee activity and individual performance metrics.
+
+- **Department-Level Analysis**  
+  Dive deep into department-specific data for targeted decision-making.
+
+- **Authentication & Authorization**  
+  Secure user accounts with robust authentication mechanisms.
+
+- **Full CRUD Operations**  
+  Seamlessly create, read, update, and delete data throughout the application.
+
+## Technology Stack
+
+### Frontend
+
+- **Next.js**: Fast, server-side rendered React framework for optimized performance.
+- **React**: Enables the creation of dynamic, reusable components for a consistent user interface.
+- **TailwindCSS**: Utility-first CSS framework for designing responsive and modern user interfaces.
+- **Material UI**: Advanced UI components for charts, tables, and graphs.
+
+### Backend
+
+- **.NET C#**: Powers the backend with scalable, high-performance API endpoints, ensuring reliable data processing and management.
+- **Dapper**: Used for database interactions, leveraging dynamic parameters for efficient and flexible querying.
+- **SQL**: A relational database deployed on Azure for robust and scalable data management, with stored procedures to optimize query performance. -**JWT Authorization**: Implements JSON Web Tokens for secure user authentication and role-based access control.
+
+### Deployment
+
+- **Frontend**: Deployed to **Vercel** for fast, scalable hosting.
+- **Backend**: Deployed to **Azure** for reliable and secure cloud services.
+
+## Demo Credentials
+
+Experience the application [live](https://frontend-orcin-six-60.vercel.app/) using the following credentials:
+
+```bash
+Username: bjohnson@example.com
+Password: Example
+```
+
 ## Installation & Setup
 
 To run the application locally, follow these steps:
@@ -106,55 +155,6 @@ The backend for this project is hosted in a separate [repository](https://github
    ```bash
    dotnet run
    ```
-
-## Features
-
-- **Comprehensive Dashboards**  
-  Visualize key metrics with interactive charts, graphs, and tables using Material UI.
-
-- **Budget Tracking**  
-  Monitor and manage budgets with ease, ensuring financial clarity at all levels.
-
-- **Employee Monitoring**  
-  Gain insights into employee activity and individual performance metrics.
-
-- **Department-Level Analysis**  
-  Dive deep into department-specific data for targeted decision-making.
-
-- **Authentication & Authorization**  
-  Secure user accounts with robust authentication mechanisms.
-
-- **Full CRUD Operations**  
-  Seamlessly create, read, update, and delete data throughout the application.
-
-## Technology Stack
-
-### Frontend
-
-- **Next.js**: Fast, server-side rendered React framework for optimized performance.
-- **React**: Enables the creation of dynamic, reusable components for a consistent user interface.
-- **TailwindCSS**: Utility-first CSS framework for designing responsive and modern user interfaces.
-- **Material UI**: Advanced UI components for charts, tables, and graphs.
-
-### Backend
-
-- **.NET C#**: Powers the backend with scalable, high-performance API endpoints, ensuring reliable data processing and management.
-- **Dapper**: Used for database interactions, leveraging dynamic parameters for efficient and flexible querying.
-- **SQL**: A relational database deployed on Azure for robust and scalable data management, with stored procedures to optimize query performance. -**JWT Authorization**: Implements JSON Web Tokens for secure user authentication and role-based access control.
-
-### Deployment
-
-- **Frontend**: Deployed to **Vercel** for fast, scalable hosting.
-- **Backend**: Deployed to **Azure** for reliable and secure cloud services.
-
-## Demo Credentials
-
-Experience the application [live](https://frontend-orcin-six-60.vercel.app/) using the following credentials:
-
-```bash
-Username: bjohnson@example.com
-Password: Example
-```
 
 ## Contact
 

@@ -1,8 +1,8 @@
 import { fetchCompanyInfo } from '@/app/api/company/actions'
 import { getDepartmentInfo } from '@/app/api/departments/actions'
 import { fetchUser } from '@/app/api/users/actions'
-import BentoGrid2 from '@/components/home/users/BentoGrid2'
 import { DeleteUser } from '@/components/home/users/DeleteUser'
+import UsersMetrics from '@/components/home/users/UsersMetrics'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { DescriptionDetails, DescriptionList, DescriptionTerm } from '@/components/ui/description-list'
@@ -37,7 +37,7 @@ export default async function User({ params }) {
   let departmentData = await getDepartmentInfo(user.department)
   let departmentInfo = departmentData[0]
 
-  const companyInfo = await getDepartmentInfo()
+  // const companyInfo = await getDepartmentInfo()
   // let userApi = await fetchUser(params.id)
   // console.log('This is some bulllllsshiitiittttt')
   // console.log('userApi:', userApi)
@@ -47,10 +47,10 @@ export default async function User({ params }) {
   let totalSalary = company.totalBudget
   let totalEmployeeCount = company.totalUsers
 
-  companyInfo.forEach((dept) => {
-    totalSalary += dept.TotalSalaryPaidToDepartment || 0
-    totalEmployeeCount += dept.Count || 0
-  })
+  // companyInfo.forEach((dept) => {
+  //   totalSalary += dept.TotalSalaryPaidToDepartment || 0
+  //   totalEmployeeCount += dept.Count || 0
+  // })
 
   const companyAverageSalary = totalSalary / totalEmployeeCount
 
@@ -140,10 +140,8 @@ export default async function User({ params }) {
       <div className="mt-12">
         <Subheading>Insights</Subheading>
         <Divider className="mt-4" />
-        {/* <BentoGrid1 /> */}
-        {/* <BentoGrid3 /> */}
         {console.log('departmentInfo in Page for Bento:', departmentInfo)}
-        <BentoGrid2
+        <UsersMetrics
           minSalary={departmentInfo.minSalary}
           maxSalary={departmentInfo.maxSalary}
           avgSalary={departmentInfo.avgSalary}

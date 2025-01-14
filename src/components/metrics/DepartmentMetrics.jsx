@@ -8,7 +8,7 @@ import {
   formatDepartmentsProgressBarData,
   formatDepartmentsTableData,
 } from '@/lib/utils'
-export default async function BentoGrid1() {
+export default async function DepartmentMetrics() {
   const test = await getDepartmentInfo()
   const testDepartment = await formatDepartmentsTableData(test)
   const testingDepartments = await getDepartmentInfo()
