@@ -67,7 +67,7 @@ To run the application locally, follow these steps:
    Clone the repository to your local machine:
 
    ```bash
-   git clone https://github.com/egallardop13/ShowCasing.git
+   git clone https://github.com/egallardop13/WorkPoint-frontend.git
    ```
 
 2. **Install frontend dependencies**  
