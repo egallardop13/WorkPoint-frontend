@@ -20,19 +20,13 @@ const ApplicationLayoutHeader = () => {
     <SidebarHeader>
       <Dropdown>
         <DropdownButton as={SidebarItem} disabled>
-          {/* <Avatar src="" /> */}
           <RocketLaunchIcon />
           <SidebarLabel>WorkPoint</SidebarLabel>
-          {/* <ChevronDownIcon /> */}
         </DropdownButton>
         <DropdownMenu className="min-w-80 lg:min-w-64" anchor="bottom start">
-          {/* <DropdownItem> */}
-          {/* <Cog8ToothIcon /> */}
-          {/* <DropdownLabel>Admins</DropdownLabel> */}
-          {/* </DropdownItem> */}
           <DropdownSection>
             <DropdownHeading>Admins</DropdownHeading>
-            {/* <DropdownDivider /> */}
+
             <DropdownItem href="#">
               <Avatar slot="icon" src="/teams/rocketLaunch.svg" />
               <DropdownLabel>WorkPoint</DropdownLabel>

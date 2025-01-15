@@ -43,7 +43,6 @@ function CreateUserForm(departments) {
     try {
       const result = await UpsertUser(upsert)
       reset()
-      // console.log('result in create:', result)
 
       if (result.status === 200) {
         toast.success('Employee created successfully')
@@ -162,8 +161,6 @@ function CreateUserForm(departments) {
             <DepartmentListBox onChange={field.onChange} value={field.value} departments={departments.departments} />
           )}
         />
-
-        {/* <DepartmentListBox departments={departments} /> */}
       </section>
       <Divider className="my-10" soft />
 
@@ -225,9 +222,6 @@ function CreateUserForm(departments) {
       <Divider className="my-10" soft />
 
       <div className="flex justify-end gap-4">
-        {/* <Button type="reset" plain>
-          Cancel
-        </Button> */}
         <Button type="submit">Add</Button>
       </div>
     </form>

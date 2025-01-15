@@ -14,27 +14,6 @@ export async function getUsersByMonth(year, status) {
   const data = await res.json()
 
   return data
-  // const joinedByMonth = Array(12).fill(0)
-
-  // let totalEmployeesJoined = 0
-  // const totalEmployees = users.length
-  // users.forEach((user) => {
-  //   if (user.DateHired) {
-  //     const hireDate = new Date(user.DateHired)
-  //     const hireYear = hireDate.getFullYear()
-  //     if (hireYear === year) {
-  //       const hireMonth = hireDate.getMonth() // getMonth() returns 0 for Jan, 11 for Dec
-  //       joinedByMonth[hireMonth] += 1
-  //       totalEmployeesJoined += 1
-  //     }
-  //   }
-  // })
-
-  // const result = {
-  //   totalEmployees,
-  //   totalEmployeesJoined,
-  //   monthlyData: joinedByMonth,
-  // }
 }
 
 export async function getDepartmentInfo(department) {

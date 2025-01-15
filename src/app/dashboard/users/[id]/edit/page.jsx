@@ -4,20 +4,9 @@ import EditUserForm from '@/components/home/EditUserForm'
 import { Link } from '@/components/ui/link'
 import { ChevronLeftIcon } from '@heroicons/react/16/solid'
 
-// JobTitle: string;
-// Department: string;
-// Salary: string | number;
-// UserId: number;
-// FirstName: string;
-// LastName: string;
-// Email: string;
-// Gender: string;
-// Active: string;
-// DateHired: string;
-// DateExited: string;
 const page = async ({ params }) => {
   let data = await fetchUser(params.id)
-  // console.log('data sdfwef:', data)
+
   const user = data[0]
 
   const departments = await getDepartmentsInfo()

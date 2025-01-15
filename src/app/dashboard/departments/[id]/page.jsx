@@ -25,23 +25,11 @@ import {
 } from '@heroicons/react/20/solid'
 import { notFound } from 'next/navigation'
 
-// const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'
-// async function fetchUsers(department, page = 1, limit = 10, query = '') {
-//   const res = await fetch(`${baseUrl}/api/departments/${department}/users?page=${page}&limit=${limit}&query=${query}`, {
-//     cache: 'no-store', // Ensures fresh data every time
-//   })
-//   const data = await res.json()
-//   // console.log('data:', data)
-//   return data
-// }
-
 export async function generateMetadata({ params }) {
-  // let event = await getEvent(params.id)
   let departmentName = decodeURIComponent(params.id)
   let department = await getDepartmentInfo(departmentName)
   let titleName = `${department[0].department} Department`
 
-  // Limit total length of title to 20 characters
   if (titleName.length > 20) {
     titleName = `${titleName.slice(0, 17)}...`
   }
@@ -75,14 +63,14 @@ function Stat({ title, value, badgeType, formattedRate, subText }) {
 export default async function Department({ params, searchParams }) {
   let departmentName = decodeURIComponent(params.id)
   let data = await getDepartmentInfo(departmentName)
-  // console.log('data getDeparmentInfo:', data)
+
   let department = data[0]
 
   const page = searchParams.page ? parseInt(searchParams.page, 10) : 1
   const query = searchParams.query || ''
 
   const usersInfo = await fetchUsersinDepartment(department.department, page, 10, query)
-  // console.log('usersInfo inside users in deparments:', usersInfo)
+
   const users = usersInfo.users
   const totalActiveSalary = usersInfo.totalActiveSalary
   const totalInactiveSalary = usersInfo.totalInactiveSalary
@@ -94,12 +82,6 @@ export default async function Department({ params, searchParams }) {
   const activeUsersRate = calculateRate(totalUsers, totalActiveUsers)
   const inactiveUsersRate = calculateRate(totalUsers, totalInactiveUsers)
 
-  // console.log('totalActiveSalary', totalActiveSalary)
-  // console.log('totalInactiveSalary', totalInactiveSalary)
-
-  // let orders = await getEventOrders(params.id)
-
-  // console.log('department:-------------------', department)
   if (!department) {
     notFound()
   }
@@ -153,9 +135,6 @@ export default async function Department({ params, searchParams }) {
               {totalActiveUsers} active employees <span aria-hidden="true">·</span> {totalInactiveUsers} inactive
               employees <span aria-hidden="true">·</span> {totalUsers} total employees
             </div>
-            {/* <div className="mt-2 text-sm/6 text-zinc-500">
-              {event.date} at {event.time} <span aria-hidden="true">·</span> {event.location}
-            </div> */}
           </div>
         </div>
       </div>
@@ -167,7 +146,7 @@ export default async function Department({ params, searchParams }) {
           badgeType="positive"
           formattedRate={`${activeUsersRate}%`}
         />
-        {/* ***CHANGE TO INACTIVE BUDGET????*** */}
+
         <Stat
           title="Inactive Employee Budget"
           value={formatCurrency(totalInactiveSalary)}

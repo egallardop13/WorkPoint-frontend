@@ -8,7 +8,6 @@ export default async function Metrics() {
       <Heading>Company Metrics Dashboard</Heading>
       <EmployeeAndBudgetMetrics />
       <DepartmentsMetrics />
-      {/* <BentoGrid1 /> */}
     </div>
   )
 }

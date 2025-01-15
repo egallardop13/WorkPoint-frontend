@@ -62,19 +62,7 @@ export async function ApplicationLayout({ events, children }) {
 
             <SidebarSpacer />
 
-            {/* <SidebarSection>
-              <SidebarItem href="#">
-                <QuestionMarkCircleIcon />
-                <SidebarLabel>Support</SidebarLabel>
-              </SidebarItem>
-              {/* <SidebarItem> */}
             <ThemeToggle />
-            {/* </SidebarItem> */}
-            {/* <SidebarItem href="#">
-                <SparklesIcon />
-                <SidebarLabel>Changelog</SidebarLabel>
-              </SidebarItem> 
-            </SidebarSection> */}
           </SidebarBody>
 
           <SidebarFooter className="max-lg:hidden">

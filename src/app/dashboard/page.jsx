@@ -12,30 +12,6 @@ import { checkUser } from '../api/auth/actions'
 import { fetchCompanyInfo } from '../api/company/actions'
 import { fetchUser, fetchUsers } from '../api/users/actions'
 
-// const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000' // Use env
-// async function fetchUsers(page = 1, limit = 10) {
-//   const res = await fetch(`${baseUrl}/api/users?page=${page}&limit=${limit}`, {
-//     cache: 'no-store', // Ensures fresh data every time
-//   })
-//   const data = await res.json()
-//   console.log('data:', data)
-//   return data
-// }
-
-// async function fetchUsers(page = 1, limit = 10, query = '') {
-//   const authToken = cookies().get('authToken')?.value
-//   const res = await fetch(`${baseUrl}/api/users?page=${page}&limit=${limit}&query=${query}`, {
-//     cache: 'no-store', // Ensures fresh data every time
-//     credentials: 'include',
-//     headers: {
-//       Authorization: `Bearer ${authToken}`,
-//     },
-//   })
-//   const data = await res.json()
-
-//   console.log('data:', data)
-//   return data
-// }
 const sortValues = ['name', 'department', 'active']
 
 export function Stat({ title, value, badgeType, formattedRate, subText }) {
@@ -65,28 +41,15 @@ export default async function Home({ searchParams }) {
   const loggedInUserId = await checkUser()
   const user = await fetchUser(loggedInUserId)
   const loggedInUser = user[0]
-  // let orders = await getRecentOrders()
-  // let users = await getUsersFullDetails()
-  // let firstUsers = users.slice(0, 10)
 
   const page = searchParams.page ? parseInt(searchParams.page, 10) : 1
   const query = searchParams.query || ''
   const sort = searchParams.sort || ''
 
-  // const usersInfo = await fetchUsers(page, 10, query)
-  // console.log('userInfo: ', usersInfo)
-  // const users = usersInfo.data
   const users = await fetchUsers(page, 10, query, sort)
 
   const data = JSON.parse(users.arrayUserComplete)
 
-  // Fetch Stats Data
-  // const [totalBudget, totalUsers, totalActiveUsers, totalInactiveUsers] = await Promise.all([
-  //   getTotalBudget(),
-  //   getTotalUsers(),
-  //   getTotalActiveUsers(),
-  //   getTotalInactiveUsers(),
-  // ])
   const { totalBudget, totalUsers, totalActiveUsers, totalInactiveUsers } = await fetchCompanyInfo()
 
   const activeUsersRate = calculateRate(totalUsers, totalActiveUsers)
@@ -127,7 +90,7 @@ export default async function Home({ searchParams }) {
       <Suspense fallback={<div>Loading...</div>}>
         <UsersTable users={data} />
       </Suspense>
-      {/* <Pagination totalPages={usersInfo.totalPages} /> */}
+
       <Pagination totalPages={users.totalPages} />
     </>
   )

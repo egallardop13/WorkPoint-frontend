@@ -17,33 +17,13 @@ function AccountDropdownMenu({ anchor }) {
   }
   return (
     <DropdownMenu className="min-w-64" anchor={anchor}>
-      {/* <DropdownItem href="#">
-          <UserCircleIcon />
-          <DropdownLabel>My account</DropdownLabel>
-          </DropdownItem>
-          <DropdownDivider />
-          <DropdownItem href="#">
-          <ShieldCheckIcon />
-          <DropdownLabel>Privacy policy</DropdownLabel>
-          </DropdownItem>
-          <DropdownItem href="#">
-          <LightBulbIcon />
-          <DropdownLabel>Share feedback</DropdownLabel>
-          </DropdownItem>
-          <DropdownDivider /> */}
       <DropdownItem
         onClick={() => {
           handleSignOut(), router.push('/login')
         }}
       >
         <ArrowRightStartOnRectangleIcon />
-        <DropdownLabel
-        // onClick={() => {
-        //   handleSignOut(), router.push('/login')
-        // }}
-        >
-          Sign out
-        </DropdownLabel>
+        <DropdownLabel>Sign out</DropdownLabel>
       </DropdownItem>
     </DropdownMenu>
   )

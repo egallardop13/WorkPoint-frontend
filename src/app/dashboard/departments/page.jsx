@@ -14,48 +14,8 @@ export const metadata = {
 }
 
 export default async function Departments() {
-  // let events = await getEvents()
   let departments = await getDepartmentsInfo()
-  // console.log('departments inside page: ', departments)
-  // console.log('data: ', departments)
 
-  // dark:text-zinc-500???
-
-  /******************************************
-    {
-        "UserId": 1,
-        "Salary": 83269.85
-    },
-******************************************/
-
-  /******************************************
-    {
-      UserId: 1,
-      JobTitle: 'Internal Auditor',
-      Department: 'Services',
-    },
-******************************************/
-
-  /******************************************
-    {
-        UserId: 1,
-        FirstName: 'Albertina',
-        LastName: "O'Finan",
-        Email: 'aofinan0@blogspot.com',
-        Gender: 'Female',
-        Active: 'FALSE',
-    },
-******************************************/
-
-  // {
-  //   Department: 'Accounting',
-  //   AverageSalaryInDepartment: 132797.7384415584,
-  //   MinSalaryInDepartment: 76407.96,
-  //   MaxSalaryInDepartment: 199702.13,
-  //   TotalSalaryPaidToDepartment: 10225425.859999998,
-  //   Count: 77,
-  //   ActiveCount: 38
-  // },
   return (
     <>
       <div className="flex flex-wrap items-end justify-between gap-4">
@@ -101,7 +61,6 @@ export default async function Departments() {
                         Total Allocated Budget: {formatCurrency(department.totalSalary)}
                       </div>
                       <div className="text-xs/6 text-zinc-600">
-                        {/* Total Allocated Budget: $1,980,000 */}
                         {department.activeEmployeeCount}/{department.employeeCount} active users
                       </div>
                     </div>
@@ -123,8 +82,6 @@ export default async function Departments() {
                       </DropdownButton>
                       <DropdownMenu anchor="bottom end">
                         <DropdownItem href={`/dashboard/departments/${departmentHref}`}>View</DropdownItem>
-                        {/* <DropdownItem>Edit</DropdownItem>
-                        <DropdownItem>Delete</DropdownItem> */}
                       </DropdownMenu>
                     </Dropdown>
                   </div>

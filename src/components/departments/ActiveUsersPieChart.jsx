@@ -46,20 +46,6 @@ const ActiveUsersPieChart = () => {
         }}
         {...sizing}
       />
-
-      {/* <PieChart
-        series={[
-          {
-            data: [
-              { id: 'active', value: activeUsers, label: 'Active Users' },
-              { id: 'inactive', value: totalUsers - activeUsers, label: 'Inactive Users' },
-            ],
-            colorPalette: [isDarkMode ? '#4ade80' : '#22c55e', isDarkMode ? '#6b7280' : '#d1d5db'], // Green and grey
-          },
-        ]}
-        width={500}
-        height={800}
-      /> */}
     </div>
   )
 }
