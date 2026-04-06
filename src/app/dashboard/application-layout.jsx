@@ -17,6 +17,7 @@ import { SidebarLayout } from '@/components/ui/sidebar-layout'
 import { getTopSalaryAllocatingDepartments } from '@/lib/mockApi.js/mockApi'
 
 import AccountDropdownMenu from '@/components/application-layout/AccountDropdownMenu'
+import SidebarUserInfo from '@/components/application-layout/SidebarUserInfo'
 import { ChevronUpIcon } from '@heroicons/react/16/solid'
 import { getUserFromToken } from '../api/auth/actions'
 
@@ -64,17 +65,7 @@ export async function ApplicationLayout({ events, children }) {
           <SidebarFooter className="max-lg:hidden">
             <Dropdown>
               <DropdownButton as={SidebarItem}>
-                <span className="flex min-w-0 items-center gap-3">
-                  <Avatar initials={userInitials} className="size-10" square alt="" />
-                  <span className="min-w-0">
-                    <span className="block truncate text-sm/5 font-medium text-zinc-950 dark:text-white">
-                      Account
-                    </span>
-                    <span className="block truncate text-xs/5 font-normal text-zinc-500 dark:text-zinc-400">
-                      Manage settings
-                    </span>
-                  </span>
-                </span>
+                <SidebarUserInfo userId={userId} />
                 <ChevronUpIcon />
               </DropdownButton>
               <AccountDropdownMenu anchor="top start" />
