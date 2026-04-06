@@ -27,7 +27,6 @@ export default async function EmployeeAndBudgetMetrics() {
   const exitedPercentage2023 = ((totalLeft2023 / totalEmployees2023) * 100).toFixed(2)
 
   const budgetsData2024 = await getCompanyBudget(2024)
-  console.log('budgetsData2024', budgetsData2024)
   const totalBudget2024Backend = budgetsData2024.map((budget) => budget.totalBudget)
   const activeBudget2024Backend = budgetsData2024.map((budget) => budget.activeBudget)
   const inactiveBudget2024Backend = budgetsData2024.map((budget) => budget.inactiveBudget)

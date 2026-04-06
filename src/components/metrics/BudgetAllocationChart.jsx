@@ -94,7 +94,6 @@ export default function BudgetAllocationChart({ departments, pieChartData }) {
   const isDarkMode = theme === 'dark'
   const { totalBudget, formattedData } = pieChartData
 
-  // console.log('pie chart data', formattedData)
   const data = formattedData
   const muiTheme = createTheme({
     palette: {
@@ -179,8 +178,6 @@ export default function BudgetAllocationChart({ departments, pieChartData }) {
         '#f4e3b8', // Adjusted for better contrast
         '#f2deb0', // Adjusted for better contrast
       ]
-
-  // console.log('pie arc classes', pieArcClasses)
 
   return (
     <ThemeProvider theme={muiTheme}>

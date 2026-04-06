@@ -30,7 +30,6 @@ export async function generateMetadata({ params }) {
 export default async function User({ params }) {
   let data = await fetchUser(params.id)
   let user = data[0]
-  console.log('user sdfwef:', user)
   let departmentData = await getDepartmentInfo(user.department)
   let departmentInfo = departmentData[0]
 
@@ -64,7 +63,6 @@ export default async function User({ params }) {
           <div className="flex flex-wrap gap-x-10 gap-y-4 py-1.5">
             <span className="flex items-center gap-3 text-base/6 text-zinc-950 sm:text-sm/6 dark:text-white">
               <BanknotesIcon className="size-4 shrink-0 fill-zinc-400 dark:fill-zinc-500" />
-              {console.log('user.salary:', user.salary)}
               <span>{formatCurrency(user.salary)}</span>
             </span>
             <span className="flex items-center gap-3 text-base/6 text-zinc-950 sm:text-sm/6 dark:text-white">
@@ -108,7 +106,6 @@ export default async function User({ params }) {
       <div className="mt-12">
         <Subheading>Insights</Subheading>
         <Divider className="mt-4" />
-        {console.log('departmentInfo in Page for Bento:', departmentInfo)}
         <UsersMetrics
           minSalary={departmentInfo.minSalary}
           maxSalary={departmentInfo.maxSalary}

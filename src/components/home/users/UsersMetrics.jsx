@@ -68,7 +68,6 @@ export default function UsersMetrics({
             </p>
           </div>
           <div className="mx-auto mb-9 h-44 w-full max-w-80 p-4">
-            {/* {console.log('departmentTotalSalary in Bento:', departmentTotalSalary)} */}
             <SalaryShareChart
               departmentTotalSalary={departmentTotalSalary}
               userSalary={user.salary}

@@ -89,7 +89,6 @@ const PaginationButton = ({ isActive, href, pageIdx, buttonIdx, pageCount }) => 
     <Link
       className={buttonStyle}
       href={href(onClickPageIdx)}
-      onMouseEnter={() => console.log('pageIdx:', pageIdx, '\nbuttonIdx: ', buttonIdx, '\npageCount:', pageCount)}
       scroll={false}
     >
       {pageContent}

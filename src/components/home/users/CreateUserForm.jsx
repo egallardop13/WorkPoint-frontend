@@ -13,7 +13,6 @@ import { Controller, useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 
 function CreateUserForm(departments) {
-  console.log('departments in create user form:', departments)
   const {
     register,
     handleSubmit,

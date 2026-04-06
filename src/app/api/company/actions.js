@@ -1,18 +1,7 @@
 'use server'
-import { cookies } from 'next/headers'
-
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000' // Use env
+import { apiFetch } from '@/lib/api'
 
 export async function fetchCompanyInfo() {
-  const authToken = cookies().get('authToken')?.value
-  const res = await fetch(`${baseUrl}/api/company/`, {
-    cache: 'no-store', // Ensures fresh data every time
-    credentials: 'include',
-    headers: {
-      Authorization: `Bearer ${authToken}`,
-    },
-  })
-  const data = await res.json()
-
-  return data
+  const res = await apiFetch('/api/company/')
+  return res.json()
 }

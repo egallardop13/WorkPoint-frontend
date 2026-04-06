@@ -22,7 +22,6 @@ export function properCase(str) {
 }
 
 export const formatCurrency = (amount) => {
-  // console.log('amount in format:', amount)
   return amount.toLocaleString('en-US', {
     style: 'currency',
     currency: 'USD',
@@ -850,7 +849,6 @@ export async function formatDepartmentsProgressBarData(departmentsData) {
   }
 
   const CompanyInfo = await fetchCompanyInfo()
-  console.log('CompanyInfo in utils', CompanyInfo)
   const totalBudget = CompanyInfo.totalBudget
 
   // {

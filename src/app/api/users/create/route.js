@@ -16,8 +16,6 @@ export async function PUT(req) {
       user.active = false
     }
 
-    console.log('upsert in UpsertUser route:', user)
-
     const response = await fetch(`${backEndUrl}/UserComplete/UpsertUser/`, {
       method: 'PUT',
       credentials: 'include',
@@ -34,7 +32,6 @@ export async function PUT(req) {
     }
 
     const upsertResult = await response.json()
-    console.log('upsertResult in UpsertUser route:', upsertResult)
     return NextResponse.json(upsertResult)
   } catch (error) {
     console.error('Error in PUT function:', error.message)

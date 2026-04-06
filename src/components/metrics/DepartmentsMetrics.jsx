@@ -11,7 +11,6 @@ import BudgetAllocationChart from './BudgetAllocationChart'
 import DepartmentGrowthPieChart from './DepartmentGrowthPieChart'
 export default async function DepartmentsMetrics() {
   const departmentsData = await getDepartmentsInfo()
-  console.log('departmentsData:', departmentsData)
 
   if (departmentsData.status && departmentsData.status === 401) {
     redirect('/login') // Redirect to login if unauthorized

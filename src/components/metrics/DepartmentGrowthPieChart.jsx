@@ -109,7 +109,6 @@ export default function DepartmentGrowthPieChart({ pieChartData }) {
   const isDarkMode = theme === 'dark'
   const { totalEmployeesJoined, formattedData } = pieChartData
 
-  // console.log('pie chart data', formattedData)
   const data = formattedData
   const muiTheme = createTheme({
     palette: {

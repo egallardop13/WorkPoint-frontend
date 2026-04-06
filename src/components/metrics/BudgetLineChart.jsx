@@ -141,7 +141,6 @@ Budgets is expecting to recieve 3 properties:
 export default function BudgetLineChart({ budgets, heading, description, variant, metricType }) {
   const { theme } = useTheme()
   const isDarkMode = theme === 'dark'
-  console.log('budgets inside budget LIne char:', budgets)
   const budgetData = formatData(budgets, variant, isDarkMode)
 
   const minYValue = getMinYValue(budgets)
