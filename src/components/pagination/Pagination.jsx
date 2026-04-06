@@ -4,6 +4,7 @@ import { ArrowLongLeftIcon, ArrowLongRightIcon } from '@heroicons/react/20/solid
 import clsx from 'clsx'
 import Link from 'next/link'
 import { usePathname, useSearchParams } from 'next/navigation'
+import { useCallback } from 'react'
 import PaginationButton from './PaginationButton'
 
 export default function Pagination({ totalPages }) {
@@ -12,15 +13,17 @@ export default function Pagination({ totalPages }) {
   const currentPage = Number(searchParams.get('page') || 1)
   const query = searchParams.get('query') || ''
 
-  const handlePageClick = (pageNumber) => {
-    // Set the new page parameter and trigger navigation
-    const params = new URLSearchParams(searchParams)
-    params.set('page', pageNumber.toString())
-    if (query) {
-      params.set('query', query) // Ensure the query is preserved
-    }
-    return `${pathname}?${params.toString()}`
-  }
+  const handlePageClick = useCallback(
+    (pageNumber) => {
+      const params = new URLSearchParams(searchParams)
+      params.set('page', pageNumber.toString())
+      if (query) {
+        params.set('query', query)
+      }
+      return `${pathname}?${params.toString()}`
+    },
+    [searchParams, pathname, query]
+  )
 
   const renderPaginationButtons = () => {
     if (totalPages > 7) {

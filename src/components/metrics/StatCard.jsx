@@ -9,21 +9,7 @@ import Typography from '@mui/material/Typography'
 import { areaElementClasses } from '@mui/x-charts/LineChart'
 import { SparkLineChart } from '@mui/x-charts/SparkLineChart'
 import { useTheme } from 'next-themes'
-
-function getAllMonths() {
-  const months = []
-
-  // Loop through months from 0 to 11 (JavaScript months are 0-indexed)
-  for (let month = 0; month < 12; month++) {
-    const date = new Date(2023, month) // Year can be any year
-    const monthName = date.toLocaleDateString('en-US', {
-      month: 'short',
-    })
-    months.push(monthName)
-  }
-
-  return months
-}
+import { useMemo } from 'react'
 
 function AreaGradient({ color, id }) {
   return (
@@ -40,60 +26,56 @@ function StatCard({ title, value, interval, trend, data, rate }) {
   const { theme } = useTheme()
   const isDarkMode = theme === 'dark'
 
-  const muiTheme = createTheme({
-    palette: {
-      mode: isDarkMode ? 'dark' : 'light',
-      background: {
-        default: isDarkMode ? '#18181b' : '#ffffff',
-        paper: isDarkMode ? '#18181b' : '#ffffff',
-      },
-      text: {
-        primary: isDarkMode ? '#d1d5db' : 'hsl(220, 30%, 6%)',
-        secondary: isDarkMode ? 'hsl(215, 15%, 75%)' : 'hsl(220, 20%, 35%)',
-      },
-    },
-    components: {
-      MuiTooltip: {
-        styleOverrides: {
-          tooltip: {
-            backgroundColor: isDarkMode ? '#18181b !important' : '#f3f4f6',
-            color: isDarkMode ? '#d1d5db' : '#374151',
+  const muiTheme = useMemo(
+    () =>
+      createTheme({
+        palette: {
+          mode: isDarkMode ? 'dark' : 'light',
+          background: {
+            default: isDarkMode ? '#18181b' : '#ffffff',
+            paper: isDarkMode ? '#18181b' : '#ffffff',
+          },
+          text: {
+            primary: isDarkMode ? '#d1d5db' : 'hsl(220, 30%, 6%)',
+            secondary: isDarkMode ? 'hsl(215, 15%, 75%)' : 'hsl(220, 20%, 35%)',
           },
         },
-      },
-      MuiChart: {
-        styleOverrides: {
-          root: {
-            backgroundColor: isDarkMode ? '#18181b' : '#f4f4f5',
-            '& .MuiChart-tickLabel': {
-              fill: isDarkMode ? '#9ca3af' : '#4b5563',
+        components: {
+          MuiTooltip: {
+            styleOverrides: {
+              tooltip: {
+                backgroundColor: isDarkMode ? '#18181b !important' : '#f3f4f6',
+                color: isDarkMode ? '#d1d5db' : '#374151',
+              },
             },
-            '& .MuiChart-axisLabel': {
-              fill: isDarkMode ? '#d1d5db' : '#374151',
-            },
-            '& .MuiChartsLegend-series text': {
-              fill: isDarkMode ? '#d1d5db' : '#374151',
+          },
+          MuiChart: {
+            styleOverrides: {
+              root: {
+                backgroundColor: isDarkMode ? '#18181b' : '#f4f4f5',
+                '& .MuiChart-tickLabel': {
+                  fill: isDarkMode ? '#9ca3af' : '#4b5563',
+                },
+                '& .MuiChart-axisLabel': {
+                  fill: isDarkMode ? '#d1d5db' : '#374151',
+                },
+                '& .MuiChartsLegend-series text': {
+                  fill: isDarkMode ? '#d1d5db' : '#374151',
+                },
+              },
             },
           },
         },
-      },
-    },
-  })
+      }),
+    [isDarkMode]
+  )
 
-  muiTheme.palette.mode = isDarkMode ? 'dark' : 'light'
-  // const months = getAllMonths()
-  // const trendColors = {
-  //   up: muiTheme.palette.mode === 'light' ? 'hsl(120, 59%, 30%)' : 'hsl(120, 75%, 16%)',
-  //   down: muiTheme.palette.mode === 'light' ? 'hsl(0, 90%, 40%)' : 'hsl(0, 94%, 18%)',
-  //   neutral: muiTheme.palette.mode === 'light' ? 'hsl(220, 20%, 65%)' : 'hsl(220, 20%, 25%)',
-  // }
-  const months = data.map((item) => item.month)
-  const monthlyData = data.map((item) => item.count)
-  const trendColors = {
-    up: muiTheme.palette.mode === 'light' ? 'hsl(144, 72%, 41%)' : 'hsl(144, 72%, 37%)',
-    down: muiTheme.palette.mode === 'light' ? 'hsl(355, 98%, 66%)' : 'hsl(355, 98%, 39%)',
-    neutral: muiTheme.palette.mode === 'light' ? 'hsl(220, 20%, 65%)' : 'hsl(220, 20%, 25%)',
-  }
+  const months = useMemo(() => data.map((item) => item.month), [data])
+  const monthlyData = useMemo(() => data.map((item) => item.count), [data])
+
+  const trendColors = isDarkMode
+    ? { up: 'hsl(144, 72%, 37%)', down: 'hsl(355, 98%, 39%)', neutral: 'hsl(220, 20%, 25%)' }
+    : { up: 'hsl(144, 72%, 41%)', down: 'hsl(355, 98%, 66%)', neutral: 'hsl(220, 20%, 65%)' }
 
   const labelColors = {
     up: 'success',

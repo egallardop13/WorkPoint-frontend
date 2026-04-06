@@ -1,6 +1,7 @@
 import Link from 'next/link'
+import { memo } from 'react'
 
-const PaginationButton = ({ isActive, href, pageIdx, buttonIdx, pageCount }) => {
+const PaginationButton = memo(function PaginationButton({ isActive, href, pageIdx, buttonIdx, pageCount }) {
   const activePage =
     'inline-flex items-center border-t-2 px-4 pt-4 text-sm font-semibold border-slate-900 text-slate-950 dark:border-white dark:text-white'
   const inactivePage =
@@ -94,6 +95,6 @@ const PaginationButton = ({ isActive, href, pageIdx, buttonIdx, pageCount }) => 
       {pageContent}
     </Link>
   )
-}
+})
 
 export default PaginationButton

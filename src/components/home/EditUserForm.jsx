@@ -1,6 +1,8 @@
 'use client'
-import { UpsertUser } from '@/app/api/users/create/actions'
 import { DepartmentListBox } from '@/app/dashboard/settings/departmentListBox'
+import { useUpsertUser } from '@/lib/mutations'
+import { editUserSchema } from '@/lib/validation'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { CurrencyDollarIcon } from '@heroicons/react/16/solid'
 import { useRouter } from 'next/navigation'
 import { Controller, useForm } from 'react-hook-form'
@@ -22,8 +24,9 @@ function EditUserForm({ user, departments, params }) {
     reset,
     control,
     clearErrors,
-  } = useForm()
+  } = useForm({ resolver: zodResolver(editUserSchema) })
   const router = useRouter()
+  const upsertMutation = useUpsertUser()
 
   async function onSubmit(data) {
     const isActive = data.active === 'true'
@@ -43,7 +46,7 @@ function EditUserForm({ user, departments, params }) {
       dateExited,
     }
     try {
-      const result = await UpsertUser(upsert)
+      const result = await upsertMutation.mutateAsync(upsert)
       reset()
 
       if (result.status === 200) {
@@ -74,7 +77,7 @@ function EditUserForm({ user, departments, params }) {
               name="first_name"
               defaultValue={user.firstName}
               placeholder="John"
-              {...register('firstName', { required: 'Please enter a first name' })}
+              {...register('firstName')}
             />
             {errors.firstName && <ErrorMessage>{errors.firstName.message}</ErrorMessage>}
           </Field>
@@ -94,7 +97,7 @@ function EditUserForm({ user, departments, params }) {
               name="last_name"
               defaultValue={user.lastName}
               placeholder="Smith"
-              {...register('lastName', { required: 'Please enter a last name' })}
+              {...register('lastName')}
             />
             {errors.lastName && <ErrorMessage>{errors.lastName.message}</ErrorMessage>}
           </Field>
@@ -118,7 +121,7 @@ function EditUserForm({ user, departments, params }) {
               name="job_title"
               defaultValue={user.jobTitle}
               placeholder="Sales Associate"
-              {...register('jobTitle', { required: 'Please enter a Job Title' })}
+              {...register('jobTitle')}
             />
             {errors.jobTitle && <ErrorMessage>{errors.jobTitle.message}</ErrorMessage>}
           </Field>
@@ -158,7 +161,7 @@ function EditUserForm({ user, departments, params }) {
               name="email"
               defaultValue={user.email}
               placeholder="johnsmith@example.com"
-              {...register('email', { required: 'Please enter a email' })}
+              {...register('email')}
             />
             {errors.email && <ErrorMessage>{errors.email.message}</ErrorMessage>}
           </Field>
@@ -180,7 +183,7 @@ function EditUserForm({ user, departments, params }) {
               name="gender"
               defaultValue={user.gender}
               placeholder="male or female"
-              {...register('gender', { required: 'Please enter a gender' })}
+              {...register('gender')}
             />
             {errors.gender && <ErrorMessage>{errors.gender.message}</ErrorMessage>}
           </Field>
@@ -202,20 +205,7 @@ function EditUserForm({ user, departments, params }) {
               name="salary"
               defaultValue={user.salary}
               placeholder="70000"
-              {...register('salary', {
-                required: 'Salary is required',
-                validate: {
-                  isNumber: (value) => !isNaN(Number(value)) || 'Salary must be a number',
-                  isPositive: (value) => Number(value) > 0 || 'Salary must be greater than 0',
-                  maxLength: (value) => {
-                    const [integerPart, decimalPart] = value.split('.')
-                    return (
-                      (integerPart.length <= 14 && (!decimalPart || decimalPart.length <= 4)) ||
-                      'Salary must not exceed 14 digits before the decimal and 4 digits after'
-                    )
-                  },
-                },
-              })}
+              {...register('salary')}
             />
             {errors.salary && <ErrorMessage>{errors.salary.message}</ErrorMessage>}
           </Field>
@@ -234,7 +224,7 @@ function EditUserForm({ user, departments, params }) {
             aria-label="Employee Status"
             name="active"
             defaultValue={String(user.active)}
-            {...register('active', { required: 'Please select a status' })}
+            {...register('active')}
           >
             <option value="true">Active</option>
             <option value="false">Inactive</option>

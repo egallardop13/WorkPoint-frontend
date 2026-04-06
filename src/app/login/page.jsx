@@ -4,6 +4,8 @@ import { Button } from '@/components/ui/button'
 import { Field, Label } from '@/components/ui/fieldset'
 import { Heading } from '@/components/ui/heading'
 import { Input } from '@/components/ui/input'
+import { loginSchema } from '@/lib/validation'
+import { zodResolver } from '@hookform/resolvers/zod'
 import clsx from 'clsx'
 import Image from 'next/image'
 import { useForm } from 'react-hook-form'
@@ -17,7 +19,7 @@ export default function Login() {
     formState: { errors, isSubmitting },
     setError,
     clearErrors,
-  } = useForm()
+  } = useForm({ resolver: zodResolver(loginSchema) })
 
   const onSubmit = async (data) => {
     try {
@@ -54,7 +56,7 @@ export default function Login() {
                         required
                         autoComplete="email"
                         className=""
-                        {...register('email', { required: 'Email is required', onChange: () => clearErrors('form') })}
+                        {...register('email', { onChange: () => clearErrors('form') })}
                       />
                     </div>
                     {errors.email && <p className="mt-1 text-sm text-red-500">{errors.email.message}</p>}
@@ -72,10 +74,7 @@ export default function Login() {
                         required
                         autoComplete="current-password"
                         className=""
-                        {...register('password', {
-                          required: 'Password is required',
-                          onChange: () => clearErrors('form'),
-                        })}
+                        {...register('password', { onChange: () => clearErrors('form') })}
                       />
                       {errors.password && <p className="mt-1 text-sm text-red-500">{errors.password.message}</p>}
                     </div>

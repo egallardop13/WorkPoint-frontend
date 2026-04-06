@@ -1,5 +1,4 @@
 'use client'
-import { UpsertUser } from '@/app/api/users/create/actions'
 import { DepartmentListBox } from '@/app/dashboard/settings/departmentListBox'
 import { Button } from '@/components/ui/button'
 import { Divider } from '@/components/ui/divider'
@@ -7,6 +6,9 @@ import { ErrorMessage, Field } from '@/components/ui/fieldset'
 import { Heading, Subheading } from '@/components/ui/heading'
 import { Input, InputGroup } from '@/components/ui/input'
 import { Text } from '@/components/ui/text'
+import { useUpsertUser } from '@/lib/mutations'
+import { createUserSchema } from '@/lib/validation'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { CurrencyDollarIcon } from '@heroicons/react/16/solid'
 import { useRouter } from 'next/navigation'
 import { Controller, useForm } from 'react-hook-form'
@@ -21,8 +23,9 @@ function CreateUserForm(departments) {
     reset,
     control,
     clearErrors,
-  } = useForm()
+  } = useForm({ resolver: zodResolver(createUserSchema) })
   const router = useRouter()
+  const upsertMutation = useUpsertUser()
 
   async function onSubmit(data) {
     const upsert = {
@@ -40,7 +43,7 @@ function CreateUserForm(departments) {
       dateExited: '1900-01-01T22:56:38.542Z',
     }
     try {
-      const result = await UpsertUser(upsert)
+      const result = await upsertMutation.mutateAsync(upsert)
       reset()
 
       if (result.status === 200) {
@@ -71,7 +74,7 @@ function CreateUserForm(departments) {
               name="firstName"
               defaultValue=""
               placeholder="Ernesto"
-              {...register('firstName', { required: 'Please enter a first name' })}
+              {...register('firstName')}
             />
 
             {errors.firstName && <ErrorMessage>{errors.firstName.message}</ErrorMessage>}
@@ -92,7 +95,7 @@ function CreateUserForm(departments) {
               name="lastName"
               defaultValue=""
               placeholder="Gallardo"
-              {...register('lastName', { required: 'Please enter a last name' })}
+              {...register('lastName')}
             />
             {errors.lastName && <ErrorMessage>{errors.lastName.message}</ErrorMessage>}
           </Field>
@@ -112,7 +115,7 @@ function CreateUserForm(departments) {
               name="gender"
               defaultValue=""
               placeholder="male or female"
-              {...register('gender', { required: 'Please enter a gender' })}
+              {...register('gender')}
             />
             {errors.gender && <ErrorMessage>{errors.gender.message}</ErrorMessage>}
           </Field>
@@ -135,7 +138,7 @@ function CreateUserForm(departments) {
               aria-label="Job Title"
               name="jobTitle"
               placeholder="Sales Associate"
-              {...register('jobTitle', { required: 'Please enter a job title' })}
+              {...register('jobTitle')}
             />
             {errors.jobTitle && <ErrorMessage>{errors.jobTitle.message}</ErrorMessage>}
           </Field>
@@ -176,7 +179,7 @@ function CreateUserForm(departments) {
               name="email"
               defaultValue=""
               placeholder="johnsmith@example.com"
-              {...register('email', { required: 'Please enter a email' })}
+              {...register('email')}
             />
             {errors.email && <ErrorMessage>{errors.email.message}</ErrorMessage>}
           </Field>
@@ -198,20 +201,7 @@ function CreateUserForm(departments) {
               name="salary"
               defaultValue=""
               placeholder="70000"
-              {...register('salary', {
-                required: 'Salary is required',
-                validate: {
-                  isNumber: (value) => !isNaN(Number(value)) || 'Salary must be a number',
-                  isPositive: (value) => Number(value) > 0 || 'Salary must be greater than 0',
-                  maxLength: (value) => {
-                    const [integerPart, decimalPart] = value.split('.')
-                    return (
-                      (integerPart.length <= 14 && (!decimalPart || decimalPart.length <= 4)) ||
-                      'Salary must not exceed 14 digits before the decimal and 4 digits after'
-                    )
-                  },
-                },
-              })}
+              {...register('salary')}
             />
             {errors.salary && <ErrorMessage>{errors.salary.message}</ErrorMessage>}
           </Field>

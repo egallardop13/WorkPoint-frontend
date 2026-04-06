@@ -8,6 +8,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles'
 import Typography from '@mui/material/Typography'
 import { LineChart } from '@mui/x-charts/LineChart'
 import { useTheme } from 'next-themes'
+import { useMemo } from 'react'
 
 const colorMap = {
   light: {
@@ -141,69 +142,78 @@ Budgets is expecting to recieve 3 properties:
 export default function BudgetLineChart({ budgets, heading, description, variant, metricType }) {
   const { theme } = useTheme()
   const isDarkMode = theme === 'dark'
-  const budgetData = formatData(budgets, variant, isDarkMode)
 
-  const minYValue = getMinYValue(budgets)
+  const budgetData = useMemo(() => formatData(budgets, variant, isDarkMode), [budgets, variant, isDarkMode])
 
-  const { trend, growthRate } =
-    variant === 'activeVsInactive'
-      ? calculateGrowthRate(budgets['totalBudget'])
-      : variant === 'totalVsActive'
-        ? calculateGrowthRate(budgets['totalActiveBudget'])
-        : calculateGrowthRate(budgets['totalInactiveBudget'])
+  const { trend, growthRate } = useMemo(() => {
+    const key =
+      variant === 'activeVsInactive'
+        ? 'totalBudget'
+        : variant === 'totalVsActive'
+          ? 'totalActiveBudget'
+          : 'totalInactiveBudget'
+    return calculateGrowthRate(budgets[key])
+  }, [budgets, variant])
 
   let isPositiveTrend
   if (metricType === 'neutral') isPositiveTrend = null
   else isPositiveTrend = (metricType === 'good' && trend === 'up') || (metricType === 'bad' && trend === 'down')
 
-  const budgetSum =
-    variant === 'activeVsInactive'
-      ? calculateBudgetSum(budgets['totalBudget'])
-      : variant === 'totalVsActive'
-        ? calculateBudgetSum(budgets['totalActiveBudget'])
-        : calculateBudgetSum(budgets['totalInactiveBudget'])
+  const budgetSum = useMemo(() => {
+    const key =
+      variant === 'activeVsInactive'
+        ? 'totalBudget'
+        : variant === 'totalVsActive'
+          ? 'totalActiveBudget'
+          : 'totalInactiveBudget'
+    return calculateBudgetSum(budgets[key])
+  }, [budgets, variant])
 
-  const muiTheme = createTheme({
-    palette: {
-      mode: isDarkMode ? 'dark' : 'light',
-      background: {
-        default: isDarkMode ? '#18181b' : '#ffffff',
-        paper: isDarkMode ? '#18181b' : '#ffffff',
-      },
-      text: {
-        primary: isDarkMode ? '#d1d5db' : '#374151',
-        secondary: isDarkMode ? 'hsl(215, 15%, 75%)' : 'hsl(220, 20%, 35%)',
-      },
-    },
-    components: {
-      MuiTooltip: {
-        styleOverrides: {
-          tooltip: {
-            backgroundColor: isDarkMode ? '#18181b !important' : '#f3f4f6',
-            color: isDarkMode ? '#d1d5db' : '#374151',
+  const muiTheme = useMemo(
+    () =>
+      createTheme({
+        palette: {
+          mode: isDarkMode ? 'dark' : 'light',
+          background: {
+            default: isDarkMode ? '#18181b' : '#ffffff',
+            paper: isDarkMode ? '#18181b' : '#ffffff',
+          },
+          text: {
+            primary: isDarkMode ? '#d1d5db' : '#374151',
+            secondary: isDarkMode ? 'hsl(215, 15%, 75%)' : 'hsl(220, 20%, 35%)',
           },
         },
-      },
-      MuiChart: {
-        styleOverrides: {
-          root: {
-            backgroundColor: isDarkMode ? '#18181b' : '#f4f4f5',
-            '& .MuiChart-tickLabel': {
-              fill: isDarkMode ? '#9ca3af' : '#4b5563',
+        components: {
+          MuiTooltip: {
+            styleOverrides: {
+              tooltip: {
+                backgroundColor: isDarkMode ? '#18181b !important' : '#f3f4f6',
+                color: isDarkMode ? '#d1d5db' : '#374151',
+              },
             },
-            '& .MuiChart-axisLabel': {
-              fill: isDarkMode ? '#d1d5db' : '#374151',
-            },
-            '& .MuiChartsLegend-series text': {
-              fill: isDarkMode ? '#d1d5db' : '#374151',
+          },
+          MuiChart: {
+            styleOverrides: {
+              root: {
+                backgroundColor: isDarkMode ? '#18181b' : '#f4f4f5',
+                '& .MuiChart-tickLabel': {
+                  fill: isDarkMode ? '#9ca3af' : '#4b5563',
+                },
+                '& .MuiChart-axisLabel': {
+                  fill: isDarkMode ? '#d1d5db' : '#374151',
+                },
+                '& .MuiChartsLegend-series text': {
+                  fill: isDarkMode ? '#d1d5db' : '#374151',
+                },
+              },
             },
           },
         },
-      },
-    },
-  })
-  const data = getAllMonths()
+      }),
+    [isDarkMode]
+  )
 
+  const data = useMemo(() => getAllMonths(), [])
   const colorPalette = [muiTheme.palette.primary.light, muiTheme.palette.primary.main, muiTheme.palette.primary.dark]
 
   return (

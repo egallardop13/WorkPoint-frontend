@@ -1,8 +1,7 @@
 'use client'
+import { FireIcon, PlusIcon, TrashIcon } from '@heroicons/react/24/solid'
 import { motion } from 'framer-motion'
 import { useState } from 'react'
-import { FaFire } from 'react-icons/fa'
-import { FiPlus, FiTrash } from 'react-icons/fi'
 
 const Board = () => {
   const [cards, setCards] = useState(DEFAULT_CARDS)
@@ -201,7 +200,7 @@ const BurnBarrel = ({ setCards }) => {
         active ? 'border-red-800 bg-red-800/20 text-red-500' : 'border-neutral-500 bg-neutral-500/20 text-neutral-500'
       }`}
     >
-      {active ? <FaFire className="animate-bounce" /> : <FiTrash />}
+      {active ? <FireIcon className="size-8 animate-bounce" /> : <TrashIcon className="size-8" />}
     </div>
   )
 }
@@ -248,7 +247,7 @@ const AddCard = ({ column, setCards }) => {
               className="flex items-center gap-1.5 rounded bg-neutral-50 px-3 py-1.5 text-xs text-neutral-950 transition-colors hover:bg-neutral-300"
             >
               <span>Add</span>
-              <FiPlus />
+              <PlusIcon className="size-4" />
             </button>
           </div>
         </motion.form>
@@ -259,7 +258,7 @@ const AddCard = ({ column, setCards }) => {
           className="flex w-full items-center gap-1.5 px-3 py-1.5 text-xs text-neutral-400 transition-colors hover:text-neutral-50"
         >
           <span>Add card</span>
-          <FiPlus />
+          <PlusIcon className="size-4" />
         </motion.button>
       )}
     </>

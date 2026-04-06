@@ -87,7 +87,7 @@ export default async function Home({ searchParams }) {
         </div>
         <Button href="/dashboard/users/create">Create user</Button>
       </div>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense>
         <UsersTable users={data} />
       </Suspense>
 

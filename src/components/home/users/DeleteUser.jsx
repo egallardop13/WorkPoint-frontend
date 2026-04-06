@@ -1,8 +1,8 @@
 'use client'
 
-import { deleteUser } from '@/app/api/users/create/actions'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogActions, DialogDescription, DialogTitle } from '@/components/ui/dialog'
+import { useDeleteUser } from '@/lib/mutations'
 import { useParams, useRouter } from 'next/navigation'
 import { useState } from 'react'
 
@@ -11,10 +11,11 @@ export function DeleteUser({ amount, ...props }) {
   const params = useParams()
   const router = useRouter()
   const userId = params.id
+  const deleteMutation = useDeleteUser()
 
   async function HandleSubmit() {
     try {
-      await deleteUser(userId)
+      await deleteMutation.mutateAsync(userId)
       setIsOpen(false)
       router.push('/dashboard')
     } catch (error) {
