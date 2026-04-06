@@ -15,7 +15,13 @@ import { BanknotesIcon, BriefcaseIcon, BuildingOffice2Icon, ChevronLeftIcon } fr
 import { notFound } from 'next/navigation'
 
 export async function generateMetadata({ params }) {
-  let user = await fetchUser(params.id)
+  let data = await fetchUser(params.id)
+  let user = Array.isArray(data) ? data[0] : null
+
+  if (!user) {
+    return { title: 'WorkPoint' }
+  }
+
   let titleName = `${user.firstName} ${user.lastName}`
 
   if (titleName.length > 20) {
@@ -23,25 +29,26 @@ export async function generateMetadata({ params }) {
   }
 
   return {
-    title: user ? `Overview: ${titleName} - WorkPoint` : 'WorkPoint',
+    title: `Overview: ${titleName} - WorkPoint`,
   }
 }
 
 export default async function User({ params }) {
   let data = await fetchUser(params.id)
-  let user = data[0]
+  let user = Array.isArray(data) ? data[0] : null
+
+  if (!user) {
+    notFound()
+  }
+
   let departmentData = await getDepartmentInfo(user.department)
-  let departmentInfo = departmentData[0]
+  let departmentInfo = Array.isArray(departmentData) ? departmentData[0] : null
 
   let company = await fetchCompanyInfo()
   let totalSalary = company.totalBudget
   let totalEmployeeCount = company.totalUsers
 
   const companyAverageSalary = totalSalary / totalEmployeeCount
-
-  if (!user) {
-    notFound()
-  }
 
   const userStatus = user.active ? 'Active' : 'Inactive'
   const userFullName = `${user.firstName} ${user.lastName}`

@@ -3,11 +3,15 @@ import { fetchUser } from '@/app/api/users/actions'
 import EditUserForm from '@/components/home/EditUserForm'
 import { Link } from '@/components/ui/link'
 import { ChevronLeftIcon } from '@heroicons/react/16/solid'
+import { notFound } from 'next/navigation'
 
 const page = async ({ params }) => {
   let data = await fetchUser(params.id)
+  const user = Array.isArray(data) ? data[0] : null
 
-  const user = data[0]
+  if (!user) {
+    notFound()
+  }
 
   const departments = await getDepartmentsInfo()
 

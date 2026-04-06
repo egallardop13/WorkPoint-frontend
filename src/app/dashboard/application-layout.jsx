@@ -22,12 +22,21 @@ import { checkUser } from '../api/auth/actions'
 import { fetchUser } from '../api/users/actions'
 
 export async function ApplicationLayout({ events, children }) {
-  const loggedInUserId = await checkUser()
-  const user = await fetchUser(loggedInUserId)
-  const loggedInUser = user[0]
-  const userInitials = loggedInUser
-    ? `${loggedInUser.firstName?.[0] ?? ''}${loggedInUser.lastName?.[0] ?? ''}`
-    : ''
+  let loggedInUser = null
+  let userInitials = ''
+
+  try {
+    const loggedInUserId = await checkUser()
+    if (loggedInUserId) {
+      const user = await fetchUser(loggedInUserId)
+      loggedInUser = Array.isArray(user) ? user[0] : null
+    }
+  } catch {}
+
+  if (loggedInUser) {
+    userInitials = `${loggedInUser.firstName?.[0] ?? ''}${loggedInUser.lastName?.[0] ?? ''}`
+  }
+
   const topDepartments = await getTopSalaryAllocatingDepartments()
   return (
     <SidebarLayout

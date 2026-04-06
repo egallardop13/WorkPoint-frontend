@@ -40,7 +40,7 @@ export function Stat({ title, value, badgeType, formattedRate, subText }) {
 export default async function Home({ searchParams }) {
   const loggedInUserId = await checkUser()
   const user = await fetchUser(loggedInUserId)
-  const loggedInUser = user[0]
+  const loggedInUser = Array.isArray(user) ? user[0] : null
 
   const page = searchParams.page ? parseInt(searchParams.page, 10) : 1
   const query = searchParams.query || ''
@@ -48,7 +48,7 @@ export default async function Home({ searchParams }) {
 
   const users = await fetchUsers(page, 10, query, sort)
 
-  const data = JSON.parse(users.arrayUserComplete)
+  const data = users?.arrayUserComplete ? JSON.parse(users.arrayUserComplete) : []
 
   const { totalBudget, totalUsers, totalActiveUsers, totalInactiveUsers } = await fetchCompanyInfo()
 
@@ -57,7 +57,7 @@ export default async function Home({ searchParams }) {
 
   return (
     <>
-      <Heading>Good afternoon, {loggedInUser.firstName}</Heading>
+      <Heading>Good afternoon{loggedInUser ? `, ${loggedInUser.firstName}` : ''}</Heading>
       <div className="mt-8 flex items-end justify-between">
         <Subheading>Overview</Subheading>
       </div>
