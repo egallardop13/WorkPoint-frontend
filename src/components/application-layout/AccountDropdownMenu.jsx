@@ -10,18 +10,15 @@ function AccountDropdownMenu({ anchor }) {
 
   const handleSignOut = async () => {
     try {
-      results = await logoutUser()
+      await logoutUser()
+      router.push('/login')
     } catch (error) {
       console.error('Error signing out:', error)
     }
   }
   return (
     <DropdownMenu className="min-w-64" anchor={anchor}>
-      <DropdownItem
-        onClick={() => {
-          handleSignOut(), router.push('/login')
-        }}
-      >
+      <DropdownItem onClick={handleSignOut}>
         <ArrowRightStartOnRectangleIcon />
         <DropdownLabel>Sign out</DropdownLabel>
       </DropdownItem>

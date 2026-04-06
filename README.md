@@ -43,14 +43,9 @@ WorkPoint is a high-performance, enterprise-level management dashboard designed 
 - **Frontend**: Deployed to **Vercel** for fast, scalable hosting.
 - **Backend**: Deployed to **Azure** for reliable and secure cloud services.
 
-## Demo Credentials
+## Live Demo
 
-Experience the application [live](https://frontend-orcin-six-60.vercel.app/) using the following credentials:
-
-```bash
-Username: bjohnson@example.com
-Password: Example
-```
+Experience the application [live](https://frontend-orcin-six-60.vercel.app/).
 
 ## Installation & Setup
 

@@ -6,7 +6,6 @@ import { Heading } from '@/components/ui/heading'
 import { Input } from '@/components/ui/input'
 import clsx from 'clsx'
 import Image from 'next/image'
-import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { loginUser } from '../api/auth/actions'
 import workPointLogo from '/public/teams/rocketLaunch.svg'
@@ -17,19 +16,14 @@ export default function Login() {
     handleSubmit,
     formState: { errors, isSubmitting },
     setError,
-    reset,
     clearErrors,
   } = useForm()
-  const router = useRouter()
 
   const onSubmit = async (data) => {
-    const credentials = data
     try {
-      const result = await loginUser(credentials)
-      reset()
-      router.push(result.redirectTo)
+      await loginUser(data)
+      window.location.href = '/dashboard'
     } catch (error) {
-      console.error('Error logging in:', error)
       setError('form', { type: 'server', message: error.message })
     }
   }
