@@ -1,15 +1,17 @@
 'use server'
-import { apiFetch } from '@/lib/api'
+import { backendFetch } from '@/lib/api'
 
 export async function UpsertUser(upsert) {
-  const res = await apiFetch('/api/users/create/', {
+  if (upsert.active === 'true') {
+    upsert.active = true
+  } else if (upsert.active === 'false') {
+    upsert.active = false
+  }
+
+  const res = await backendFetch('/UserComplete/UpsertUser/', {
     method: 'PUT',
     body: JSON.stringify(upsert),
   })
-
-  if (!res.ok) {
-    throw new Error(`Failed to upsert user. Status: ${res.status}`)
-  }
 
   const data = await res.json()
   data.status = res.status
@@ -17,7 +19,7 @@ export async function UpsertUser(upsert) {
 }
 
 export async function deleteUser(userId) {
-  const res = await apiFetch(`/api/users/${userId}`, {
+  const res = await backendFetch(`/UserComplete/DeleteUser/${userId}`, {
     method: 'DELETE',
   })
 

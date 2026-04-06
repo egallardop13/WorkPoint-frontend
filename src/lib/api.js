@@ -1,15 +1,12 @@
 import { cookies } from 'next/headers'
 
-const APP_URL =
-  process.env.NEXT_APP_URL ||
-  process.env.NEXT_PUBLIC_BASE_URL ||
-  (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000')
+const BACKEND_URL = process.env.NEXT_BACKEND_URL
 
-export async function apiFetch(path, options = {}) {
+export async function backendFetch(path, options = {}) {
   const authToken = cookies().get('authToken')?.value
-  const res = await fetch(`${APP_URL}${path}`, {
+
+  const res = await fetch(`${BACKEND_URL}${path}`, {
     cache: 'no-store',
-    credentials: 'include',
     ...options,
     headers: {
       ...(authToken && { Authorization: `Bearer ${authToken}` }),

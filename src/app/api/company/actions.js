@@ -1,7 +1,7 @@
 'use server'
-import { apiFetch } from '@/lib/api'
+import { backendFetch } from '@/lib/api'
 
 export async function fetchCompanyInfo() {
-  const res = await apiFetch('/api/company/')
+  const res = await backendFetch('company/getcompanyinfo/')
   return res.json()
 }

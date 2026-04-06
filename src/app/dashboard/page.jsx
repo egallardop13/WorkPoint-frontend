@@ -39,18 +39,20 @@ export function Stat({ title, value, badgeType, formattedRate, subText }) {
 
 export default async function Home({ searchParams }) {
   const loggedInUserId = await checkUser()
-  const user = await fetchUser(loggedInUserId)
-  const loggedInUser = Array.isArray(user) ? user[0] : null
 
   const page = searchParams.page ? parseInt(searchParams.page, 10) : 1
   const query = searchParams.query || ''
   const sort = searchParams.sort || ''
 
-  const users = await fetchUsers(page, 10, query, sort)
+  const [user, users, companyInfo] = await Promise.all([
+    fetchUser(loggedInUserId),
+    fetchUsers(page, 10, query, sort),
+    fetchCompanyInfo(),
+  ])
 
+  const loggedInUser = Array.isArray(user) ? user[0] : null
   const data = users?.arrayUserComplete ? JSON.parse(users.arrayUserComplete) : []
-
-  const { totalBudget, totalUsers, totalActiveUsers, totalInactiveUsers } = await fetchCompanyInfo()
+  const { totalBudget, totalUsers, totalActiveUsers, totalInactiveUsers } = companyInfo
 
   const activeUsersRate = calculateRate(totalUsers, totalActiveUsers)
   const inactiveUsersRate = calculateRate(totalUsers, totalInactiveUsers)

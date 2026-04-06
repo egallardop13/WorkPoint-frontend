@@ -1,22 +1,24 @@
 'use server'
-import { apiFetch } from '@/lib/api'
+import { backendFetch } from '@/lib/api'
 
 export async function getUsersByMonth(year, status) {
-  const res = await apiFetch(`/api/metrics/?year=${year}&status=${status}`)
+  const res = await backendFetch(`Company/GetMetrics/${year}/${status}`)
   return res.json()
 }
 
 export async function getDepartmentInfo(department) {
-  const res = await apiFetch(`/api/departments?department=${department}`)
+  const res = await backendFetch(`UserSalary/GetDepartmentsInfo/${department}`)
   return res.json()
 }
 
 export async function fetchUsersinDepartment(department, page = 1, limit = 10, query = '') {
-  const res = await apiFetch(`/api/departments/${department}/users?page=${page}&limit=${limit}&query=${query}`)
+  const res = await backendFetch(
+    `/UserJobInfo/GetUsersInDepartments/${department}/${page}/${limit}`
+  )
   return res.json()
 }
 
 export async function getCompanyBudget(year) {
-  const res = await apiFetch(`/api/metrics/company?year=${year}`)
+  const res = await backendFetch(`Company/GetBudget/${year}`)
   return res.json()
 }
