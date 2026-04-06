@@ -18,14 +18,24 @@ import { getTopSalaryAllocatingDepartments } from '@/lib/mockApi.js/mockApi'
 
 import AccountDropdownMenu from '@/components/application-layout/AccountDropdownMenu'
 import { ChevronUpIcon } from '@heroicons/react/16/solid'
-import { getUserFromToken } from '../api/auth/actions'
+import { checkUser } from '../api/auth/actions'
+import { fetchUser } from '../api/users/actions'
 
 export async function ApplicationLayout({ events, children }) {
-  const tokenUser = await getUserFromToken()
-  const firstName = tokenUser?.firstName || tokenUser?.given_name || ''
-  const lastName = tokenUser?.lastName || tokenUser?.family_name || ''
-  const email = tokenUser?.email || ''
-  const userInitials = `${firstName?.[0] ?? ''}${lastName?.[0] ?? ''}`
+  let loggedInUser = null
+  let userInitials = ''
+
+  try {
+    const loggedInUserId = await checkUser()
+    if (loggedInUserId) {
+      const user = await fetchUser(loggedInUserId)
+      loggedInUser = Array.isArray(user) ? user[0] : null
+    }
+  } catch {}
+
+  if (loggedInUser) {
+    userInitials = `${loggedInUser.firstName?.[0] ?? ''}${loggedInUser.lastName?.[0] ?? ''}`
+  }
 
   const topDepartments = await getTopSalaryAllocatingDepartments()
   return (
@@ -52,7 +62,7 @@ export async function ApplicationLayout({ events, children }) {
               <SidebarHeading>Departments with Largest Budgets</SidebarHeading>
 
               {topDepartments.map((department, index) => (
-                <SidebarItem key={department.Department + index} href={`/departments/${department.Department}`}>
+                <SidebarItem key={department.Department + index} href={`/dashboard/departments/${encodeURIComponent(department.Department)}`}>
                   {department.Department}
                 </SidebarItem>
               ))}
@@ -70,10 +80,10 @@ export async function ApplicationLayout({ events, children }) {
                   <Avatar initials={userInitials} className="size-10" square alt="" />
                   <span className="min-w-0">
                     <span className="block truncate text-sm/5 font-medium text-zinc-950 dark:text-white">
-                      {firstName}
+                      {loggedInUser?.firstName}
                     </span>
                     <span className="block truncate text-xs/5 font-normal text-zinc-500 dark:text-zinc-400">
-                      {email}
+                      {loggedInUser?.email}
                     </span>
                   </span>
                 </span>
