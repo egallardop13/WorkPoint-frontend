@@ -58,3 +58,9 @@ export async function checkUser() {
   const decoded = decodeToken(authToken)
   return decoded?.userId ?? null
 }
+
+export async function getUserFromToken() {
+  const authToken = cookies().get('authToken')?.value
+  if (!authToken) return null
+  return decodeToken(authToken)
+}

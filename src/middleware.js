@@ -3,7 +3,8 @@ import { NextResponse } from 'next/server'
 function isTokenExpired(token) {
   try {
     const payload = JSON.parse(atob(token.split('.')[1]))
-    return !payload?.exp || payload.exp < Math.floor(Date.now() / 1000)
+    if (!payload?.exp) return false
+    return payload.exp < Math.floor(Date.now() / 1000)
   } catch {
     return true
   }
