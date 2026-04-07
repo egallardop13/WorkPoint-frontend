@@ -26,7 +26,7 @@ interface StatProps {
   change?: string
 }
 
-export function Stat({ title, value, badgeType, formattedRate, subText }: StatProps) {
+function Stat({ title, value, badgeType, formattedRate, subText }: StatProps) {
   return (
     <div>
       <Divider />

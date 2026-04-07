@@ -22,11 +22,10 @@ import { getDepartmentsInfo } from '../api/departments/actions'
 import type { DepartmentInfo } from '@/types'
 
 interface ApplicationLayoutProps {
-  events: unknown[]
   children: React.ReactNode
 }
 
-export async function ApplicationLayout({ events, children }: ApplicationLayoutProps) {
+export async function ApplicationLayout({ children }: ApplicationLayoutProps) {
   const tokenUser = await getUserFromToken()
   const userId = tokenUser?.userId ?? ''
   const userInitials = userId ? userId.toString().slice(0, 2).toUpperCase() : ''
