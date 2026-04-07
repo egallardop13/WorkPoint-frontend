@@ -1,4 +1,4 @@
-export async function getOrder(id) {
+export async function getOrder(id: string) {
   return (await getOrders()).find((order) => order.id.toString() === id)
 }
 
@@ -713,12 +713,12 @@ export async function getOrders() {
   ]
 }
 
-export async function getEvent(id) {
+export async function getEvent(id: string) {
   return (await getEvents()).find((event) => event.id.toString() === id)
 }
 
-export async function getEventOrders(id) {
-  return (await getOrders()).filter((order) => order.event.id.toString() === id)
+export async function getEventOrders(id: string) {
+  return (await getOrders()).filter((order) => order.event?.id.toString() === id)
 }
 
 export async function getEvents() {

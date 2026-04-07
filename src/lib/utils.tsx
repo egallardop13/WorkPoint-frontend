@@ -1,4 +1,5 @@
 import { fetchCompanyInfo } from '@/app/api/company/actions'
+import type { DepartmentInfo } from '@/types'
 import {
   ArrowTrendingUpIcon,
   BeakerIcon,
@@ -14,13 +15,14 @@ import {
   UserGroupIcon,
 } from '@heroicons/react/20/solid'
 import { Chip } from '@mui/material'
+import type { GridColDef, GridRenderCellParams } from '@mui/x-data-grid'
 import { SparkLineChart } from '@mui/x-charts'
 import Link from 'next/link'
-export function properCase(str) {
+export function properCase(str: string): string {
   return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase()
 }
 
-export const formatCurrency = (amount) => {
+export const formatCurrency = (amount: number): string => {
   return amount.toLocaleString('en-US', {
     style: 'currency',
     currency: 'USD',
@@ -29,7 +31,7 @@ export const formatCurrency = (amount) => {
   })
 }
 
-export function isActive(userActive) {
+export function isActive(userActive: string): string {
   if (userActive === 'true') {
     return 'Active'
   } else {
@@ -37,7 +39,7 @@ export function isActive(userActive) {
   }
 }
 
-export function calculateRate(totalUsers, usersInCategory) {
+export function calculateRate(totalUsers: number, usersInCategory: number): number {
   if (totalUsers === 0) return 0 // Avoid division by zero
 
   // Calculate and round to 1 decimal place, ensuring it is a number
@@ -45,7 +47,7 @@ export function calculateRate(totalUsers, usersInCategory) {
   return Number((Math.round(rate * 10) / 10).toFixed(1))
 }
 
-export const departmentIcons = {
+export const departmentIcons: Record<string, React.ReactNode> = {
   Services: <ShieldCheckIcon className="h-20 w-32 text-stone-900 dark:text-stone-500" />,
   Support: <PhoneArrowDownLeftIcon className="h-20 w-32 text-stone-900 dark:text-stone-500" />,
   Accounting: <CreditCardIcon className="h-20 w-32 text-stone-900 dark:text-stone-500" />,
@@ -62,7 +64,7 @@ export const departmentIcons = {
 
 // ****************MOCK FUNCTIONS IGNORE FOR PRODUCTION****************
 
-function getAllMonths() {
+function getAllMonths(): string[] {
   const months = []
 
   // Loop through months from 0 to 11 (JavaScript months are 0-indexed)
@@ -77,7 +79,7 @@ function getAllMonths() {
   return months
 }
 
-function getDaysInMonth(month, year) {
+function getDaysInMonth(month: number, year: number): string[] {
   const date = new Date(year, month, 0)
   const monthName = date.toLocaleDateString('en-US', {
     month: 'short',
@@ -92,7 +94,7 @@ function getDaysInMonth(month, year) {
   return days
 }
 
-function renderSparklineCell(params) {
+function renderSparklineCell(params: GridRenderCellParams) {
   // const data = getDaysInMonth(4, 2024)
   const data = getAllMonths()
   const { value, colDef } = params
@@ -120,7 +122,7 @@ function renderSparklineCell(params) {
   )
 }
 
-function renderStatus(status) {
+function renderStatus(status: string) {
   const color = status === 'Healthy Budget Allocation' ? 'success' : 'error'
   // const colors = {
   //   Online: 'success',
@@ -130,7 +132,7 @@ function renderStatus(status) {
   return <Chip label={status} color={color} size="small" />
 }
 
-export const columns = [
+export const columns: GridColDef[] = [
   {
     field: 'department',
     headerName: 'Department',
@@ -714,7 +716,7 @@ export const rows = [
 //   Engineering: <CogIcon className="h-20 w-32 text-stone-900 dark:text-stone-500" />,
 // }
 
-export async function formatDepartmentsTableData(departmentsData) {
+export async function formatDepartmentsTableData(departmentsData: DepartmentInfo[]) {
   if (!departmentsData || !Array.isArray(departmentsData)) {
     throw new Error('Invalid department data provided')
   }
@@ -745,12 +747,12 @@ export async function formatDepartmentsTableData(departmentsData) {
   return formattedData
 }
 
-export async function formatDepartmentsProgressBarData(departmentsData) {
+export async function formatDepartmentsProgressBarData(departmentsData: DepartmentInfo[]) {
   if (!departmentsData || !Array.isArray(departmentsData)) {
     throw new Error('Invalid department data provided')
   }
 
-  const departmentIcons = {
+  const departmentIcons: Record<string, React.ReactNode> = {
     Services: <ShieldCheckIcon className="h-6 w-6 text-stone-900 dark:text-stone-500" />,
     Support: <PhoneArrowDownLeftIcon className="h-6 w-6 text-stone-900 dark:text-stone-500" />,
     Accounting: <CreditCardIcon className="h-6 w-6 text-stone-900 dark:text-stone-500" />,
@@ -794,7 +796,7 @@ export async function formatDepartmentsProgressBarData(departmentsData) {
   return formattedData
 }
 
-export async function formatDepartmentsPieChartData(departmentsData) {
+export async function formatDepartmentsPieChartData(departmentsData: DepartmentInfo[]) {
   if (!departmentsData || !Array.isArray(departmentsData)) {
     throw new Error('Invalid department data provided')
   }
@@ -823,7 +825,14 @@ export async function formatDepartmentsPieChartData(departmentsData) {
 
 
 
-export async function formatDepartmentGrowthPieChartData(departmentsData) {
+interface DepartmentTableRow {
+  id: number
+  department: string
+  employeesJoined: number[]
+  [key: string]: unknown
+}
+
+export async function formatDepartmentGrowthPieChartData(departmentsData: DepartmentTableRow[]) {
   if (!departmentsData || !Array.isArray(departmentsData)) {
     throw new Error('Invalid department data provided')
   }
@@ -861,7 +870,7 @@ export async function formatDepartmentGrowthPieChartData(departmentsData) {
   }
 }
 
-export function formatTotalBudget(value) {
+export function formatTotalBudget(value: number): string {
   if (value >= 1000000) {
     return `${(value / 1000000).toFixed(1)}M` // Format millions as "X.XM"
   } else if (value >= 1000) {
