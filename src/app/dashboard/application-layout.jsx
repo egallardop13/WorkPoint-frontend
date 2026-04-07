@@ -14,19 +14,26 @@ import {
   SidebarSpacer,
 } from '@/components/ui/sidebar'
 import { SidebarLayout } from '@/components/ui/sidebar-layout'
-import { getTopSalaryAllocatingDepartments } from '@/lib/mockApi.js/mockApi'
-
 import AccountDropdownMenu from '@/components/application-layout/AccountDropdownMenu'
 import SidebarUserInfo from '@/components/application-layout/SidebarUserInfo'
 import { ChevronUpIcon } from '@heroicons/react/16/solid'
 import { getUserFromToken } from '../api/auth/actions'
+import { getDepartmentsInfo } from '../api/departments/actions'
 
 export async function ApplicationLayout({ events, children }) {
   const tokenUser = await getUserFromToken()
   const userId = tokenUser?.userId ?? ''
   const userInitials = userId ? userId.toString().slice(0, 2).toUpperCase() : ''
 
-  const topDepartments = await getTopSalaryAllocatingDepartments()
+  let topDepartments = []
+  try {
+    const allDepartments = await getDepartmentsInfo()
+    if (Array.isArray(allDepartments)) {
+      topDepartments = allDepartments
+        .sort((a, b) => (b.totalSalaryPaidToDepartment ?? 0) - (a.totalSalaryPaidToDepartment ?? 0))
+        .slice(0, 4)
+    }
+  } catch {}
   return (
     <SidebarLayout
       navbar={
@@ -51,8 +58,8 @@ export async function ApplicationLayout({ events, children }) {
               <SidebarHeading>Departments with Largest Budgets</SidebarHeading>
 
               {topDepartments.map((department, index) => (
-                <SidebarItem key={department.Department + index} href={`/dashboard/departments/${encodeURIComponent(department.Department)}`}>
-                  {department.Department}
+                <SidebarItem key={(department.department ?? department.Department) + index} href={`/dashboard/departments/${encodeURIComponent(department.department ?? department.Department)}`}>
+                  {department.department ?? department.Department}
                 </SidebarItem>
               ))}
             </SidebarSection>

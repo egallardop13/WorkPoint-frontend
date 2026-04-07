@@ -16,7 +16,6 @@ import {
 import { Chip } from '@mui/material'
 import { SparkLineChart } from '@mui/x-charts'
 import Link from 'next/link'
-import { getTotalBudget, getUsersJoinedByMonthForDepartment } from './mockApi.js/mockApi'
 export function properCase(str) {
   return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase()
 }
@@ -715,38 +714,6 @@ export const rows = [
 //   Engineering: <CogIcon className="h-20 w-32 text-stone-900 dark:text-stone-500" />,
 // }
 
-export async function formatDepartmentsTableDataMockApi(departmentsData) {
-  if (!departmentsData || !Array.isArray(departmentsData)) {
-    throw new Error('Invalid department data provided')
-  }
-
-  const formattedData = await Promise.all(
-    departmentsData.map(async (department, index) => {
-      const departmentName = department.Department
-      const totalEmployees = department.Count
-      const activeEmployees = department.ActiveCount
-      const inactiveEmployees = totalEmployees - activeEmployees
-
-      const budgetStatus = activeEmployees > inactiveEmployees ? 'Healthy Budget Allocation' : 'Budget Needs Attention'
-      const totalBudget = department.TotalSalaryPaidToDepartment
-
-      const employeesJoinedData = await getUsersJoinedByMonthForDepartment(departmentName, 2024)
-
-      return {
-        id: index,
-        department: departmentName,
-        budgetStatus,
-        totalEmployees,
-        totalBudget,
-        activeEmployees,
-        inactiveEmployees,
-        employeesJoined: employeesJoinedData.monthlyData,
-      }
-    })
-  )
-
-  return formattedData
-}
 export async function formatDepartmentsTableData(departmentsData) {
   if (!departmentsData || !Array.isArray(departmentsData)) {
     throw new Error('Invalid department data provided')
@@ -762,8 +729,6 @@ export async function formatDepartmentsTableData(departmentsData) {
       const budgetStatus = activeEmployees > inactiveEmployees ? 'Healthy Budget Allocation' : 'Budget Needs Attention'
       const totalBudget = department.totalSalary
 
-      const employeesJoinedData = await getUsersJoinedByMonthForDepartment(departmentName, 2024)
-
       return {
         id: index,
         department: departmentName,
@@ -772,55 +737,7 @@ export async function formatDepartmentsTableData(departmentsData) {
         totalBudget,
         activeEmployees,
         inactiveEmployees,
-        employeesJoined: employeesJoinedData.monthlyData,
-      }
-    })
-  )
-
-  return formattedData
-}
-
-export async function formatDepartmentsProgressBarDataMockApi(departmentsData) {
-  if (!departmentsData || !Array.isArray(departmentsData)) {
-    throw new Error('Invalid department data provided')
-  }
-
-  const departmentIcons = {
-    Services: <ShieldCheckIcon className="h-6 w-6 text-stone-900 dark:text-stone-500" />,
-    Support: <PhoneArrowDownLeftIcon className="h-6 w-6 text-stone-900 dark:text-stone-500" />,
-    Accounting: <CreditCardIcon className="h-6 w-6 text-stone-900 dark:text-stone-500" />,
-    'Product Management': <FolderIcon className="h-6 w-6 text-stone-900 dark:text-stone-500" />,
-    Sales: <CurrencyDollarIcon className="h-6 w-6 text-stone-900 dark:text-stone-500" />,
-    'Research and Development': <BeakerIcon className="h-6 w-6 text-stone-900 dark:text-stone-500" />,
-    Training: <BookOpenIcon className="h-6 w-6 text-stone-900 dark:text-stone-500" />,
-    Legal: <ScaleIcon className="h-6 w-6 text-stone-900 dark:text-stone-500" />,
-    'Human Resources': <UserGroupIcon className="h-6 w-6 text-stone-900 dark:text-stone-500" />,
-    'Business Development': <ArrowTrendingUpIcon className="h-6 w-6 text-stone-900 dark:text-stone-500" />,
-    Marketing: <TagIcon className="h-6 w-6 text-stone-900 dark:text-stone-500" />,
-    Engineering: <CogIcon className="h-6 w-6 text-stone-900 dark:text-stone-500" />,
-  }
-
-  const totalBudget = await getTotalBudget()
-
-  // {
-  //   departmentName: 'India',
-  //   departmentBudget: 50,
-  //   departmentIcon: <IndiaFlag />,
-  //   color: 'hsl(220, 25%, 65%)',
-  // },
-  const formattedData = await Promise.all(
-    departmentsData.map(async (department, index) => {
-      const departmentName = department.Department
-      const departmentBudgetShare = ((department.TotalSalaryPaidToDepartment / totalBudget) * 100).toFixed(1)
-      const departmentIcon = departmentIcons[departmentName]
-      const color = 'hsl(220, 25%, 65%)'
-
-      return {
-        id: index,
-        departmentName,
-        departmentBudgetShare,
-        departmentIcon,
-        color,
+        employeesJoined: Array(12).fill(0),
       }
     })
   )
@@ -877,40 +794,13 @@ export async function formatDepartmentsProgressBarData(departmentsData) {
   return formattedData
 }
 
-export async function formatDepartmentsPieChartDataMockApi(departmentsData) {
-  if (!departmentsData || !Array.isArray(departmentsData)) {
-    throw new Error('Invalid department data provided')
-  }
-
-  const totalBudgetRaw = await getTotalBudget()
-  const totalBudget = formatTotalBudget(totalBudgetRaw)
-
-  const formattedData = await Promise.all(
-    departmentsData.map(async (department, index) => {
-      const label = department.Department
-      const value = department.TotalSalaryPaidToDepartment
-
-      return {
-        id: index,
-        label,
-        value,
-      }
-    })
-  )
-
-  return {
-    totalBudget,
-    formattedData,
-  }
-}
-
 export async function formatDepartmentsPieChartData(departmentsData) {
   if (!departmentsData || !Array.isArray(departmentsData)) {
     throw new Error('Invalid department data provided')
   }
 
-  const totalBudgetRaw = await getTotalBudget()
-  const totalBudget = formatTotalBudget(totalBudgetRaw)
+  const companyInfo = await fetchCompanyInfo()
+  const totalBudget = formatTotalBudget(companyInfo.totalBudget)
 
   const formattedData = await Promise.all(
     departmentsData.map(async (department, index) => {
@@ -931,43 +821,7 @@ export async function formatDepartmentsPieChartData(departmentsData) {
   }
 }
 
-export async function formatDepartmentGrowthPieChartDataMockApi(departmentsData) {
-  if (!departmentsData || !Array.isArray(departmentsData)) {
-    throw new Error('Invalid department data provided')
-  }
 
-  // id: number;
-  // department: any;
-  // budgetStatus: string;
-  // totalEmployees: any;
-  // totalBudget: any;
-  // activeEmployees: any;
-  // inactiveEmployees: number;
-  // employeesJoined: any[];
-  const totalBudgetRaw = await getTotalBudget()
-  const totalBudget = formatTotalBudget(totalBudgetRaw)
-  let totalEmployeesJoined = 0
-
-  const formattedData = await Promise.all(
-    departmentsData.map(async (department, index) => {
-      const label = department.department
-      const value = department.employeesJoined.reduce((sum, value) => sum + value, 0)
-
-      totalEmployeesJoined += value
-
-      return {
-        id: department.id,
-        label,
-        value,
-      }
-    })
-  )
-
-  return {
-    totalEmployeesJoined,
-    formattedData,
-  }
-}
 
 export async function formatDepartmentGrowthPieChartData(departmentsData) {
   if (!departmentsData || !Array.isArray(departmentsData)) {
