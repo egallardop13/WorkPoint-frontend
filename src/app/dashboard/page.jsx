@@ -89,7 +89,21 @@ export default async function Home({ searchParams }) {
         </div>
         <Button href="/dashboard/users/create">Create user</Button>
       </div>
-      <Suspense>
+      <Suspense
+        fallback={
+          <div className="mt-6 space-y-1">
+            {Array.from({ length: 8 }).map((_, i) => (
+              <div key={i} className="flex items-center gap-4 py-3">
+                <div className="h-4 w-32 animate-pulse rounded bg-zinc-200 dark:bg-zinc-700" />
+                <div className="h-4 w-40 animate-pulse rounded bg-zinc-200 dark:bg-zinc-700" />
+                <div className="h-4 w-24 animate-pulse rounded bg-zinc-200 dark:bg-zinc-700" />
+                <div className="h-4 w-20 animate-pulse rounded bg-zinc-200 dark:bg-zinc-700" />
+                <div className="ml-auto h-4 w-16 animate-pulse rounded bg-zinc-200 dark:bg-zinc-700" />
+              </div>
+            ))}
+          </div>
+        }
+      >
         <UsersTable users={data} />
       </Suspense>
 
