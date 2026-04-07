@@ -32,6 +32,6 @@ export async function deleteUser(userId: string | number) {
   } catch {
     message = text
   }
-  revalidatePath('/dashboard', 'layout')
+  revalidatePath('/dashboard')
   return { status: res.status, message }
 }
