@@ -164,7 +164,7 @@ export default function DepartmentsTable({ rowData }) {
   const handleRowClick = useCallback(
     (params) => {
       const department = encodeURIComponent(params.row.department)
-      router.push(`/departments/${department}`)
+      router.push(`/dashboard/departments/${department}`)
     },
     [router]
   )
