@@ -25,7 +25,13 @@ export async function deleteUser(userId: string | number) {
     method: 'DELETE',
   })
 
-  const message = await res.json()
+  const text = await res.text()
+  let message
+  try {
+    message = JSON.parse(text)
+  } catch {
+    message = text
+  }
   revalidatePath('/dashboard', 'layout')
   return { status: res.status, message }
 }

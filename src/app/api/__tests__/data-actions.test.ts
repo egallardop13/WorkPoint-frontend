@@ -17,10 +17,12 @@ vi.mock('next/cache', () => ({
 const mockBackendFetch = vi.mocked(backendFetch)
 
 function mockResponse(data: unknown, status = 200) {
+  const text = typeof data === 'string' ? data : JSON.stringify(data)
   return {
     ok: true,
     status,
     json: () => Promise.resolve(data),
+    text: () => Promise.resolve(text),
   } as unknown as Response
 }
 
