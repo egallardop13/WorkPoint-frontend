@@ -68,7 +68,7 @@ export default async function Events() {
                     {event.status}
                   </Badge>
                   <Dropdown>
-                    <DropdownButton plain aria-label="More options">
+                    <DropdownButton plain aria-label="More options" className="p-2">
                       <EllipsisVerticalIcon />
                     </DropdownButton>
                     <DropdownMenu anchor="bottom end">

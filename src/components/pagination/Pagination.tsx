@@ -107,7 +107,7 @@ export default function Pagination({ totalPages }: PaginationProps) {
       <div className="-mt-px flex w-0 flex-1">
         <Link
           className={clsx(
-            'inline-flex items-center border-t-2 border-transparent pr-1 pt-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700 dark:text-zinc-500 dark:hover:dark:border-white/10 dark:hover:text-zinc-400',
+            'inline-flex min-h-[44px] items-center border-t-2 border-transparent pr-1 pt-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700 dark:text-zinc-500 dark:hover:dark:border-white/10 dark:hover:text-zinc-400',
             { 'pointer-events-none opacity-30 hover:border-transparent hover:text-gray-500': currentPage <= 1 }
           )}
           href={handlePageClick(currentPage - 1)}
@@ -124,7 +124,7 @@ export default function Pagination({ totalPages }: PaginationProps) {
       <div className="-mt-px flex w-0 flex-1 justify-end">
         <Link
           className={clsx(
-            'inline-flex items-center border-t-2 border-transparent pr-1 pt-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700 dark:hover:dark:border-white/10 dark:hover:text-zinc-400',
+            'inline-flex min-h-[44px] items-center border-t-2 border-transparent pr-1 pt-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700 dark:hover:dark:border-white/10 dark:hover:text-zinc-400',
             { 'pointer-events-none opacity-30 hover:border-transparent hover:text-gray-500': currentPage >= totalPages }
           )}
           href={handlePageClick(currentPage + 1)}

@@ -24,7 +24,7 @@ const Sorting = ({ values, variant }: SortingProps) => {
   return (
     <>
       {variant === 'departments' ? (
-        <div>
+        <div className="min-h-[44px]">
           <Select name="sort" defaultValue="name" onChange={handleSortChange}>
             {values.map((value, index) => (
               <option
@@ -38,7 +38,7 @@ const Sorting = ({ values, variant }: SortingProps) => {
           </Select>
         </div>
       ) : variant === 'departmentEmployees' ? (
-        <div>
+        <div className="min-h-[44px]">
           <Select name="sort" defaultValue="name" onChange={handleSortChange}>
             {values.map((value, index) => (
               <option
@@ -52,7 +52,7 @@ const Sorting = ({ values, variant }: SortingProps) => {
           </Select>
         </div>
       ) : (
-        <div>
+        <div className="min-h-[44px]">
           <Select name="sort" defaultValue="name" onChange={handleSortChange}>
             {values.map((value, index) => (
               <option key={index + value} value={value} className="">

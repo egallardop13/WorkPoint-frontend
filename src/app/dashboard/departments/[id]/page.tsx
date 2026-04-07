@@ -1,4 +1,5 @@
 import { fetchUsersinDepartment, getDepartmentInfo } from '@/app/api/departments/actions'
+import DepartmentUserCardList from '@/components/DepartmentUserCardList'
 import DepartmentUsersTable from '@/components/DepartmentUsersTable'
 import Pagination from '@/components/pagination/Pagination'
 import Search from '@/components/Search'
@@ -106,7 +107,7 @@ export default async function Department({ params, searchParams }: { params: { i
 
   return (
     <>
-      <div className="max-lg:hidden">
+      <div>
         <Link
           href="/dashboard/departments"
           className="inline-flex items-center gap-2 text-sm/6 text-zinc-500 dark:text-zinc-400"
@@ -117,7 +118,7 @@ export default async function Department({ params, searchParams }: { params: { i
       </div>
       <div className="mt-4 flex flex-wrap items-end justify-between gap-4">
         <div className="flex flex-wrap items-center gap-6">
-          <div className="w-32 shrink-0 rounded-lg border border-zinc-950/5 dark:border-white/10">
+          <div className="w-20 shrink-0 rounded-lg border border-zinc-950/5 sm:w-32 dark:border-white/10">
             {departmentIcons[department.department]}
           </div>
           <div>
@@ -137,6 +138,15 @@ export default async function Department({ params, searchParams }: { params: { i
               {totalActiveUsers} active employees <span aria-hidden="true">·</span> {totalInactiveUsers} inactive
               employees <span aria-hidden="true">·</span> {totalUsers} total employees
             </div>
+            {totalActiveUsers > totalInactiveUsers ? (
+              <Badge className="mt-2 sm:hidden" color="lime">
+                Healthy Budget Allocation
+              </Badge>
+            ) : (
+              <Badge className="mt-2 sm:hidden" color="pink">
+                Budget Needs Attention
+              </Badge>
+            )}
           </div>
         </div>
       </div>
@@ -177,7 +187,12 @@ export default async function Department({ params, searchParams }: { params: { i
           </div>
         </div>
       </div>
-      <DepartmentUsersTable users={users} />
+      <div className="hidden sm:block">
+        <DepartmentUsersTable users={users} />
+      </div>
+      <div className="sm:hidden">
+        <DepartmentUserCardList users={users} />
+      </div>
       <Pagination totalPages={usersInfo.totalPages} />
     </>
   )

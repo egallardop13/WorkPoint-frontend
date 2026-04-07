@@ -47,9 +47,8 @@ export default async function Departments() {
                 <Divider soft={index > 0} />
                 <div className="flex items-center justify-between">
                   <div key={department.department + index} className="flex gap-6 py-6">
-                    <div className="w-32 shrink-0">
-                      {/* <ActiveUsersPieChart /> */}
-                      <div className="w-32 shrink-0 rounded-lg border border-zinc-950/5 bg-zinc-100 dark:border-white/10 dark:bg-zinc-950">
+                    <div className="w-20 shrink-0 sm:w-32">
+                      <div className="w-20 shrink-0 rounded-lg border border-zinc-950/5 bg-zinc-100 sm:w-32 dark:border-white/10 dark:bg-zinc-950">
                         {departmentIcons[department.department]}
                       </div>
                     </div>
@@ -63,6 +62,15 @@ export default async function Departments() {
                       <div className="text-xs/6 text-zinc-600">
                         {department.activeEmployeeCount}/{department.employeeCount} active users
                       </div>
+                      {department.activeEmployeeCount > department.employeeCount - department.activeEmployeeCount ? (
+                        <Badge className="mt-1 sm:hidden" color="lime">
+                          Healthy Budget
+                        </Badge>
+                      ) : (
+                        <Badge className="mt-1 sm:hidden" color="pink">
+                          Needs Attention
+                        </Badge>
+                      )}
                     </div>
                   </div>
                   <div className="flex items-center gap-4">
@@ -77,7 +85,7 @@ export default async function Departments() {
                     )}
 
                     <Dropdown>
-                      <DropdownButton plain aria-label="More options">
+                      <DropdownButton plain aria-label="More options" className="p-2">
                         <EllipsisVerticalIcon />
                       </DropdownButton>
                       <DropdownMenu anchor="bottom end">

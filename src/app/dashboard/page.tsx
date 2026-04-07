@@ -5,11 +5,14 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Divider } from '@/components/ui/divider'
 import { Heading, Subheading } from '@/components/ui/heading'
+import UserCardList from '@/components/UserCardList'
 import UsersTable from '@/components/UsersTable'
 import { calculateRate, formatCurrency } from '@/lib/utils'
+import StatCard from '@/components/metrics/StatCard'
 import { Suspense } from 'react'
 import { checkUser } from '../api/auth/actions'
 import { fetchCompanyInfo } from '../api/company/actions'
+import { getUsersByMonth } from '../api/metrics/actions'
 import { fetchUser, fetchUsers } from '../api/users/actions'
 
 const sortValues = ['name', 'department', 'active']
@@ -54,10 +57,12 @@ export default async function Home({ searchParams }: { searchParams: Record<stri
   const query = typeof searchParams.query === 'string' ? searchParams.query : ''
   const sort = typeof searchParams.sort === 'string' ? searchParams.sort : ''
 
-  const [user, users, companyInfo] = await Promise.all([
+  const [user, users, companyInfo, usersJoined2024, usersLeft2024] = await Promise.all([
     fetchUser(loggedInUserId ?? ''),
     fetchUsers(page, 10, query, sort),
     fetchCompanyInfo(),
+    getUsersByMonth(2024, true),
+    getUsersByMonth(2024, false),
   ])
 
   const loggedInUser = Array.isArray(user) ? user[0] : null
@@ -66,6 +71,12 @@ export default async function Home({ searchParams }: { searchParams: Record<stri
 
   const activeUsersRate = calculateRate(totalUsers, totalActiveUsers)
   const inactiveUsersRate = calculateRate(totalUsers, totalInactiveUsers)
+
+  const totalJoined2024 = usersJoined2024.joinedOrLeftYearly
+  const totalLeft2024 = usersLeft2024.joinedOrLeftYearly
+  const totalEmployees2024 = usersJoined2024.totalEmployees
+  const joinedPercentage2024 = ((totalJoined2024 / totalEmployees2024) * 100).toFixed(2)
+  const exitedPercentage2024 = ((totalLeft2024 / totalEmployees2024) * 100).toFixed(2)
 
   return (
     <>
@@ -88,6 +99,34 @@ export default async function Home({ searchParams }: { searchParams: Record<stri
           badgeType="negative"
           formattedRate={`${inactiveUsersRate}%`}
         />
+      </div>
+      <div className="mt-10 flex items-end justify-between">
+        <Subheading>Workforce Trends</Subheading>
+        <Button href="/dashboard/metrics" outline>
+          View all metrics
+        </Button>
+      </div>
+      <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <div className="rounded-lg border border-zinc-950/5 dark:border-white/10">
+          <StatCard
+            title="Employees Joined"
+            value={totalJoined2024}
+            interval="2024"
+            trend="up"
+            data={usersJoined2024.monthlyBreakdown}
+            rate={joinedPercentage2024}
+          />
+        </div>
+        <div className="rounded-lg border border-zinc-950/5 dark:border-white/10">
+          <StatCard
+            title="Employees Exited"
+            value={totalLeft2024}
+            interval="2024"
+            trend="down"
+            data={usersLeft2024.monthlyBreakdown}
+            rate={exitedPercentage2024}
+          />
+        </div>
       </div>
       <Subheading className="mt-14">Users</Subheading>
       <div className="flex flex-wrap items-end justify-between gap-4">
@@ -114,7 +153,12 @@ export default async function Home({ searchParams }: { searchParams: Record<stri
           </div>
         }
       >
-        <UsersTable users={data} />
+        <div className="hidden sm:block">
+          <UsersTable users={data} />
+        </div>
+        <div className="sm:hidden">
+          <UserCardList users={data} />
+        </div>
       </Suspense>
 
       <Pagination totalPages={users.totalPages} />
