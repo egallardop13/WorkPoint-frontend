@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { backendFetch } from '@/lib/api'
 import { fetchCompanyInfo } from '@/app/api/company/actions'
-import { getDepartmentInfo, getDepartmentsInfo } from '@/app/api/departments/actions'
+import { fetchUsersinDepartment, getDepartmentInfo, getDepartmentsInfo } from '@/app/api/departments/actions'
 import { getCompanyBudget, getUsersByMonth } from '@/app/api/metrics/actions'
 import { fetchUser, fetchUsers } from '@/app/api/users/actions'
 import { deleteUser, UpsertUser } from '@/app/api/users/create/actions'
@@ -174,6 +174,29 @@ describe('getDepartmentInfo', () => {
     const result = await getDepartmentInfo('Sales')
     expect(mockBackendFetch).toHaveBeenCalledWith('UserSalary/GetDepartmentsInfo/Sales')
     expect(result).toEqual(dept)
+  })
+})
+
+describe('fetchUsersinDepartment', () => {
+  it('passes query and sort as query string params', async () => {
+    const data = { users: [], totalPages: 1, totalActiveSalary: 0, totalInactiveSalary: 0 }
+    mockBackendFetch.mockResolvedValue(mockResponse(data))
+
+    const result = await fetchUsersinDepartment('Engineering', 2, 10, 'john', 'salaryDesc')
+    expect(mockBackendFetch).toHaveBeenCalledWith(
+      '/UserJobInfo/GetUsersInDepartments/Engineering/2/10?query=john&sort=salaryDesc'
+    )
+    expect(result).toEqual(data)
+  })
+
+  it('uses default empty query and sort', async () => {
+    const data = { users: [], totalPages: 0, totalActiveSalary: 0, totalInactiveSalary: 0 }
+    mockBackendFetch.mockResolvedValue(mockResponse(data))
+
+    await fetchUsersinDepartment('Sales')
+    expect(mockBackendFetch).toHaveBeenCalledWith(
+      '/UserJobInfo/GetUsersInDepartments/Sales/1/10?query=&sort='
+    )
   })
 })
 

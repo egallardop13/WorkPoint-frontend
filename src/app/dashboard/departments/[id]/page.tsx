@@ -3,11 +3,11 @@ import DepartmentUserCardList from '@/components/DepartmentUserCardList'
 import DepartmentUsersTable from '@/components/DepartmentUsersTable'
 import Pagination from '@/components/pagination/Pagination'
 import Search from '@/components/Search'
+import Sorting from '@/components/Sorting'
 import { Badge } from '@/components/ui/badge'
 import { Divider } from '@/components/ui/divider'
 import { Heading, Subheading } from '@/components/ui/heading'
 import { Link } from '@/components/ui/link'
-import { Select } from '@/components/ui/select'
 import { calculateRate, formatCurrency } from '@/lib/utils'
 import { ChevronLeftIcon } from '@heroicons/react/16/solid'
 import {
@@ -71,10 +71,21 @@ export default async function Department({ params, searchParams }: { params: { i
   const page = typeof rawPage === 'string' ? parseInt(rawPage, 10) : 1
   const rawQuery = searchParams.query
   const query = typeof rawQuery === 'string' ? rawQuery : ''
+  const sort = typeof searchParams.sort === 'string' ? searchParams.sort : ''
 
-  const usersInfo = await fetchUsersinDepartment(department.department, page, 10, query)
+  const usersInfo = await fetchUsersinDepartment(department.department, page, 10, query, sort)
 
-  const users = usersInfo.users
+  let users = usersInfo.users
+
+  if (sort === 'salaryDesc') {
+    users = [...users].sort((a, b) => b.salary - a.salary)
+  } else if (sort === 'salaryAsc') {
+    users = [...users].sort((a, b) => a.salary - b.salary)
+  } else if (sort === 'active') {
+    users = [...users].sort((a, b) => Number(b.active) - Number(a.active))
+  } else if (sort === 'name') {
+    users = [...users].sort((a, b) => a.firstName.localeCompare(b.firstName))
+  }
   const totalActiveSalary = usersInfo.totalActiveSalary
   const totalInactiveSalary = usersInfo.totalInactiveSalary
 
@@ -171,19 +182,7 @@ export default async function Department({ params, searchParams }: { params: { i
         <div className="max-sm:w-full sm:flex-1">
           <div className="mt-4 flex max-w-xl gap-4">
             <Search placeholder="Search employees&hellip;" />
-            <div>
-              <Select name="sort_by">
-                <option value="name" className="">
-                  Sort by name
-                </option>
-                <option value="date" className="">
-                  Sort by salary
-                </option>
-                <option value="status" className="">
-                  Sort by active
-                </option>
-              </Select>
-            </div>
+            <Sorting values={['name', 'salary ↓', 'salary ↑', 'active']} variant="departmentEmployees" />
           </div>
         </div>
       </div>

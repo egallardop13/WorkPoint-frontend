@@ -16,10 +16,11 @@ export async function fetchUsersinDepartment(
   department: string,
   page = 1,
   limit = 10,
-  query = ''
+  query = '',
+  sort = ''
 ): Promise<DepartmentUsersResponse> {
   const res = await backendFetch(
-    `/UserJobInfo/GetUsersInDepartments/${department}/${page}/${limit}`
+    `/UserJobInfo/GetUsersInDepartments/${department}/${page}/${limit}?query=${encodeURIComponent(query)}&sort=${encodeURIComponent(sort)}`
   )
   return res.json()
 }

@@ -40,6 +40,17 @@ describe('Sorting', () => {
     expect(budgetDescOption.value).toBe('budgetDesc')
   })
 
+  it('renders options and maps salary values for departmentEmployees variant', () => {
+    render(<Sorting values={['name', 'salary ↓', 'salary ↑', 'active']} variant="departmentEmployees" />)
+
+    expect(screen.getByText('Sort by name')).toBeInTheDocument()
+    expect(screen.getByText('Sort by salary ↓')).toBeInTheDocument()
+    const salaryDescOption = screen.getByText('Sort by salary ↓') as HTMLOptionElement
+    expect(salaryDescOption.value).toBe('salaryDesc')
+    const salaryAscOption = screen.getByText('Sort by salary ↑') as HTMLOptionElement
+    expect(salaryAscOption.value).toBe('salaryAsc')
+  })
+
   it('calls replace with sort param on change', async () => {
     const user = userEvent.setup()
     render(<Sorting values={['name', 'department']} variant="home" />)

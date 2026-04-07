@@ -1,7 +1,7 @@
 'use client'
 import { FireIcon, PlusIcon, TrashIcon } from '@heroicons/react/24/solid'
 import { motion } from 'framer-motion'
-import { useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 interface CardData {
   title: string
@@ -9,15 +9,37 @@ interface CardData {
   column: string
 }
 
+const STORAGE_KEY = 'workpoint-tasks'
+
 const Board = () => {
   const [cards, setCards] = useState<CardData[]>(DEFAULT_CARDS)
 
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY)
+      if (saved) {
+        const parsed = JSON.parse(saved)
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          setCards(parsed)
+        }
+      }
+    } catch {}
+  }, [])
+
+  const updateCards = useCallback((updater: CardData[] | ((prev: CardData[]) => CardData[])) => {
+    setCards((prev) => {
+      const next = typeof updater === 'function' ? updater(prev) : updater
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(next))
+      return next
+    })
+  }, [])
+
   return (
     <div className="flex h-full w-full gap-3 overflow-scroll p-12">
-      <Column title="TODO" column="todo" headingColor="text-yellow-200" cards={cards} setCards={setCards} />
-      <Column title="In progress" column="doing" headingColor="text-blue-200" cards={cards} setCards={setCards} />
-      <Column title="Complete" column="done" headingColor="text-emerald-200" cards={cards} setCards={setCards} />
-      <BurnBarrel setCards={setCards} />
+      <Column title="TODO" column="todo" headingColor="text-yellow-200" cards={cards} setCards={updateCards} />
+      <Column title="In progress" column="doing" headingColor="text-blue-200" cards={cards} setCards={updateCards} />
+      <Column title="Complete" column="done" headingColor="text-emerald-200" cards={cards} setCards={updateCards} />
+      <BurnBarrel setCards={updateCards} />
     </div>
   )
 }
