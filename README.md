@@ -167,7 +167,7 @@ Pull requests to `master` are automatically validated by GitHub Actions:
 
 - **Lint** — ESLint with Next.js core-web-vitals rules
 - **Type-check** — TypeScript strict mode compilation
-- **Test** — Vitest test suite (96 tests)
+- **Test** — Vitest test suite (97 tests)
 - **Build** — Full Next.js production build
 
 Merges to `master` are auto-deployed to Vercel.

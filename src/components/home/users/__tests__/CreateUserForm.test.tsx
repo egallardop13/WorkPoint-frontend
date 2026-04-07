@@ -95,6 +95,7 @@ describe('CreateUserForm', () => {
     expect(screen.getByLabelText(/job title/i)).toBeInTheDocument()
     expect(screen.getByLabelText(/department/i)).toBeInTheDocument()
     expect(screen.getByLabelText(/employee email/i)).toBeInTheDocument()
+    expect(screen.getByLabelText(/employee salary/i)).toBeInTheDocument()
   })
 
   it('shows validation errors on empty submit', async () => {
@@ -119,7 +120,7 @@ describe('CreateUserForm', () => {
     await user.type(screen.getByLabelText(/employee gender/i), 'Male')
     await user.type(screen.getByLabelText(/job title/i), 'Engineer')
     await user.type(screen.getByLabelText(/employee email/i), 'john@example.com')
-    await user.type(screen.getByPlaceholderText('70000'), '85000')
+    await user.type(screen.getByLabelText(/employee salary/i), '85000')
     await user.click(screen.getByRole('button', { name: /add/i }))
 
     await waitFor(() => {
@@ -139,7 +140,7 @@ describe('CreateUserForm', () => {
     await user.type(screen.getByLabelText(/employee gender/i), 'Male')
     await user.type(screen.getByLabelText(/job title/i), 'Engineer')
     await user.type(screen.getByLabelText(/employee email/i), 'john@example.com')
-    await user.type(screen.getByPlaceholderText('70000'), '85000')
+    await user.type(screen.getByLabelText(/employee salary/i), '85000')
     await user.click(screen.getByRole('button', { name: /add/i }))
 
     await waitFor(() => {

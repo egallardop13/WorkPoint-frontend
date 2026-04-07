@@ -32,6 +32,7 @@ export default function Search({ placeholder }: SearchProps) {
         <MagnifyingGlassPlusIcon />
         <Input
           name="search"
+          aria-label="Search"
           placeholder={placeholder}
           onChange={(e) => handleSearch(e.target.value)}
           defaultValue={searchParams.get('query')?.toString()}

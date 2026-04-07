@@ -20,6 +20,7 @@ describe('Sorting', () => {
   it('renders options for departments variant', () => {
     render(<Sorting values={['name', 'budget ↓', 'budget ↑']} variant="departments" />)
 
+    expect(screen.getByRole('combobox', { name: /sort departments/i })).toBeInTheDocument()
     expect(screen.getByText('Sort by name')).toBeInTheDocument()
     expect(screen.getByText('Sort by budget ↓')).toBeInTheDocument()
     expect(screen.getByText('Sort by budget ↑')).toBeInTheDocument()
@@ -55,7 +56,7 @@ describe('Sorting', () => {
     const user = userEvent.setup()
     render(<Sorting values={['name', 'department']} variant="home" />)
 
-    await user.selectOptions(screen.getByRole('combobox'), 'department')
+    await user.selectOptions(screen.getByRole('combobox', { name: /sort/i }), 'department')
 
     expect(mockReplace).toHaveBeenCalledWith(
       expect.stringContaining('sort=department')

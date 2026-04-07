@@ -198,7 +198,7 @@ function CreateUserForm(departments: CreateUserFormProps) {
           <CurrencyDollarIcon className="size-5 text-stone-900 dark:text-stone-500" />
           <Field>
             <Input
-              aria-label="Employee Name"
+              aria-label="Employee Salary"
               defaultValue=""
               placeholder="70000"
               {...register('salary')}

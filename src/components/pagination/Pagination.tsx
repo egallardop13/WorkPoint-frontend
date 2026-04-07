@@ -103,7 +103,7 @@ export default function Pagination({ totalPages }: PaginationProps) {
   }
 
   return (
-    <nav className="flex items-center justify-between border-t border-zinc-950/10 px-4 sm:px-0 dark:border-white/10">
+    <nav aria-label="Pagination" className="flex items-center justify-between border-t border-zinc-950/10 px-4 sm:px-0 dark:border-white/10">
       <div className="-mt-px flex w-0 flex-1">
         <Link
           className={clsx(

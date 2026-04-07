@@ -21,9 +21,10 @@ describe('Search', () => {
     vi.clearAllMocks()
   })
 
-  it('renders input with placeholder', () => {
+  it('renders input with placeholder and aria-label', () => {
     render(<Search placeholder="Search users…" />)
     expect(screen.getByPlaceholderText('Search users…')).toBeInTheDocument()
+    expect(screen.getByRole('textbox', { name: /search/i })).toBeInTheDocument()
   })
 
   it('updates URL with query param on input', async () => {

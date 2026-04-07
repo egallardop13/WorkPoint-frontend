@@ -9,6 +9,11 @@ vi.mock('next/navigation', () => ({
 import Pagination from '../Pagination'
 
 describe('Pagination', () => {
+  it('has accessible navigation landmark', () => {
+    render(<Pagination totalPages={5} />)
+    expect(screen.getByRole('navigation', { name: /pagination/i })).toBeInTheDocument()
+  })
+
   it('renders Previous and Next links', () => {
     render(<Pagination totalPages={5} />)
 

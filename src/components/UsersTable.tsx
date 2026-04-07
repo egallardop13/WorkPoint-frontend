@@ -17,8 +17,6 @@ const UsersTable = ({ users }: UsersTableProps) => {
             <TableHeader>Job Title</TableHeader>
             <TableHeader>Department</TableHeader>
             <TableHeader className={'text-left'}>Active</TableHeader>
-            {/* <TableHeader>Amount</TableHeader> */}
-            {/* <TableHeader>Amount</TableHeader> */}
           </TableRow>
         </TableHead>
         <TableBody>
@@ -38,11 +36,8 @@ const UsersTable = ({ users }: UsersTableProps) => {
                   </div>
                 </TableCell>
                 <TableCell className={'text-left'}>
-                  {/* <Badge color={user.Active === 'TRUE' ? 'lime' : 'pink'}>{isActive(user.Active)}</Badge> */}
                   <Badge color={user.Active ? 'lime' : 'pink'}>{user.Active ? 'Active' : 'Inactive'}</Badge>
                 </TableCell>
-                {/* <TableCell>US{user.amount.usd}</TableCell> */}
-                {/* <TableCell>US{user.amount.usd}</TableCell> */}
               </TableRow>
             ))}
         </TableBody>

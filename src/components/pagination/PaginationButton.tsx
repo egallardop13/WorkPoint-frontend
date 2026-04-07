@@ -99,6 +99,7 @@ const PaginationButton = memo(function PaginationButton({ isActive, href, pageId
       className={buttonStyle}
       href={href(onClickPageIdx)}
       scroll={false}
+      aria-current={isActive ? 'page' : undefined}
     >
       {pageContent}
     </Link>

@@ -1,6 +1,7 @@
 'use client'
 
 import { useTheme } from 'next-themes'
+import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { Button } from '@/components/ui/button'
 
@@ -56,12 +57,13 @@ export default function Landing() {
                 </div>
                 <div className="mt-16 flow-root sm:mt-24">
                   <div className="-m-2 rounded-xl bg-gray-900/5 p-2 ring-1 ring-inset ring-gray-900/10 lg:-m-4 lg:rounded-2xl lg:p-4">
-                    <img
-                      alt="App screenshot"
-                      src="/dashboardHomePageLight.png"
+                    <Image
+                      alt="WorkPoint dashboard overview"
+                      src={isDarkMode ? '/dashboardHomePage.png' : '/dashboardHomePageLight.png'}
                       width={2432}
                       height={1442}
                       className="rounded-md shadow-2xl ring-1 ring-gray-900/10"
+                      priority
                     />
                   </div>
                 </div>

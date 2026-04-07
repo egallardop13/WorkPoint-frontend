@@ -38,8 +38,6 @@ const DepartmentUsersTable = ({ users }: DepartmentUsersTableProps) => {
               <TableCell className={'text-left'}>
                 <Badge color={user.active ? 'lime' : 'pink'}>{user.active ? 'Active' : 'Inactive'}</Badge>
               </TableCell>
-              {/* <TableCell>US{user.amount.usd}</TableCell> */}
-              {/* <TableCell>US{user.amount.usd}</TableCell> */}
             </TableRow>
           ))}
         </TableBody>

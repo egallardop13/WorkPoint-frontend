@@ -25,7 +25,7 @@ const Sorting = ({ values, variant }: SortingProps) => {
     <>
       {variant === 'departments' ? (
         <div className="min-h-[44px]">
-          <Select name="sort" defaultValue="name" onChange={handleSortChange}>
+          <Select name="sort" aria-label="Sort departments" defaultValue="name" onChange={handleSortChange}>
             {values.map((value, index) => (
               <option
                 key={index + value}
@@ -39,7 +39,7 @@ const Sorting = ({ values, variant }: SortingProps) => {
         </div>
       ) : variant === 'departmentEmployees' ? (
         <div className="min-h-[44px]">
-          <Select name="sort" defaultValue="name" onChange={handleSortChange}>
+          <Select name="sort" aria-label="Sort employees" defaultValue="name" onChange={handleSortChange}>
             {values.map((value, index) => (
               <option
                 key={index + value}
@@ -53,7 +53,7 @@ const Sorting = ({ values, variant }: SortingProps) => {
         </div>
       ) : (
         <div className="min-h-[44px]">
-          <Select name="sort" defaultValue="name" onChange={handleSortChange}>
+          <Select name="sort" aria-label="Sort employees" defaultValue="name" onChange={handleSortChange}>
             {values.map((value, index) => (
               <option key={index + value} value={value} className="">
                 Sort by {value}
