@@ -5,7 +5,7 @@ import { Link } from '@/components/ui/link'
 import { ChevronLeftIcon } from '@heroicons/react/16/solid'
 import { notFound } from 'next/navigation'
 
-const page = async ({ params }) => {
+const page = async ({ params }: { params: { id: string } }) => {
   let data = await fetchUser(params.id)
   const user = Array.isArray(data) ? data[0] : null
 

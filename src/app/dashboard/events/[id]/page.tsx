@@ -8,7 +8,7 @@ import { getEvent, getEventOrders } from '@/data'
 import { ChevronLeftIcon } from '@heroicons/react/16/solid'
 import { notFound } from 'next/navigation'
 
-export async function generateMetadata({ params }) {
+export async function generateMetadata({ params }: { params: { id: string } }) {
   let event = await getEvent(params.id)
 
   return {
@@ -16,7 +16,7 @@ export async function generateMetadata({ params }) {
   }
 }
 
-export default async function Event({ params }) {
+export default async function Event({ params }: { params: { id: string } }) {
   let event = await getEvent(params.id)
   let orders = await getEventOrders(params.id)
 

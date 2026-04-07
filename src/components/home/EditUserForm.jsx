@@ -15,7 +15,7 @@ import { Input, InputGroup } from '../ui/input'
 import { Select } from '../ui/select'
 import { Text } from '../ui/text'
 
-function EditUserForm({ user, departments, params }) {
+function EditUserForm({ user, departments }) {
   const {
     register,
     handleSubmit,

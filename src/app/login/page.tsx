@@ -5,6 +5,9 @@ import { Field, Label } from '@/components/ui/fieldset'
 import { Heading } from '@/components/ui/heading'
 import { Input } from '@/components/ui/input'
 import { loginSchema } from '@/lib/validation'
+import { z } from 'zod'
+
+type LoginFormData = z.infer<typeof loginSchema>
 import { zodResolver } from '@hookform/resolvers/zod'
 import clsx from 'clsx'
 import Image from 'next/image'
@@ -23,15 +26,15 @@ export default function Login() {
     formState: { errors, isSubmitting },
     setError,
     clearErrors,
-  } = useForm({ resolver: zodResolver(loginSchema) })
+  } = useForm<LoginFormData>({ resolver: zodResolver(loginSchema) })
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (data: LoginFormData) => {
     try {
       await loginUser(data)
       setIsRedirecting(true)
       router.push('/dashboard')
     } catch (error) {
-      setError('form', { type: 'server', message: error.message })
+      setError('root', { type: 'server', message: (error as Error).message })
     }
   }
   return (
@@ -56,12 +59,11 @@ export default function Login() {
                     <div className="mt-2">
                       <Input
                         id="email"
-                        name="email"
                         type="email"
                         required
                         autoComplete="email"
                         className=""
-                        {...register('email', { onChange: () => clearErrors('form') })}
+                        {...register('email', { onChange: () => clearErrors('root') })}
                       />
                     </div>
                     {errors.email && <p className="mt-1 text-sm text-red-500">{errors.email.message}</p>}
@@ -74,12 +76,11 @@ export default function Login() {
                     <div className="mt-2">
                       <Input
                         id="password"
-                        name="password"
                         type="password"
                         required
                         autoComplete="current-password"
                         className=""
-                        {...register('password', { onChange: () => clearErrors('form') })}
+                        {...register('password', { onChange: () => clearErrors('root') })}
                       />
                       {errors.password && <p className="mt-1 text-sm text-red-500">{errors.password.message}</p>}
                     </div>
@@ -95,7 +96,7 @@ export default function Login() {
                     >
                       {isRedirecting ? 'Redirecting\u2026' : isSubmitting ? 'Signing in\u2026' : 'Sign in'}
                     </Button>
-                    {errors.form && <p className="mt-1 text-sm text-red-500">{errors.form.message}</p>}
+                    {errors.root && <p className="mt-1 text-sm text-red-500">{errors.root.message}</p>}
                   </div>
                 </form>
               </div>

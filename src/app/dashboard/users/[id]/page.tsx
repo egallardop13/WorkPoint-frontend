@@ -14,7 +14,7 @@ import { formatCurrency } from '@/lib/utils'
 import { BanknotesIcon, BriefcaseIcon, BuildingOffice2Icon, ChevronLeftIcon } from '@heroicons/react/16/solid'
 import { notFound } from 'next/navigation'
 
-export async function generateMetadata({ params }) {
+export async function generateMetadata({ params }: { params: { id: string } }) {
   let data = await fetchUser(params.id)
   let user = Array.isArray(data) ? data[0] : null
 
@@ -33,7 +33,7 @@ export async function generateMetadata({ params }) {
   }
 }
 
-export default async function User({ params }) {
+export default async function User({ params }: { params: { id: string } }) {
   let data = await fetchUser(params.id)
   let user = Array.isArray(data) ? data[0] : null
 
@@ -43,6 +43,10 @@ export default async function User({ params }) {
 
   let departmentData = await getDepartmentInfo(user.department)
   let departmentInfo = Array.isArray(departmentData) ? departmentData[0] : null
+
+  if (!departmentInfo) {
+    notFound()
+  }
 
   let company = await fetchCompanyInfo()
   let totalSalary = company.totalBudget

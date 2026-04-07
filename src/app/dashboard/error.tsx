@@ -5,7 +5,7 @@ import { Heading, Subheading } from '@/components/ui/heading'
 import { Text } from '@/components/ui/text'
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 
-export default function DashboardError({ error, reset }) {
+export default function DashboardError({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) {
   return (
     <div className="flex flex-col items-center justify-center py-20">
       <ExclamationTriangleIcon className="size-16 text-red-400 dark:text-red-500" />

@@ -35,8 +35,8 @@ export default async function Orders() {
               <TableCell>{order.customer.name}</TableCell>
               <TableCell>
                 <div className="flex items-center gap-2">
-                  <Avatar src={order.event.thumbUrl} className="size-6" />
-                  <span>{order.event.name}</span>
+                  <Avatar src={order.event?.thumbUrl} className="size-6" />
+                  <span>{order.event?.name}</span>
                 </div>
               </TableCell>
               <TableCell className="text-right">US{order.amount.usd}</TableCell>

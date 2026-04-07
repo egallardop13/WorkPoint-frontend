@@ -1,6 +1,6 @@
 import clsx from 'clsx'
 
-export function Divider({ soft = false, className, ...props }) {
+export function Divider({ soft = false, className = '', ...props }) {
   return (
     <hr
       role="presentation"

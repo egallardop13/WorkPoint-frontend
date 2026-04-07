@@ -14,7 +14,16 @@ import { fetchUser, fetchUsers } from '../api/users/actions'
 
 const sortValues = ['name', 'department', 'active']
 
-export function Stat({ title, value, badgeType, formattedRate, subText }) {
+interface StatProps {
+  title: string
+  value: string | number
+  badgeType?: string
+  formattedRate?: string
+  subText?: string
+  change?: string
+}
+
+export function Stat({ title, value, badgeType, formattedRate, subText }: StatProps) {
   return (
     <div>
       <Divider />
@@ -37,15 +46,16 @@ export function Stat({ title, value, badgeType, formattedRate, subText }) {
   )
 }
 
-export default async function Home({ searchParams }) {
+export default async function Home({ searchParams }: { searchParams: Record<string, string | string[] | undefined> }) {
   const loggedInUserId = await checkUser()
 
-  const page = searchParams.page ? parseInt(searchParams.page, 10) : 1
-  const query = searchParams.query || ''
-  const sort = searchParams.sort || ''
+  const rawPage = searchParams.page
+  const page = typeof rawPage === 'string' ? parseInt(rawPage, 10) : 1
+  const query = typeof searchParams.query === 'string' ? searchParams.query : ''
+  const sort = typeof searchParams.sort === 'string' ? searchParams.sort : ''
 
   const [user, users, companyInfo] = await Promise.all([
-    fetchUser(loggedInUserId),
+    fetchUser(loggedInUserId ?? ''),
     fetchUsers(page, 10, query, sort),
     fetchCompanyInfo(),
   ])

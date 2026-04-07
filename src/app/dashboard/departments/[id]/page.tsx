@@ -25,7 +25,7 @@ import {
 } from '@heroicons/react/20/solid'
 import { notFound } from 'next/navigation'
 
-export async function generateMetadata({ params }) {
+export async function generateMetadata({ params }: { params: { id: string } }) {
   let departmentName = decodeURIComponent(params.id)
   let department = await getDepartmentInfo(departmentName)
   let titleName = `${department[0].department} Department`
@@ -38,7 +38,7 @@ export async function generateMetadata({ params }) {
   }
 }
 
-function Stat({ title, value, badgeType, formattedRate, subText }) {
+function Stat({ title, value, badgeType, formattedRate, subText }: { title: string; value: string | number; badgeType?: string; formattedRate?: string; subText?: string }) {
   return (
     <div>
       <Divider />
@@ -60,14 +60,16 @@ function Stat({ title, value, badgeType, formattedRate, subText }) {
     </div>
   )
 }
-export default async function Department({ params, searchParams }) {
+export default async function Department({ params, searchParams }: { params: { id: string }; searchParams: Record<string, string | string[] | undefined> }) {
   let departmentName = decodeURIComponent(params.id)
   let data = await getDepartmentInfo(departmentName)
 
   let department = data[0]
 
-  const page = searchParams.page ? parseInt(searchParams.page, 10) : 1
-  const query = searchParams.query || ''
+  const rawPage = searchParams.page
+  const page = typeof rawPage === 'string' ? parseInt(rawPage, 10) : 1
+  const rawQuery = searchParams.query
+  const query = typeof rawQuery === 'string' ? rawQuery : ''
 
   const usersInfo = await fetchUsersinDepartment(department.department, page, 10, query)
 
@@ -86,7 +88,7 @@ export default async function Department({ params, searchParams }) {
     notFound()
   }
 
-  const departmentIcons = {
+  const departmentIcons: Record<string, React.ReactNode> = {
     Services: <ShieldCheckIcon className="h-20 w-32 text-stone-900 dark:text-stone-500" />,
     Support: <PhoneArrowDownLeftIcon className="h-20 w-32 text-stone-900 dark:text-stone-500" />,
     Accounting: <CreditCardIcon className="h-20 w-32 text-stone-900 dark:text-stone-500" />,

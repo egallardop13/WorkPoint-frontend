@@ -6,7 +6,7 @@ import { useDeleteUser } from '@/lib/mutations'
 import { useParams, useRouter } from 'next/navigation'
 import { useState } from 'react'
 
-export function DeleteUser({ amount, ...props }) {
+export function DeleteUser({ ...props }) {
   let [isOpen, setIsOpen] = useState(false)
   const params = useParams()
   const router = useRouter()

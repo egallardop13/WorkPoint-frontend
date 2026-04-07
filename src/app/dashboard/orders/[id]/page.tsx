@@ -10,7 +10,7 @@ import { BanknotesIcon, CalendarIcon, ChevronLeftIcon, CreditCardIcon } from '@h
 import { notFound } from 'next/navigation'
 import { RefundOrder } from './refund'
 
-export async function generateMetadata({ params }) {
+export async function generateMetadata({ params }: { params: { id: string } }) {
   let order = await getOrder(params.id)
 
   return {
@@ -18,7 +18,7 @@ export async function generateMetadata({ params }) {
   }
 }
 
-export default async function Order({ params }) {
+export default async function Order({ params }: { params: { id: string } }) {
   let order = await getOrder(params.id)
 
   if (!order) {
@@ -74,9 +74,9 @@ export default async function Order({ params }) {
           <DescriptionDetails>{order.customer.name}</DescriptionDetails>
           <DescriptionTerm>Event</DescriptionTerm>
           <DescriptionDetails>
-            <Link href={order.event.url} className="flex items-center gap-2">
-              <Avatar src={order.event.thumbUrl} className="size-6" />
-              <span>{order.event.name}</span>
+            <Link href={order.event!.url} className="flex items-center gap-2">
+              <Avatar src={order.event!.thumbUrl} className="size-6" />
+              <span>{order.event!.name}</span>
             </Link>
           </DescriptionDetails>
           <DescriptionTerm>Amount</DescriptionTerm>

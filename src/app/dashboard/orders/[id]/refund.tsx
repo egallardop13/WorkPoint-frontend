@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input'
 import { Select } from '@/components/ui/select'
 import { useState } from 'react'
 
-export function RefundOrder({ amount, ...props }) {
+export function RefundOrder({ amount, ...props }: { amount: string; [key: string]: unknown }) {
   let [isOpen, setIsOpen] = useState(false)
 
   return (
