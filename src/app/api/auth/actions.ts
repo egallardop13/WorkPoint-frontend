@@ -1,8 +1,9 @@
 'use server'
 
 import { cookies } from 'next/headers'
+import type { LoginCredentials, TokenPayload } from '@/types'
 
-function decodeToken(token) {
+function decodeToken(token: string): TokenPayload | null {
   try {
     return JSON.parse(atob(token.split('.')[1]))
   } catch {
@@ -10,7 +11,7 @@ function decodeToken(token) {
   }
 }
 
-export async function loginUser(credentials) {
+export async function loginUser(credentials: LoginCredentials) {
   const response = await fetch(`${process.env.NEXT_BACKEND_URL}/Auth/Login`, {
     method: 'POST',
     headers: {
@@ -44,12 +45,12 @@ export async function loginUser(credentials) {
 }
 
 export async function logoutUser() {
-  cookies().delete('authToken', { path: '/' })
-  cookies().delete('refreshToken', { path: '/' })
+  cookies().delete({ name: 'authToken', path: '/' })
+  cookies().delete({ name: 'refreshToken', path: '/' })
   return { success: true }
 }
 
-export async function checkUser() {
+export async function checkUser(): Promise<string | null> {
   const authToken = cookies().get('authToken')?.value
   if (!authToken) {
     return null
@@ -59,7 +60,7 @@ export async function checkUser() {
   return decoded?.userId ?? null
 }
 
-export async function getUserFromToken() {
+export async function getUserFromToken(): Promise<TokenPayload | null> {
   const authToken = cookies().get('authToken')?.value
   if (!authToken) return null
   return decodeToken(authToken)
