@@ -1,3 +1,5 @@
+![CI](https://github.com/egallardop13/WorkPoint-frontend/actions/workflows/ci.yml/badge.svg)
+
 # WorkPoint - A platform that helps you manage your company in a simple and efficient way
 
 **Your Organization, Simplified**  
@@ -27,16 +29,19 @@ WorkPoint is a high-performance, enterprise-level management dashboard designed 
 
 ### Frontend
 
-- **Next.js**: Fast, server-side rendered React framework for optimized performance.
-- **React**: Enables the creation of dynamic, reusable components for a consistent user interface.
-- **TailwindCSS**: Utility-first CSS framework for designing responsive and modern user interfaces.
-- **Material UI**: Advanced UI components for charts, tables, and graphs.
+- **Next.js 14**: Fast, server-side rendered React framework with App Router.
+- **React 18**: Dynamic, reusable components for a consistent user interface.
+- **TypeScript 5**: Static type-checking across the entire codebase (`strict: true`).
+- **TailwindCSS**: Utility-first CSS framework for responsive and modern interfaces.
+- **Material UI**: Advanced UI components for charts, tables, and data grids.
+- **Vitest + Testing Library**: Unit, integration, and component testing with jsdom environment.
 
 ### Backend
 
 - **.NET C#**: Powers the backend with scalable, high-performance API endpoints, ensuring reliable data processing and management.
 - **Dapper**: Used for database interactions, leveraging dynamic parameters for efficient and flexible querying.
-- **SQL**: A relational database deployed on Azure for robust and scalable data management, with stored procedures to optimize query performance. -**JWT Authorization**: Implements JSON Web Tokens for secure user authentication and role-based access control.
+- **SQL**: A relational database deployed on Azure for robust and scalable data management, with stored procedures to optimize query performance.
+- **JWT Authorization**: Implements JSON Web Tokens for secure user authentication.
 
 ### Deployment
 
@@ -53,7 +58,7 @@ To run the application locally, follow these steps:
 
 ### Prerequisites
 
-- **Node.js**: Ensure Node.js is installed on your system.
+- **Node.js**: Ensure Node.js (v20 or later) is installed on your system.
 - **SQL Express**: Set up and configure SQL Express.
 
 ### Steps
@@ -69,30 +74,48 @@ To run the application locally, follow these steps:
    Navigate to the frontend directory and install the required packages:
 
    ```bash
-   cd showcasing
+   cd WorkPoint-frontend
    npm install
    ```
 
 3. **Create environment variables**
 
-   - Create a `.env` file in the frontend directory.
-   - Add the following line to set the backend URL:
+   Copy the example environment file and adjust as needed:
 
    ```bash
-   NEXT_BACKEND_URL=http://localhost:5000
-
+   cp .env.example .env
    ```
 
-4. **Start the development servers**
+   Edit `.env` to set `NEXT_BACKEND_URL` to your backend server address (default: `http://localhost:5000`).
 
-   - Start the frontend development server:
+4. **Start the development server**
 
-     ```bash
-     npm run dev
-     ```
+   ```bash
+   npm run dev
+   ```
 
 5. **Access the application**  
    Open your browser and navigate to [http://localhost:3000](http://localhost:3000) to view the application.
+
+## Running Tests
+
+Run the full test suite:
+
+```bash
+npm test
+```
+
+Run tests in watch mode during development:
+
+```bash
+npm run test:watch
+```
+
+Run tests with coverage report:
+
+```bash
+npm run test:coverage
+```
 
 ## Backend Setup
 
@@ -138,18 +161,16 @@ The backend for this project is hosted in a separate [repository](https://github
    dotnet run
    ```
 
-6. Install dependencies:
+## CI/CD
 
-   ```bash
-   dotnet restore
-   ```
+Pull requests to `master` are automatically validated by GitHub Actions:
 
-7. Update the database connection string in the backend configuration file.
+- **Lint** — ESLint with Next.js core-web-vitals rules
+- **Type-check** — TypeScript strict mode compilation
+- **Test** — Vitest test suite (72 tests)
+- **Build** — Full Next.js production build
 
-8. Start the backend server:
-   ```bash
-   dotnet run
-   ```
+Merges to `master` are auto-deployed to Vercel.
 
 ## Contact
 
