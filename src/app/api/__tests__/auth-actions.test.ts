@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 const mockCookieStore = {
-  get: vi.fn(() => undefined),
+  get: vi.fn((): { name: string; value: string } | undefined => undefined),
   set: vi.fn(),
   delete: vi.fn(),
 }
