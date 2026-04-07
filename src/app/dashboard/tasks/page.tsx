@@ -1,4 +1,4 @@
-import Board from '../../../components/tasks/Board.jsx'
+import Board from '../../../components/tasks/Board'
 
 export default function TasksPage() {
   return (
