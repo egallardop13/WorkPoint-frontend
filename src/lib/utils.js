@@ -137,7 +137,7 @@ export const columns = [
     flex: 1.5,
     minWidth: 150,
     renderCell: (params) => (
-      <Link href={`/departments/${encodeURIComponent(params.row.department)}`}>
+      <Link href={`/dashboard/departments/${encodeURIComponent(params.row.department)}`}>
         <>{params.value}</>
       </Link>
     ),

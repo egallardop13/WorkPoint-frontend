@@ -8,11 +8,15 @@ import { loginSchema } from '@/lib/validation'
 import { zodResolver } from '@hookform/resolvers/zod'
 import clsx from 'clsx'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { loginUser } from '../api/auth/actions'
 import workPointLogo from '/public/teams/rocketLaunch.svg'
 
 export default function Login() {
+  const router = useRouter()
+  const [isRedirecting, setIsRedirecting] = useState(false)
   const {
     register,
     handleSubmit,
@@ -24,7 +28,8 @@ export default function Login() {
   const onSubmit = async (data) => {
     try {
       await loginUser(data)
-      window.location.href = '/dashboard'
+      setIsRedirecting(true)
+      router.push('/dashboard')
     } catch (error) {
       setError('form', { type: 'server', message: error.message })
     }
@@ -84,11 +89,11 @@ export default function Login() {
                       type="submit"
                       className={clsx(
                         'flex w-full justify-center rounded-md',
-                        isSubmitting && 'cursor-wait opacity-50'
+                        (isSubmitting || isRedirecting) && 'cursor-wait opacity-50'
                       )}
-                      disabled={isSubmitting}
+                      disabled={isSubmitting || isRedirecting}
                     >
-                      Sign in
+                      {isRedirecting ? 'Redirecting\u2026' : isSubmitting ? 'Signing in\u2026' : 'Sign in'}
                     </Button>
                     {errors.form && <p className="mt-1 text-sm text-red-500">{errors.form.message}</p>}
                   </div>
