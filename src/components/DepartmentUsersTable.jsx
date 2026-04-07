@@ -17,8 +17,8 @@ const DepartmentUsersTable = ({ users }) => {
         <TableBody>
           {users.map((user, index) => (
             <TableRow
-              key={user.id + user.firstName + index}
-              href={`/dashboard/users/${user.UserId}`}
+              key={(user.UserId ?? user.userId ?? user.id) + user.firstName + index}
+              href={`/dashboard/users/${user.UserId ?? user.userId}`}
               title={`user #${user.id}`}
             >
               <TableCell>{user.firstName + ' ' + user.lastName}</TableCell>
