@@ -5,6 +5,7 @@ import { Dialog, DialogActions, DialogDescription, DialogTitle } from '@/compone
 import { useDeleteUser } from '@/lib/mutations'
 import { useParams, useRouter } from 'next/navigation'
 import { useState } from 'react'
+import toast from 'react-hot-toast'
 
 export function DeleteUser({ ...props }: React.ButtonHTMLAttributes<HTMLButtonElement> & { outline?: boolean; plain?: boolean; color?: string }) {
   let [isOpen, setIsOpen] = useState(false)
@@ -16,10 +17,12 @@ export function DeleteUser({ ...props }: React.ButtonHTMLAttributes<HTMLButtonEl
   async function HandleSubmit() {
     try {
       await deleteMutation.mutateAsync(userId)
+      toast.success('Employee deleted successfully')
       setIsOpen(false)
       router.push('/dashboard')
     } catch (error) {
-      console.error('Error deleting user:', error)
+      const err = error as Error
+      toast.error(err.message || 'Failed to delete employee')
     }
   }
 

@@ -1,10 +1,12 @@
 'use server'
 import { backendFetch } from '@/lib/api'
+import { revalidatePath } from 'next/cache'
 import type { UpsertUserPayload } from '@/types'
 
 export async function UpsertUser(upsert: UpsertUserPayload) {
   const payload = {
     ...upsert,
+    salary: Number(upsert.salary),
     active: upsert.active === 'true' ? true : upsert.active === 'false' ? false : upsert.active,
   }
 
@@ -14,6 +16,7 @@ export async function UpsertUser(upsert: UpsertUserPayload) {
   })
 
   const data = await res.json()
+  revalidatePath('/dashboard', 'layout')
   return { ...data, status: res.status }
 }
 
@@ -23,5 +26,6 @@ export async function deleteUser(userId: string | number) {
   })
 
   const message = await res.json()
+  revalidatePath('/dashboard', 'layout')
   return { status: res.status, message }
 }

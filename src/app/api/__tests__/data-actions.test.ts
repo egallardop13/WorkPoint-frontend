@@ -10,6 +10,10 @@ vi.mock('@/lib/api', () => ({
   backendFetch: vi.fn(),
 }))
 
+vi.mock('next/cache', () => ({
+  revalidatePath: vi.fn(),
+}))
+
 const mockBackendFetch = vi.mocked(backendFetch)
 
 function mockResponse(data: unknown, status = 200) {
@@ -58,6 +62,25 @@ describe('fetchUser', () => {
 })
 
 describe('UpsertUser', () => {
+  it('converts salary string to number', async () => {
+    mockBackendFetch.mockResolvedValue(mockResponse({ id: 1 }))
+
+    await UpsertUser({
+      firstName: 'John',
+      lastName: 'Doe',
+      email: 'john@test.com',
+      jobTitle: 'Dev',
+      department: 'Engineering',
+      gender: 'Male',
+      salary: '75000',
+      active: true,
+    })
+
+    const body = JSON.parse(mockBackendFetch.mock.calls[0][1]!.body as string)
+    expect(body.salary).toBe(75000)
+    expect(typeof body.salary).toBe('number')
+  })
+
   it('converts active "true" string to boolean true', async () => {
     mockBackendFetch.mockResolvedValue(mockResponse({ id: 1 }))
 
