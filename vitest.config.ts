@@ -18,7 +18,7 @@ export default defineConfig({
     include: ['src/**/*.test.{ts,tsx}'],
     css: false,
     env: {
-      NEXT_BACKEND_URL: 'http://localhost:3001',
+      NEXT_BACKEND_URL: 'http://localhost:5000',
     },
   },
 })

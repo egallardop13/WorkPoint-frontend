@@ -68,7 +68,6 @@ const SalaryChart = ({ userSalary, minSalary, maxSalary, avgSalary }: SalaryChar
     { name: 'Average Salary', value: avgSalary ?? 0, color: isDarkMode ? '#eab308' : '#facc15' },
   ]
 
-  // Create the series dynamically from the chartdata
   const seriesData = chartdata.map((item) => ({
     data: [item.value],
     label: item.name,

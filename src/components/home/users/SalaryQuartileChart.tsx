@@ -62,7 +62,6 @@ export default function SalaryQuartileChart({ userSalary, minSalary, maxSalary }
   // Identify User's Quartile
   const userQuartile = userSalary <= q1End ? 'Q1' : userSalary <= q2End ? 'Q2' : userSalary <= q3End ? 'Q3' : 'Q4'
 
-  // Create Series Data for the Bar Chart
   const seriesData = [
     {
       data: [q1End],

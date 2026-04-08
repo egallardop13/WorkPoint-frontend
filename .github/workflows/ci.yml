@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      NEXT_BACKEND_URL: http://localhost:3000
+      NEXT_BACKEND_URL: http://localhost:5000
 
     steps:
       - uses: actions/checkout@v4

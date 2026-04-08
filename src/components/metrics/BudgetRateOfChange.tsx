@@ -25,7 +25,6 @@ const colorMap = {
 function getAllMonths() {
   const months = []
 
-  // Loop through months from 0 to 11 (JavaScript months are 0-indexed)
   for (let month = 0; month < 12; month++) {
     const date = new Date(2023, month) // Year can be any year
     const monthName = date.toLocaleDateString('en-US', {
@@ -91,7 +90,6 @@ function formatData(data: BudgetRateData, variant: string, isDarkMode: boolean) 
   return result
 }
 
-// Calculates next change over all months and returns appropriate text to be rendered.
 function calculateNetChange(budget: number[]) {
   let budgetSum = 0
   budget.forEach((element) => {

@@ -104,7 +104,6 @@ function calculateGrowthRate(budget: number[]) {
   return result
 }
 
-// Returns budget of the last month
 function calculateBudgetSum(budget: number[]) {
   const budgetSum = budget[budget.length - 1]
 
